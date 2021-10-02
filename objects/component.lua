@@ -75,6 +75,10 @@ local function SetupPhysicsBody(self, physicsWorld)
 			self.fixtures[i]:setMask(1)
 		end
 	end
+	
+	for i = 1, #self.fixtures do
+		self.fixtures[i]:setUserData(self)
+	end
 end
 
 local function MoveToMouse(self)
@@ -108,11 +112,11 @@ local function ReleaseMouse(self)
 	self.mouseAnchor = false
 end
 
-local function NewComponent(self, physicsWorld)
+local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
 	
-	SetupPhysicsBody(self, physicsWorld)
+	SetupPhysicsBody(self, world.GetPhysicsWorld())
 	
 	
 	function self.IsDestroyed()
@@ -123,9 +127,14 @@ local function NewComponent(self, physicsWorld)
 		return self.inShop
 	end
 	
-	
 	function self.SetComponentPosition(pos)
 		self.body:setPosition(pos[1], pos[2])
+	end
+	
+	function self.GenerateEnergy(AggFunc)
+		if self.def.EnergyFunc and not self.inShop then
+			self.def.EnergyFunc(self, world, AggFunc)
+		end
 	end
 	
 	function self.Update(dt)
@@ -199,6 +208,9 @@ local function NewComponent(self, physicsWorld)
 	
 	function self.Destroy()
 		if not self.dead then
+			for i = 1, #self.fixtures do
+				self.fixtures[i]:setUserData(nil)
+			end
 			self.body:destroy()
 			self.dead = true
 		end

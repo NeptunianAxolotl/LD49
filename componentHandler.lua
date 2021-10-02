@@ -12,7 +12,7 @@ function api.SpawnComponent(name, pos, data)
 	data = data or {}
 	data.def = EffectDefs[name]
 	data.pos = pos
-	local component = NewComponent(data, self.world.GetPhysicsWorld())
+	local component = NewComponent(data, self.world)
 	IterableMap.Add(self.components, component)
 	return component
 end
@@ -28,8 +28,20 @@ function api.MouseReleased(x, y)
 	IterableMap.ApplySelf(self.components, "SetMouseAnchor")
 end
 
+function api.AddEnergy(value)
+	self.totalEnergy = self.totalEnergy + value
+end
+
 function api.Update(dt)
 	IterableMap.ApplySelf(self.components, "Update", dt)
+	
+	self.energyTime = self.energyTime + dt
+	print(self.energyTime)
+	if self.energyTime > Global.ENERGY_TIME_PERIOD then
+		self.energyTime = 0
+		self.totalEnergy = 0
+		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
+	end
 end
 
 function api.Draw(drawQueue)
@@ -49,6 +61,8 @@ function api.Initialize(world)
 		animationTimer = 0,
 		world = world,
 	}
+	
+	self.energyTime = 0
 	
 	-- Testing
 	data = {

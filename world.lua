@@ -1,7 +1,8 @@
-local EffectsHandler = require("effectsHandler")
+
 local SoundHandler = require("soundHandler")
 local MusicHandler = require("musicHandler")
 local ModuleTest = require("moduleTest")
+EffectsHandler = require("effectsHandler")
 
 local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
