@@ -162,7 +162,9 @@ end
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
+	local textureImg = love.graphics.newImage("resources/images/polygonTextures/green.png")
 	
+
 	SetupPhysicsBody(self, world.GetPhysicsWorld())
 	
 	function self.IsDestroyed()
@@ -280,7 +282,10 @@ local function NewComponent(self, world)
 				love.graphics.rotate(angle)
 				for i = 1, #self.coords do
 					local other = self.coords[(i < #self.coords and (i + 1)) or 1]
+					local top_left = love.graphics.newQuad(self.coords[i][1], self.coords[i][2], 32, 32, textureImg:getDimensions())
 					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
+					--love.graphics.polygon("fill", self.coords[i][1], self.coords[i][2], other[1], other[2], 0, 0)
+					love.graphics.draw(textureImg, top_left, 50, 50)
 				end
 			love.graphics.pop()
 			
