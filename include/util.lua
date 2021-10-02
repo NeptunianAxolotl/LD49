@@ -9,20 +9,23 @@ local sin = math.sin
 -- Vector funcs
 --------------------------------------------------
 
-function util.DistSq(x1, y1, x2, y2)
-	return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
-end
-
-function util.Dist(x1, y1, x2, y2)
-	return sqrt(util.DistSq(x1,y1,x2,y2))
-end
-
 function util.DistSqVectors(u, v)
 	return util.DistSq(u[1], u[2], v[1], v[2])
 end
 
 function util.DistVectors(u, v)
 	return util.Dist(u[1], u[2], v[1], v[2])
+end
+
+function util.DistSq(x1, y1, x2, y2)
+	if y2 then
+		return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2)
+	end
+	return util.DistSqVectors(x1, y1)
+end
+
+function util.Dist(x1, y1, x2, y2)
+	return sqrt(util.DistSq(x1,y1,x2,y2))
 end
 
 function util.Dist3D(x1,y1,z1,x2,y2,z2)
@@ -287,7 +290,7 @@ end
 -- Circles
 
 function util.PosInCircle(pos1, pos2, radius)
-	local distSq = util.DistSqVectors(pos1, pos2)
+	local distSq = util.DistSq(pos1, pos2)
 	if distSq <= radius*radius then
 		return true, distSq
 	end

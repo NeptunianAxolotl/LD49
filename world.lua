@@ -6,6 +6,7 @@ EffectsHandler = require("effectsHandler")
 
 local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
+local PowerupHandler = require("powerupHandler")
 ShopHandler = require("shopHandler")
 
 local island = require("objects/island")
@@ -16,10 +17,13 @@ local self = {}
 
 function self.MousePressed(x, y)
 	ComponentHandler.MousePressed(x, y)
+	PowerupHandler.MouseReleased(x, y)
+	ShopHandler.MousePressed(x, y)
 end
 
 function self.MouseReleased(x, y)
 	ComponentHandler.MouseReleased(x, y)
+	PowerupHandler.MouseReleased(x, y)
 end
 
 function self.KeyPressed(key, scancode, isRepeat)
@@ -39,6 +43,7 @@ function self.Update(dt)
 	PhysicsHandler.Update(math.min(0.04, dt))
 	ComponentHandler.Update(dt)
 	ShopHandler.Update(dt)
+	PowerupHandler.Update(dt)
 	--ModuleTest.Update(dt)
 
 	EffectsHandler.Update(dt)
@@ -89,6 +94,7 @@ function self.Initialize()
 	SoundHandler.Initialize()
 	PhysicsHandler.Initialize(self)
 	ComponentHandler.Initialize(self)
+	PowerupHandler.Initialize(self)
 	ShopHandler.Initialize(self)
 	island.Initialize(self)
 end

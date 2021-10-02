@@ -3,6 +3,7 @@ local util = require("include/util")
 
 local EffectsHandler = require("effectsHandler")
 local ComponentHandler = require("componentHandler")
+local PowerupHandler = require("powerupHandler")
 
 local self = {}
 local world
@@ -13,22 +14,36 @@ local shopMoveWidth = 280
 local shopGap = 280
 local shopPos = {1760, 220}
 
+local powerupRadius = 180
+local powerupChance = 0.25
+
+local function GetShopPos(index)
+	return util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*shopGap})
+end
+
 local function RestockItems()
 	for i = 1, #self.items do
-		local component = self.items[i]
-		if component.IsInShop() then
-			ComponentHandler.Remove(component)
+		local item = self.items[i]
+		if item and (not item.isPowerup) and item.IsInShop() then
+			ComponentHandler.Remove(item)
 		end
 	end
 	
 	self.items = {}
 	for i = 1, shopItemSpots do
-		local compData = {
-			inShop = true,
-		}
-		local componentType = util.SampleList(ComponentHandler.GetComponentDefList())
-		local component = ComponentHandler.SpawnComponent(componentType, util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}), compData)
-		self.items[#self.items + 1] = component
+		if powerupChance < math.random() then
+			self.items[#self.items + 1] = {
+				isPowerup = true,
+				powerupType = PowerupHandler.GetRandomPowerup(),
+			}
+		else
+			local compData = {
+				inShop = true,
+			}
+			local componentType = util.SampleList(ComponentHandler.GetComponentDefList())
+			local component = ComponentHandler.SpawnComponent(componentType, GetShopPos(i), compData)
+			self.items[#self.items + 1] = component
+		end
 	end
 	self.wantRestock = false
 end
@@ -54,13 +69,12 @@ end
 
 local function SetItemPositions()
 	for i = 1, #self.items do
-		local component = self.items[i]
-		if component.IsInShop() then
-			component.SetComponentPosition(util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}))
+		local item = self.items[i]
+		if item and (not item.isPowerup) and item.IsInShop() then
+			item.SetComponentPosition(GetShopPos(i))
 		end
 	end
 end
-
 
 --------------------------------------------------
 -- API
@@ -70,9 +84,28 @@ function self.ShopSelectAllowed()
 	return not self.wantRestock
 end
 
-function self.ItemSelected(component)
-	component.inShop = false
+function self.ItemSelected(item, index)
+	if item then
+		item.inShop = false
+	end
+	if index then
+		self.items[index] = false
+	end
 	self.wantRestock = true
+end
+
+function self.MousePressed(x, y)
+	if self.wantRestock then
+		return
+	end
+	for i = 1, #self.items do
+		if self.items[i] and self.items[i].isPowerup then
+			if util.PosInCircle({x, y}, GetShopPos(i), powerupRadius) then
+				PowerupHandler.SelectPowerup(self.items[i].powerupType)
+				self.ItemSelected(false, i)
+			end
+		end
+	end
 end
 
 --------------------------------------------------
@@ -85,7 +118,11 @@ function self.Update(dt)
 end
 
 function self.Draw(drawQueue)
-
+	for i = 1, #self.items do
+		if self.items[i] and self.items[i].isPowerup then
+			PowerupHandler.DrawPowerup(drawQueue, self.items[i].powerupType, util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}))
+		end
+	end
 end
 
 function self.Initialize(parentWorld)

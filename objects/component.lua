@@ -194,8 +194,8 @@ local function NewComponent(self, world)
 		end
 	end
 	
-	function self.ClickTest(x, y)
-		if self.inShop and not ShopHandler.ShopSelectAllowed() then
+	function self.ClickTest(x, y, noShop)
+		if (not self.dead) and self.inShop and noShop then
 			return
 		end
 		for i = 1, #self.fixtures do
@@ -204,6 +204,18 @@ local function NewComponent(self, world)
 			end
 		end
 		return false
+	end
+	
+	function self.WorldToLocal(pos)
+		local bx, by = self.body:getWorldCenter()
+		local angle = self.body:getAngle()
+		return util.RotateVector(util.Subtract(pos, {bx, by}), angle)
+	end
+	
+	function self.LocalToWorld(pos)
+		local bx, by = self.body:getWorldCenter()
+		local angle = self.body:getAngle()
+		return util.Add(util.RotateVector(pos, -angle), {bx, by})
 	end
 	
 	function self.SetMouseAnchor(x, y)
