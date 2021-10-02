@@ -28,7 +28,7 @@ end
 
 local function ArbitraryBlock(sides)
 	local block = {}
-	local angles = RandomCut(sides, 2*math.pi/((sides - 1) * 2))
+	local angles = RandomCut(sides, 2*math.pi/((sides - 0.5) * 2))
 	local magnitudes = {}
 
 	for i = 1, #angles do
@@ -78,6 +78,7 @@ local function SetupPhysicsBody(self, physicsWorld)
 	
 	for i = 1, #self.fixtures do
 		self.fixtures[i]:setUserData(self)
+		self.fixtures[i]:setRestitution(0.00)
 	end
 end
 
