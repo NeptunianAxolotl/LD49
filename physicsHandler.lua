@@ -5,16 +5,14 @@ local physicsWorld
 local world
 
 --------------------------------------------------
--- Colisions
+-- API
 --------------------------------------------------
 
-function self.MousePressed()
-end
-
-function self.MouseReleased()
-end
-
 function self.GetPhysicsWorld()
+	return physicsWorld
+end
+
+function self.AddStaticObject()
 	return physicsWorld
 end
 
@@ -37,7 +35,7 @@ local function postSolve(a, b, coll,  normalimpulse, tangentimpulse)
 end
 
 --------------------------------------------------
--- API
+-- Updating
 --------------------------------------------------
 
 function self.Update(dt)
@@ -49,7 +47,7 @@ function self.Initialize(parentWorld)
 	physicsWorld = love.physics.newWorld(0, 0, true) -- Last argument is whether sleep is allowed.
 	physicsWorld:setCallbacks(beginContact, endContact, preSolve, postSolve)
 	
-	physicsWorld:setGravity(0, 18)
+	physicsWorld:setGravity(0, 70)
 end
 
 return self

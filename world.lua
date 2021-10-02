@@ -6,6 +6,8 @@ local ModuleTest = require("moduleTest")
 local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
 
+local island = require("objects/island")
+
 local PriorityQueue = require("include/PriorityQueue")
 
 local self = {}
@@ -29,7 +31,7 @@ function self.Update(dt)
 	
 	PhysicsHandler.Update(math.min(0.04, dt))
 	ComponentHandler.Update(dt)
-	ModuleTest.Update(dt)
+	--ModuleTest.Update(dt)
 
 	EffectsHandler.Update(dt)
 	MusicHandler.Update(dt)
@@ -44,11 +46,12 @@ function self.Draw()
 
 	local drawQueue = PriorityQueue.new(function(l, r) return l.y < r.y end)
 
+	island.Draw(drawQueue)
 	EffectsHandler.Draw(drawQueue)
 	ComponentHandler.Draw(drawQueue)
 	-- Draw world
 
-	ModuleTest.Draw(dt)
+	--ModuleTest.Draw(dt)
 	
 	while true do
 		local d = drawQueue:pop()
@@ -76,6 +79,7 @@ function self.Initialize()
 	SoundHandler.Initialize()
 	PhysicsHandler.Initialize(self)
 	ComponentHandler.Initialize(self)
+	island.Initialize(self)
 end
 
 return self
