@@ -20,6 +20,9 @@ function self.MouseReleased(x, y)
 	ComponentHandler.MouseReleased(x, y)
 end
 
+function self.KeyPressed(key, scancode, isRepeat)
+end
+
 function self.GetPhysicsWorld()
 	return PhysicsHandler.GetPhysicsWorld()
 end

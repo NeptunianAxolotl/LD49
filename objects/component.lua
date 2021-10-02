@@ -59,6 +59,7 @@ end
 
 local function MoveToMouse(self)
 	local bx, by = self.body:getPosition()
+	local massX, massY = self.body:getWorldCenter()
 	local angle = self.body:getAngle()
 	local anchorPoint = util.Add({bx, by}, util.RotateVector(self.mouseAnchor, angle))
 	
@@ -69,8 +70,14 @@ local function MoveToMouse(self)
 	local forceMult = util.SmoothStep(0.2, 200, mouseDist)*100
 	print(forceMult)
 	
-	local mouseDiff = util.Mult(forceMult * self.body:getMass(), util.Unit(util.Subtract({mx, my}, anchorPoint)))
+	local mouseDiff = util.Mult(forceMult, util.Unit(util.Subtract({mx, my}, anchorPoint)))
 	self.body:setLinearVelocity(mouseDiff[1], mouseDiff[2])
+	
+	if love.keyboard.isDown("space") then
+		self.body:setAngularVelocity(4)
+	else
+		self.body:setAngularVelocity(0)
+	end
 
 	local mouseSnap = util.Subtract({mx, my}, util.RotateVector(self.mouseAnchor, angle))
 	self.body:setPosition(mouseSnap[1], mouseSnap[2])
@@ -106,9 +113,9 @@ local function NewComponent(self, physicsWorld)
 		if not x then
 			if self.mouseAnchor then
 				ReleaseMouse(self)
+				self.body:setLinearDamping(0)
+				self.body:setAngularDamping(0)
 			end
-			--self.body:setLinearDamping(0)
-			--self.body:setAngularDamping(0)
 			return
 		end
 		local bx, by = self.body:getPosition()
@@ -116,8 +123,8 @@ local function NewComponent(self, physicsWorld)
 		local bodyPoint = {bx, by}
 		local mousePoint = {x, y}
 		self.mouseAnchor = util.RotateVector(util.Subtract(mousePoint, bodyPoint), -angle)
-		--self.body:setLinearDamping(0.2)
-		--self.body:setAngularDamping(0.2)
+		self.body:setLinearDamping(0.2)
+		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
 	end
 	
