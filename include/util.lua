@@ -538,6 +538,10 @@ function util.CopyTable(tableToCopy, deep, appendTo)
 	return copy
 end
 
+--------------------------------------------------
+--------------------------------------------------
+-- Array Utilities
+
 function util.ScaleArray(arrayToScale, scalar)
 	local copy = {}
 	for i = 1, #arrayToScale do

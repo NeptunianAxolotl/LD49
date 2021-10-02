@@ -163,7 +163,6 @@ local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
 	local textureImg = love.graphics.newImage("resources/images/polygonTextures/green.png")
-	
 
 	SetupPhysicsBody(self, world.GetPhysicsWorld())
 	
@@ -280,13 +279,22 @@ local function NewComponent(self, world)
 				local angle = self.body:getAngle()
 				love.graphics.translate(x, y)
 				love.graphics.rotate(angle)
+
+				local mesh = love.graphics.newMesh(util.CopyTable(self.coords, true, {0,0}), "fan")
+				mesh:setTexture(textureImg)
+				love.graphics.draw(mesh)
+
+				love.graphics.setColor(1,1,1)
+				love.graphics.setLineWidth(2)
+
+
 				for i = 1, #self.coords do
-					local other = self.coords[(i < #self.coords and (i + 1)) or 1]
-					local top_left = love.graphics.newQuad(self.coords[i][1], self.coords[i][2], 32, 32, textureImg:getDimensions())
+					local other = self.coords[(i < #self.coords and (i + 1)) or 1]					
 					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
-					--love.graphics.polygon("fill", self.coords[i][1], self.coords[i][2], other[1], other[2], 0, 0)
-					love.graphics.draw(textureImg, top_left, 50, 50)
 				end
+
+				love.graphics.setLineWidth(1)
+
 			love.graphics.pop()
 			
 			if self.jointData then
