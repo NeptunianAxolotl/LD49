@@ -12,10 +12,12 @@ local PriorityQueue = require("include/PriorityQueue")
 
 local self = {}
 
-function self.MousePressed()
+function self.MousePressed(x, y)
+	ComponentHandler.MousePressed(x, y)
 end
 
-function self.MouseReleased()
+function self.MouseReleased(x, y)
+	ComponentHandler.MouseReleased(x, y)
 end
 
 function self.GetPhysicsWorld()

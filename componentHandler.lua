@@ -15,6 +15,17 @@ function api.SpawnComponent(name, pos, data)
 	IterableMap.Add(self.components, NewComponent(data, self.world.GetPhysicsWorld()))
 end
 
+function api.MousePressed(x, y)
+	local component = IterableMap.GetFirstSatisfies(self.components, "ClickTest", x, y)
+	if component then
+		component.SetMouseAnchor(x, y)
+	end
+end
+
+function api.MouseReleased(x, y)
+	IterableMap.ApplySelf(self.components, "SetMouseAnchor")
+end
+
 function api.Update(dt)
 	IterableMap.ApplySelf(self.components, "Update", dt)
 end
@@ -37,6 +48,10 @@ function api.Initialize(world)
 	api.SpawnComponent("generator", {200, 200}, data)
 	data = {
 		initVelocity = {-80, 80}
+	}
+	api.SpawnComponent("generator", {400, 200}, data)
+	data = {
+		initVelocity = {-80, 0}
 	}
 	api.SpawnComponent("generator", {600, 200}, data)
 end

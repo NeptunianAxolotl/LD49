@@ -19,6 +19,7 @@ function love.mousemoved(x, y, dx, dy, istouch )
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
+	World.MouseReleased(x, y, button, istouch, presses)
 end
 
 function love.keypressed(key, scancode, isRepeat)
@@ -54,4 +55,5 @@ function love.load(arg)
 	math.randomseed(os.clock())
 	Resources.LoadResources()
 	World.Initialize()
+	love.window.maximize() -- Do not fullscreen since we lack an exit button.
 end

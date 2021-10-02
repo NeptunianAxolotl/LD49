@@ -437,7 +437,19 @@ end
 -- Nice Functions
 
 function util.SmoothZeroToOne(value, factor)
+	factor = factor or 1
 	return 1 / (1 + math.exp( - factor * (value - 0.5)))
+end
+
+function util.SmoothStep(startRange, endRange, value, factor)
+	if value < startRange then
+		return 0
+	end
+	if value > endRange then
+		return 1
+	end
+	value = (value - startRange)/(endRange - startRange)
+	return util.SmoothZeroToOne(value, factor)
 end
 
 --------------------------------------------------
@@ -451,7 +463,7 @@ function util.SecondsToString(seconds, dashForEmpty)
 	if seconds <= 0 then
 		return "0:00"
 	end
-	local hours = math.floor(seconds/3600)			
+	local hours = math.floor(seconds/3600)
 	local minutes = math.floor(seconds/60)%60
 	local seconds = math.floor(seconds)%60
 	

@@ -134,6 +134,23 @@ function IterableMap.Apply(self, funcToApply, ...)
 	end
 end
 
+-- Does the function until a result is found.
+function IterableMap.GetFirstSatisfies(self, funcName, ...)
+	local i = 1
+	while i <= self.indexMax do
+		local key = self.keyByIndex[i]
+		local found, toRemove = self.dataByKey[key][funcName](...)
+		if found then
+			return self.dataByKey[key]
+		elseif toRemove then
+			-- Return true with second argument to remove element
+			IterableMap.Remove(self, key)
+		else
+			i = i + 1
+		end
+	end
+end
+
 function IterableMap.ApplySelf(self, funcName, ...)
 	local i = 1
 	while i <= self.indexMax do
