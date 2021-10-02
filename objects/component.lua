@@ -82,28 +82,16 @@ local function SetupPhysicsBody(self, physicsWorld)
 end
 
 local function MoveToMouse(self)
-	local bx, by = self.body:getPosition()
-	local massX, massY = self.body:getWorldCenter()
-	local angle = self.body:getAngle()
-	local anchorPoint = util.Add({bx, by}, util.RotateVector(self.mouseAnchor, angle))
-	
-	local mx, my = love.mouse.getPosition()
-	local forceVector = util.Subtract({mx, my}, anchorPoint)
-	local mouseDist = util.AbsVal(forceVector)
-	
-	local forceMult = util.SmoothStep(0.2, 200, mouseDist)*100
-	
-	local mouseDiff = util.Mult(forceMult, util.Unit(util.Subtract({mx, my}, anchorPoint)))
-	self.body:setLinearVelocity(mouseDiff[1], mouseDiff[2])
-	
+	if not self.mouseJoint then
+		self.mouseJoint = love.physics.newMouseJoint(self.body, love.mouse.getPosition())
+	end
+	self.mouseJoint:setTarget(love.mouse.getPosition())
+
 	if love.keyboard.isDown("space") then
 		self.body:setAngularVelocity(4)
 	else
 		self.body:setAngularVelocity(0)
 	end
-
-	local mouseSnap = util.Subtract({mx, my}, util.RotateVector(self.mouseAnchor, angle))
-	self.body:setPosition(mouseSnap[1], mouseSnap[2])
 end
 
 local function ReleaseMouse(self)
@@ -141,6 +129,9 @@ local function NewComponent(self, world)
 		self.animTime = self.animTime + dt
 		if self.mouseAnchor then
 			MoveToMouse(self)
+		elseif self.mouseJoint then
+			self.mouseJoint:destroy()
+			self.mouseJoint = nil
 		end
 	end
 	
