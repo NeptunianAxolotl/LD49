@@ -39,6 +39,9 @@ local function SetupPhysicsBody(self, physicsWorld)
 	self.sides = math.floor(love.math.random() * (self.def.maxNumberOfVertices - 2)) + 3
 	self.coords = ArbitraryBlock(self.sides)
 
+	self.shapes = {}
+	self.fixtures = {}
+
 	local angle = util.GetRandomAngle()
 	local modCoords = {}
 	for i = 1, #self.coords do
@@ -49,8 +52,8 @@ local function SetupPhysicsBody(self, physicsWorld)
 		self.coords[i] = pos
 	end
 	self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
-	self.shape = love.physics.newPolygonShape(unpack(modCoords))
-	self.fixture = love.physics.newFixture(self.body, self.shape, self.def.density)
+	self.shapes[1] = love.physics.newPolygonShape(unpack(modCoords))
+	self.fixtures[1] = love.physics.newFixture(self.body, self.shapes[1], self.def.density)
 	
 	if self.initVelocity then
 		self.body:setLinearVelocity(self.initVelocity[1], self.initVelocity[2])
@@ -60,7 +63,9 @@ local function SetupPhysicsBody(self, physicsWorld)
 	
 	if self.inShop then
 		self.body:setGravityScale(0)
-		self.fixture:setMask(1)
+		for i = 1, #self.fixtures do
+			self.fixtures[i]:setMask(1)
+		end
 	end
 end
 
@@ -126,10 +131,12 @@ local function NewComponent(self, physicsWorld)
 		if self.inShop and not ShopHandler.ShopSelectAllowed() then
 			return
 		end
-		if (not self.fixture:testPoint(x, y)) then
-			return
+		for i = 1, #self.fixtures do
+			if self.fixtures[i]:testPoint(x, y) then
+				return true
+			end
 		end
-		return true
+		return false
 	end
 	
 	function self.SetMouseAnchor(x, y)
@@ -143,7 +150,9 @@ local function NewComponent(self, physicsWorld)
 		end
 		if self.inShop then
 			ShopHandler.ItemSelected(self)
-			self.fixture:setMask()
+			for i = 1, #self.fixtures do
+				self.fixtures[i]:setMask()
+			end
 		end
 		local bx, by = self.body:getPosition()
 		local angle = self.body:getAngle()
@@ -153,7 +162,9 @@ local function NewComponent(self, physicsWorld)
 		self.body:setLinearDamping(0.2)
 		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
-		self.fixture:setFriction(self.def.friction or 0.85)
+		for i = 1, #self.fixtures do
+			self.fixtures[i]:setFriction(self.def.friction or 0.85)
+		end
 	end
 	
 	function self.Draw(drawQueue)
