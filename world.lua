@@ -16,14 +16,14 @@ local PriorityQueue = require("include/PriorityQueue")
 local self = {}
 
 function self.MousePressed(x, y)
-	ComponentHandler.MousePressed(x, y)
 	PowerupHandler.MouseReleased(x, y)
 	ShopHandler.MousePressed(x, y)
+	ComponentHandler.MousePressed(x, y)
 end
 
 function self.MouseReleased(x, y)
-	ComponentHandler.MouseReleased(x, y)
 	PowerupHandler.MouseReleased(x, y)
+	ComponentHandler.MouseReleased(x, y)
 end
 
 function self.KeyPressed(key, scancode, isRepeat)
@@ -63,6 +63,7 @@ function self.Draw()
 	EffectsHandler.Draw(drawQueue)
 	ComponentHandler.Draw(drawQueue)
 	ShopHandler.Draw(drawQueue)
+	PowerupHandler.Draw(drawQueue)
 	
 	-- Draw world
 

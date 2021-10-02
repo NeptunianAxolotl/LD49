@@ -103,7 +103,6 @@ local function MakeBodyShapeFixtures(self, physicsWorld)
 		if splitCoords[i] then
 			modCoords[#modCoords + 1] = self.coords[i][1]
 			modCoords[#modCoords + 1] = self.coords[i][2]
-			util.PrintTable(modCoords)
 			local shape = love.physics.newPolygonShape(unpack(modCoords))
 			local fixture = love.physics.newFixture(self.body, shape, self.def.density)
 			self.shapes[#self.shapes + 1] = shape
@@ -209,13 +208,13 @@ local function NewComponent(self, world)
 	function self.WorldToLocal(pos)
 		local bx, by = self.body:getWorldCenter()
 		local angle = self.body:getAngle()
-		return util.RotateVector(util.Subtract(pos, {bx, by}), angle)
+		return util.RotateVector(util.Subtract(pos, {bx, by}), -angle)
 	end
 	
 	function self.LocalToWorld(pos)
 		local bx, by = self.body:getWorldCenter()
 		local angle = self.body:getAngle()
-		return util.Add(util.RotateVector(pos, -angle), {bx, by})
+		return util.Add(util.RotateVector(pos, angle), {bx, by})
 	end
 	
 	function self.SetMouseAnchor(x, y)
@@ -258,6 +257,17 @@ local function NewComponent(self, world)
 					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
 				end
 			love.graphics.pop()
+			
+			if self.jointData then
+				for i = 1, #self.jointData do
+					local data = self.jointData[i]
+					if not data.endComponent.dead then
+						local startPos = self.LocalToWorld(data.startPos)
+						local endPos = data.endComponent.LocalToWorld(data.endPos)
+						love.graphics.line(startPos[1], startPos[2], endPos[1], endPos[2])
+					end
+				end
+			end
 		end})
 		if DRAW_DEBUG then
 			love.graphics.circle('line',self.pos[1], self.pos[2], def.radius)

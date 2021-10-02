@@ -41,7 +41,16 @@ local function DoPowerupMouseAction(x, y)
 	end
 	
 	local firstPos = firstClicked.LocalToWorld(firstClickedPos)
-	love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, util.Dist(firstPos, {x, y}))
+	local joint = love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, util.Dist(firstPos, {x, y}), true)
+	
+	firstClicked.jointData = firstClicked.jointData or {}
+	firstClicked.jointData[#firstClicked.jointData + 1] = {
+		joint = joint,
+		startPos = firstClickedPos,
+		endComponent = component,
+		endPos = component.WorldToLocal({x, y}),
+	}
+	
 	currentPowerup = false
 	firstClicked = false
 	firstClickedPos = false
@@ -82,7 +91,13 @@ function self.Update(dt)
 end
 
 function self.Draw(drawQueue)
-
+	if firstClicked and not firstClicked.dead then
+		local firstPos = firstClicked.LocalToWorld(firstClickedPos)
+		local mx, my = love.mouse.getPosition()
+		drawQueue:push({y=0; f=function()
+			love.graphics.line(firstPos[1], firstPos[2], mx, my)
+		end})
+	end
 end
 
 function self.Initialize(parentWorld)
