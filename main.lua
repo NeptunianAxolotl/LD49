@@ -1,7 +1,7 @@
 
 local Font = require("include/font")
-local Resources = require("resourceHandler")
 local World = require("world")
+local Resources = require("resourceHandler")
 
 --------------------------------------------------
 -- Draw
@@ -22,9 +22,11 @@ function love.mousereleased(x, y, button, istouch, presses)
 end
 
 function love.keypressed(key, scancode, isRepeat)
+	World.KeyPressed(key, scancode, isRepeat)
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
+	World.MousePressed(x, y, button, istouch, presses)
 end
 
 --------------------------------------------------
@@ -46,6 +48,9 @@ function love.load(arg)
 	local major, minor, revision, codename = love.getVersion()
 	print(string.format("Version %d.%d.%d - %s", major, minor, revision, codename))
 
+	love.graphics.setBackgroundColor(30/255, 0, 0, 1)
+
+	love.keyboard.setKeyRepeat(true)
 	math.randomseed(os.clock())
 	Resources.LoadResources()
 	World.Initialize()

@@ -129,6 +129,11 @@ function util.Average(u, v, uFactor)
 	return util.Add(util.Mult(uFactor, util.Subtract(v, u)), u)
 end
 
+function util.AverageScalar(u, v, uFactor)
+	uFactor = uFactor or 0.5
+	return u*(1 - uFactor) + v * uFactor
+end
+
 function util.AngleSubtractShortest(angleA, angleB)
 	local dist = angleA - angleB
 	if dist > 0 then
@@ -172,7 +177,15 @@ function util.PolarToCart(mag, dir)
 end
 
 function util.RotateVector(v, angle)
-	return {v[1]*math.cos(angle) - v[2]*math.sin(angle), v[1]*math.sin(angle) + v[2]*math.cos(angle)}
+	local cosAngle = math.cos(angle)
+	local sinAngle = math.sin(angle)
+	return {v[1]*cosAngle - v[2]*sinAngle, v[1]*sinAngle + v[2]*cosAngle}
+end
+
+function util.RotateVectorOrthagonal(v, angle)
+	local cosAngle = math.floor(math.cos(angle) + 0.5)
+	local sinAngle = math.floor(math.sin(angle) + 0.5)
+	return {v[1]*cosAngle - v[2]*sinAngle, v[1]*sinAngle + v[2]*cosAngle}
 end
 
 function util.ReflectVector(v, angle)
@@ -317,6 +330,14 @@ function util.GenerateDistributionFromBoundedRandomWeights(bounds, rngIn)
 	return util.WeightsToDistribution(weights)
 end
 
+function util.SampleList(list)
+	if (not list) or (#list == 0) then
+		return false, false
+	end
+	local index = math.floor(math.random()*#list) + 1
+	return list[index], index
+end
+
 function util.SampleDistribution(distribution, rngIn)
 	local rngFunc = rngIn or math.random
 	local value = rngFunc()
@@ -360,6 +381,42 @@ function util.RandomPointInEllipse(width, height, startAngle, endAngle)
 	return pos
 end
 
+function util.GetRandomCardinalDirection()
+	if math.random() < 0.5 then
+		if math.random() < 0.5 then
+			return {1, 0}
+		else
+			return {-1, 0}
+		end
+	else
+		if math.random() < 0.5 then
+			return {0, 1}
+		else
+			return {0, -1}
+		end
+	end
+end
+
+function util.GetRandomKingDirection()
+	if math.random() < 0.5 then
+		return util.GetRandomCardinalDirection()
+	else
+		if math.random() < 0.5 then
+			if math.random() < 0.5 then
+				return {1, 1}
+			else
+				return {1, -1}
+			end
+		else
+			if math.random() < 0.5 then
+				return {-1, 1}
+			else
+				return {-1, -1}
+			end
+		end
+	end
+end
+
 --------------------------------------------------
 --------------------------------------------------
 -- Group Utilities
@@ -369,6 +426,14 @@ function util.Permute(list)
 		local j = math.random(i)
 		list[i], list[j] = list[j], list[i]
 	end
+end
+
+--------------------------------------------------
+--------------------------------------------------
+-- Nice Functions
+
+function util.SmoothZeroToOne(value, factor)
+	return 1 / (1 + math.exp( - factor * (value - 0.5)))
 end
 
 --------------------------------------------------
@@ -390,6 +455,16 @@ function util.SecondsToString(seconds, dashForEmpty)
 		return string.format("%d:%02.f:%02.f", hours, minutes, seconds)
 	end
 	return string.format("%d:%02.f", minutes, seconds)
+end
+
+function util.UpdateProportion(dt, value, speed)
+	if value then
+		value = value + speed*dt
+		if value > 1 then
+			value = false
+		end
+	end
+	return value
 end
 
 --------------------------------------------------
@@ -436,7 +511,7 @@ function util.CopyTable(tableToCopy, deep, appendTo)
 	local copy = appendTo or {}
 	for key, value in pairs(tableToCopy) do
 		if (deep and type(value) == "table") then
-			copy[key] = CopyTable(value, true)
+			copy[key] = util.CopyTable(value, true)
 		else
 			copy[key] = value
 		end
