@@ -26,7 +26,8 @@ local function RestockItems()
 		local compData = {
 			inShop = true,
 		}
-		local component = ComponentHandler.SpawnComponent("solar", util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}), compData)
+		local componentType = util.SampleList(ComponentHandler.GetComponentDefList())
+		local component = ComponentHandler.SpawnComponent(componentType, util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}), compData)
 		self.items[#self.items + 1] = component
 	end
 	self.wantRestock = false

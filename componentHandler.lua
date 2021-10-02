@@ -2,7 +2,7 @@
 local IterableMap = require("include/IterableMap")
 local util = require("include/util")
 
-local EffectDefs = util.LoadDefDirectory("components")
+local ComponentDefs = util.LoadDefDirectory("components")
 local NewComponent = require("objects/component")
 
 local self = {}
@@ -10,11 +10,15 @@ local api = {}
 
 function api.SpawnComponent(name, pos, data)
 	data = data or {}
-	data.def = EffectDefs[name]
+	data.def = ComponentDefs[name]
 	data.pos = pos
 	local component = NewComponent(data, self.world)
 	IterableMap.Add(self.components, component)
 	return component
+end
+
+function api.GetComponentDefList(component)
+	return self.componentDefList
 end
 
 function api.MousePressed(x, y)
@@ -63,6 +67,10 @@ function api.Initialize(world)
 	}
 	
 	self.energyTime = 0
+	self.componentDefList = {}
+	for key,_ in pairs(ComponentDefs) do
+		self.componentDefList[#self.componentDefList + 1] = key
+	end
 	
 	-- Testing
 	data = {
