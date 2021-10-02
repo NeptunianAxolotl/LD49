@@ -90,7 +90,7 @@ local function MoveToMouse(self)
 end
 
 local function ReleaseMouse(self)
-	self.body:setLinearVelocity(0, 0)
+	self.body:setLinearVelocity(0, 0.01)
 	self.body:setGravityScale(1)
 	self.mouseAnchor = false
 end
