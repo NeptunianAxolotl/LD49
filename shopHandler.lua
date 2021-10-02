@@ -31,7 +31,7 @@ local function RestockItems()
 	
 	self.items = {}
 	for i = 1, shopItemSpots do
-		if powerupChance < math.random() then
+		if math.random() < powerupChance then
 			self.items[#self.items + 1] = {
 				isPowerup = true,
 				powerupType = PowerupHandler.GetRandomPowerup(),
