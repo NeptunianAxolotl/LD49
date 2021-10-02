@@ -417,6 +417,10 @@ function util.GetRandomKingDirection()
 	end
 end
 
+function util.GetRandomAngle()
+	return math.random()*2*pi
+end
+
 --------------------------------------------------
 --------------------------------------------------
 -- Group Utilities

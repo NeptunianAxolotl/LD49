@@ -3,6 +3,9 @@ local SoundHandler = require("soundHandler")
 local MusicHandler = require("musicHandler")
 local ModuleTest = require("moduleTest")
 
+local PhysicsHandler = require("physicsHandler")
+local ComponentHandler = require("componentHandler")
+
 local PriorityQueue = require("include/PriorityQueue")
 
 local self = {}
@@ -13,6 +16,10 @@ end
 function self.MouseReleased()
 end
 
+function self.GetPhysicsWorld()
+	return PhysicsHandler.GetPhysicsWorld()
+end
+
 function self.Update(dt)
 	--local playerPos, playerVelocity, playerSpeed = Player.GetPhysics()
 	--local cameraX, cameraY, cameraScale = Camera.UpdateCamera(dt, playerPos, playerVelocity, playerSpeed, Player.IsDead() and 0.96 or 0.85)
@@ -20,6 +27,8 @@ function self.Update(dt)
 	local cameraX, cameraY, cameraScale = 0, 0, 1
 	--self.cameraTransform:setTransformation(windowX/2, 160 + (1 - cameraScale)*60, 0, cameraScale*windowY/1080, cameraScale*windowY/1080, cameraX, cameraY)
 	
+	PhysicsHandler.Update(math.min(0.04, dt))
+	ComponentHandler.Update(dt)
 	ModuleTest.Update(dt)
 
 	EffectsHandler.Update(dt)
@@ -36,6 +45,7 @@ function self.Draw()
 	local drawQueue = PriorityQueue.new(function(l, r) return l.y < r.y end)
 
 	EffectsHandler.Draw(drawQueue)
+	ComponentHandler.Draw(drawQueue)
 	-- Draw world
 
 	ModuleTest.Draw(dt)
@@ -64,6 +74,8 @@ function self.Initialize()
 	EffectsHandler.Initialize()
 	MusicHandler.Initialize()
 	SoundHandler.Initialize()
+	PhysicsHandler.Initialize(self)
+	ComponentHandler.Initialize(self)
 end
 
 return self
