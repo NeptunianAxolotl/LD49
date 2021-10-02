@@ -12,7 +12,9 @@ function api.SpawnComponent(name, pos, data)
 	data = data or {}
 	data.def = EffectDefs[name]
 	data.pos = pos
-	IterableMap.Add(self.components, NewComponent(data, self.world.GetPhysicsWorld()))
+	local component = NewComponent(data, self.world.GetPhysicsWorld())
+	IterableMap.Add(self.components, component)
+	return component
 end
 
 function api.MousePressed(x, y)
@@ -32,6 +34,13 @@ end
 
 function api.Draw(drawQueue)
 	IterableMap.ApplySelf(self.components, "Draw", drawQueue)
+end
+
+function api.Remove(component)
+	if component and component.index then
+		component.Destroy()
+		IterableMap.Remove(self.components, component.index)
+	end
 end
 
 function api.Initialize(world)

@@ -5,6 +5,7 @@ local ModuleTest = require("moduleTest")
 
 local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
+ShopHandler = require("shopHandler")
 
 local island = require("objects/island")
 
@@ -36,6 +37,7 @@ function self.Update(dt)
 	
 	PhysicsHandler.Update(math.min(0.04, dt))
 	ComponentHandler.Update(dt)
+	ShopHandler.Update(dt)
 	--ModuleTest.Update(dt)
 
 	EffectsHandler.Update(dt)
@@ -54,6 +56,8 @@ function self.Draw()
 	island.Draw(drawQueue)
 	EffectsHandler.Draw(drawQueue)
 	ComponentHandler.Draw(drawQueue)
+	ShopHandler.Draw(drawQueue)
+	
 	-- Draw world
 
 	--ModuleTest.Draw(dt)
@@ -84,6 +88,7 @@ function self.Initialize()
 	SoundHandler.Initialize()
 	PhysicsHandler.Initialize(self)
 	ComponentHandler.Initialize(self)
+	ShopHandler.Initialize(self)
 	island.Initialize(self)
 end
 

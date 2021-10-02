@@ -54,6 +54,13 @@ local function SetupPhysicsBody(self, physicsWorld)
 	
 	if self.initVelocity then
 		self.body:setLinearVelocity(self.initVelocity[1], self.initVelocity[2])
+	else
+		self.body:setLinearVelocity(0, 0)
+	end
+	
+	if self.inShop then
+		self.body:setGravityScale(0)
+		self.fixture:setMask(1)
 	end
 end
 
@@ -95,6 +102,20 @@ local function NewComponent(self, physicsWorld)
 	
 	SetupPhysicsBody(self, physicsWorld)
 	
+	
+	function self.IsDestroyed()
+		return self.dead
+	end
+	
+	function self.IsInShop()
+		return self.inShop
+	end
+	
+	
+	function self.SetComponentPosition(pos)
+		self.body:setPosition(pos[1], pos[2])
+	end
+	
 	function self.Update(dt)
 		self.animTime = self.animTime + dt
 		if self.mouseAnchor then
@@ -103,7 +124,7 @@ local function NewComponent(self, physicsWorld)
 	end
 	
 	function self.ClickTest(x, y)
-		if not self.fixture:testPoint(x, y) then
+		if not self.fixture:testPoint(x, y) and not (self.inShop and not ShopHandler.ShopSelectAllowed()) then
 			return
 		end
 		return true
@@ -118,6 +139,10 @@ local function NewComponent(self, physicsWorld)
 			end
 			return
 		end
+		if self.inShop then
+			ShopHandler.ItemSelected(self)
+			self.fixture:setMask()
+		end
 		local bx, by = self.body:getPosition()
 		local angle = self.body:getAngle()
 		local bodyPoint = {bx, by}
@@ -126,6 +151,7 @@ local function NewComponent(self, physicsWorld)
 		self.body:setLinearDamping(0.2)
 		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
+		self.fixture:setFriction(self.def.friction or 0.85)
 	end
 	
 	function self.Draw(drawQueue)
@@ -150,6 +176,12 @@ local function NewComponent(self, physicsWorld)
 		
 	end
 	
+	function self.Destroy()
+		if not self.dead then
+			self.body:destroy()
+			self.dead = true
+		end
+	end
 	return self
 end
 

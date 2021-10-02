@@ -37,12 +37,12 @@ function api.Initialize(physics)
 	
 	local lowerExtent = 200
 	local coordinates = {
-		{-290, 10},
-		{-203, -40},
-		{-180, -46},
-		{-92, -51},
-		{-68, -47},
-		{0, -45},
+		{0, 0},
+		{100, -20},
+		{200, -30},
+		{350, -30},
+		{450, -20},
+		{550, 0},
 		--{21, -41},
 		--{51, -78},
 		--{74, -116},
@@ -87,7 +87,7 @@ function api.Initialize(physics)
 			
 			local newShape = love.physics.newPolygonShape(unpack(modCoords))
 			local newFixture = love.physics.newFixture(self.body, newShape, 10)
-			newFixture:setFriction(0.9)
+			newFixture:setFriction(0.5)
 			self.shapes[#self.shapes + 1] = newShape
 			self.fixtures[#self.fixtures + 1] = newFixture
 			modCoords = {}

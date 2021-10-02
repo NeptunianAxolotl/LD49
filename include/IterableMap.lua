@@ -71,6 +71,7 @@ end
 function IterableMap.Get(self, key)
 	return self.dataByKey[key]
 end
+
 function IterableMap.Set(self, key, data)
 	if not self.indexByKey[key] then
 		IterableMap.Add(self, key, data)
