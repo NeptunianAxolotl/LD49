@@ -2,15 +2,15 @@
 local IterableMap = require("include/IterableMap")
 local util = require("include/util")
 
---local EffectDefs = util.LoadDefDirectory("effects")
+local EffectDefs = util.LoadDefDirectory("components")
 local NewComponent = require("objects/component")
 
 local self = {}
 local api = {}
 
 function api.SpawnComponent(name, pos, data)
-	--local def = EffectDefs[name]
 	data = data or {}
+	data.def = EffectDefs[name]
 	data.pos = pos
 	IterableMap.Add(self.components, NewComponent(data, self.world.GetPhysicsWorld()))
 end
@@ -34,11 +34,11 @@ function api.Initialize(world)
 	data = {
 		initVelocity = {80, 80}
 	}
-	api.SpawnComponent("", {200, 200}, data)
+	api.SpawnComponent("generator", {200, 200}, data)
 	data = {
 		initVelocity = {-80, 80}
 	}
-	api.SpawnComponent("", {600, 200}, data)
+	api.SpawnComponent("generator", {600, 200}, data)
 end
 
 return api

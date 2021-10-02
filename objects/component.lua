@@ -5,17 +5,15 @@ local Font = require("include/font")
 
 local DEF = {
 	density = 1,
-
 }
 
 local function SetupPhysicsBody(self, physicsWorld)
-	self.coords = {{1,0}, {1, 1}, {0, 1}, {0, 0}} -- Replace with generation based on def
-	local scaleFactor = math.random()*20 + 80 -- Replace with generation based on def
+	self.coords = util.CopyTable(self.def.coords)
 	
 	local angle = util.GetRandomAngle()
 	local modCoords = {}
 	for i = 1, #self.coords do
-		local pos = util.Mult(scaleFactor, self.coords[i])
+		local pos = util.Mult(self.def.minSize + math.random()*(self.def.maxSize - self.def.minSize), self.coords[i])
 		pos = util.RotateVector(pos, angle)
 		modCoords[#modCoords + 1] = pos[1]
 		modCoords[#modCoords + 1] = pos[2]
@@ -33,7 +31,6 @@ end
 local function NewComponent(self, physicsWorld)
 	-- pos
 	self.animTime = 0
-	self.def = DEF
 	
 	SetupPhysicsBody(self, physicsWorld)
 	
