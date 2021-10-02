@@ -7,27 +7,32 @@ local DEF = {
 	density = 1,
 }
 
-local function RandomCut(sections)
+local function RandomCut(sections, minAngle)
 	local cuts = {0}
-	for i = 1, sections-1 do
-		cuts[i + 1] = love.math.random() * 2*math.pi
-	end
-	table.sort(cuts)
+	local sectionAngle = 2 * math.pi/sections
+	-- local runningAngle = cuts[1]
 
-	if cuts[#cuts] < 6*math.pi/5 then
-		print(cuts[#cuts])
-		cuts = util.ScaleArray(cuts, math.random()/2 + 7/6)
+	for i = 1, sections - 1 do
+		-- First parenthesis to guarantee that we don't overshoot 2 pi over N sides.
+		cuts[i + 1] = (minAngle + ((i * sectionAngle - minAngle - cuts[i]) * math.random())) + cuts[i]
+		-- runningAngle = runningAngle + cuts[i + 1]
 	end
+
+	if cuts[#cuts] < (2 * math.pi - sectionAngle) then
+		local cleanScaling = {(2 * math.pi - sectionAngle)/cuts[#cuts], (2 * math.pi)/cuts[#cuts]}
+		cuts = util.ScaleArray(cuts, math.random() * (cleanScaling[2] - cleanScaling[1]) + cleanScaling[1])
+	end
+
 	return cuts
 end
 
 local function ArbitraryBlock(sides)
 	local block = {}
-	local angles = RandomCut(sides)
+	local angles = RandomCut(sides, 2*math.pi/(sides * 2))
 	local magnitudes = {}
 
 	for i = 1, #angles do
-		magnitudes[i] = math.min(love.math.random(), 0.5)
+		magnitudes[i] = math.max(love.math.random(), 0.5)
 	end
 
 	local invMaxMag = 1/math.max(unpack(magnitudes))
