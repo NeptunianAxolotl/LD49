@@ -7,8 +7,39 @@ local DEF = {
 	density = 1,
 }
 
+local function RandomCut(sections, mag)
+	local cuts = {}
+	for i = 1, sections do
+		cuts[i] = love.math.random() * mag
+	end
+	table.sort(cuts)
+    return cuts
+end
+
+local function ArbitraryBlock(sides)
+	local block = {}
+	local angles = RandomCut(sides, 2*math.pi)
+	local magnitudes = {}
+
+	for i = 1, #angles do
+		magnitudes[i] = love.math.random()
+	end
+
+	local invMaxMag = 1/math.max(unpack(magnitudes))
+	magnitudes = util.ScaleArray(magnitudes, invMaxMag)
+
+	for i = 1, #magnitudes do
+		block[i] = util.PolarToCart(magnitudes[i], angles[i])
+	end
+
+	return block
+end
+
 local function SetupPhysicsBody(self, physicsWorld)
-	self.coords = util.CopyTable(self.def.coords)
+
+	self.sides = math.floor(love.math.random() * (self.def.maxNumberOfVertices - 2)) + 3
+	self.coords = ArbitraryBlock(self.sides)
+
 	
 	local angle = util.GetRandomAngle()
 	local modCoords = {}
