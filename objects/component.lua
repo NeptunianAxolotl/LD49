@@ -11,7 +11,7 @@ local function RandomCut(sections, minAngle)
 	local cuts = {0}
 	local sectionAngle = 2 * math.pi/sections
 	-- local runningAngle = cuts[1]
-
+	
 	for i = 1, sections - 1 do
 		-- First parenthesis to guarantee that we don't overshoot 2 pi over N sides.
 		cuts[i + 1] = (minAngle + ((i * sectionAngle - minAngle - cuts[i]) * math.random())) + cuts[i]
@@ -28,7 +28,7 @@ end
 
 local function ArbitraryBlock(sides)
 	local block = {}
-	local angles = RandomCut(sides, 2*math.pi/(sides * 2))
+	local angles = RandomCut(sides, 2*math.pi/((sides - 1) * 2))
 	local magnitudes = {}
 
 	for i = 1, #angles do
@@ -46,7 +46,7 @@ local function ArbitraryBlock(sides)
 end
 
 local function SetupPhysicsBody(self, physicsWorld)
-	self.sides = math.floor(love.math.random() * (self.def.maxNumberOfVertices - 2)) + 3
+	self.sides = math.floor(love.math.random() * (self.def.maxNumberOfVertices - 3)) + 4
 	self.coords = ArbitraryBlock(self.sides)
 
 	self.shapes = {}
@@ -105,7 +105,6 @@ local function NewComponent(self, world)
 	self.animTime = 0
 	
 	SetupPhysicsBody(self, world.GetPhysicsWorld())
-	
 	
 	function self.IsDestroyed()
 		return self.dead

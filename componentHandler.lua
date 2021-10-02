@@ -40,7 +40,6 @@ function api.Update(dt)
 	IterableMap.ApplySelf(self.components, "Update", dt)
 	
 	self.energyTime = self.energyTime + dt
-	print(self.energyTime)
 	if self.energyTime > Global.ENERGY_TIME_PERIOD then
 		self.energyTime = 0
 		self.totalEnergy = 0
