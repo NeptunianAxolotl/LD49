@@ -41,11 +41,13 @@ local function DoPowerupMouseAction(x, y)
 	end
 	
 	local firstPos = firstClicked.LocalToWorld(firstClickedPos)
-	local joint = love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, util.Dist(firstPos, {x, y}), true)
+	local ropeLength = util.Dist(firstPos, {x, y})
+	local joint = love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)
 	
 	firstClicked.jointData = firstClicked.jointData or {}
 	firstClicked.jointData[#firstClicked.jointData + 1] = {
 		joint = joint,
+		desiredLength = ropeLength,
 		startPos = firstClickedPos,
 		endComponent = component,
 		endPos = component.WorldToLocal({x, y}),
