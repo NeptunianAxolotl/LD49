@@ -18,7 +18,7 @@ local function RandomCut(sections, minAngle)
 		-- runningAngle = runningAngle + cuts[i + 1]
 	end
 
-	if cuts[#cuts] < (2 * math.pi - sectionAngle) then
+	if cuts[#cuts] > (2 * math.pi - sectionAngle) then
 		local cleanScaling = {(2 * math.pi - sectionAngle)/cuts[#cuts], (2 * math.pi)/cuts[#cuts]}
 		cuts = util.ScaleArray(cuts, math.random() * (cleanScaling[2] - cleanScaling[1]) + cleanScaling[1])
 	end
@@ -45,23 +45,82 @@ local function ArbitraryBlock(sides)
 	return block
 end
 
+local function MakeBodyShapeFixtures(self, physicsWorld)
+	self.shapes = {}
+	self.fixtures = {}
+
+	for i = 1, #self.coords do
+		self.coords[i] = util.Mult(self.def.minSize + math.random()*(self.def.maxSize - self.def.minSize), self.coords[i])
+	end
+
+	local splitCoords = {}
+	for i = 1, #self.coords do
+		local back = self.coords[(i - 2)%#self.coords + 1]
+		local front = self.coords[i%#self.coords + 1]
+		local coord = self.coords[i]
+		
+		local cross = util.Cross2D(util.Subtract(front, coord), util.Subtract(coord, back))
+		if cross > 0 then
+			splitCoords[i] = true
+		end
+	end
+	
+	local firstSplit = false
+	for i = 1, #self.coords do
+		if splitCoords[(i + math.floor(#self.coords/2))%#self.coords + 1] then
+			if not firstSplit then
+				firstSplit = i
+			end
+			splitCoords[i] = true
+		end
+	end
+	
+	if #splitCoords == 0 then
+		local modCoords = {}
+		for i = 1, #self.coords do
+			modCoords[#modCoords + 1] = self.coords[i][1]
+			modCoords[#modCoords + 1] = self.coords[i][2]
+		end
+		self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
+		self.shapes[1] = love.physics.newPolygonShape(unpack(modCoords))
+		self.fixtures[1] = love.physics.newFixture(self.body, self.shapes[1], self.def.density)
+		return
+	end
+	
+	self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
+	
+	local modCoords = {}
+	local i = firstSplit
+	while true do
+		if splitCoords[i] then
+			modCoords = {}
+			modCoords[#modCoords + 1] = 0
+			modCoords[#modCoords + 1] = 0
+		end
+		modCoords[#modCoords + 1] = self.coords[i][1]
+		modCoords[#modCoords + 1] = self.coords[i][2]
+		i = i%(#self.coords) + 1
+		if splitCoords[i] then
+			modCoords[#modCoords + 1] = self.coords[i][1]
+			modCoords[#modCoords + 1] = self.coords[i][2]
+			util.PrintTable(modCoords)
+			local shape = love.physics.newPolygonShape(unpack(modCoords))
+			local fixture = love.physics.newFixture(self.body, shape, self.def.density)
+			self.shapes[#self.shapes + 1] = shape
+			self.fixtures[#self.fixtures + 1] = fixture
+		end
+		if i == firstSplit then
+			break
+		end
+	end
+	
+end
+
 local function SetupPhysicsBody(self, physicsWorld)
 	self.sides = math.floor(love.math.random() * (self.def.maxNumberOfVertices - 3)) + 4
 	self.coords = ArbitraryBlock(self.sides)
 
-	self.shapes = {}
-	self.fixtures = {}
-
-	local modCoords = {}
-	for i = 1, #self.coords do
-		local pos = util.Mult(self.def.minSize + math.random()*(self.def.maxSize - self.def.minSize), self.coords[i])
-		modCoords[#modCoords + 1] = pos[1]
-		modCoords[#modCoords + 1] = pos[2]
-		self.coords[i] = pos
-	end
-	self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
-	self.shapes[1] = love.physics.newPolygonShape(unpack(modCoords))
-	self.fixtures[1] = love.physics.newFixture(self.body, self.shapes[1], self.def.density)
+	MakeBodyShapeFixtures(self, physicsWorld)
 	
 	if self.initVelocity then
 		self.body:setLinearVelocity(self.initVelocity[1], self.initVelocity[2])
