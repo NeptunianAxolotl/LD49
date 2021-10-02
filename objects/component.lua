@@ -8,21 +8,18 @@ local DEF = {
 
 }
 
-local function NewComponent(self, physicsWorld)
-	-- pos
-	self.animTime = 0
-	self.def = DEF
+local function SetupPhysicsBody(self, physicsWorld)
+	self.coords = {{1,0}, {1, 1}, {0, 1}, {0, 0}} -- Replace with generation based on def
+	local scaleFactor = math.random()*20 + 80 -- Replace with generation based on def
 	
-	local coords = {{1,0}, {1, 1}, {0, 1}, {0, 0}}
 	local angle = util.GetRandomAngle()
-	local scaleFactor = math.random()*20 + 80
 	local modCoords = {}
-	for i = 1, #coords do
-		local pos = util.Mult(scaleFactor, coords[i])
+	for i = 1, #self.coords do
+		local pos = util.Mult(scaleFactor, self.coords[i])
 		pos = util.RotateVector(pos, angle)
 		modCoords[#modCoords + 1] = pos[1]
 		modCoords[#modCoords + 1] = pos[2]
-		coords[i] = pos
+		self.coords[i] = pos
 	end
 	self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
 	self.shape = love.physics.newPolygonShape(unpack(modCoords))
@@ -31,6 +28,14 @@ local function NewComponent(self, physicsWorld)
 	if self.initVelocity then
 		self.body:setLinearVelocity(self.initVelocity[1], self.initVelocity[2])
 	end
+end
+
+local function NewComponent(self, physicsWorld)
+	-- pos
+	self.animTime = 0
+	self.def = DEF
+	
+	SetupPhysicsBody(self, physicsWorld)
 	
 	function self.Update(dt)
 		self.animTime = self.animTime + dt
@@ -43,9 +48,9 @@ local function NewComponent(self, physicsWorld)
 				local angle = self.body:getAngle()
 				love.graphics.translate(x, y)
 				love.graphics.rotate(angle)
-				for i = 1, #coords do
-					local other = coords[(i < #coords and (i + 1)) or 1]
-					love.graphics.line(coords[i][1], coords[i][2], other[1], other[2])
+				for i = 1, #self.coords do
+					local other = self.coords[(i < #self.coords and (i + 1)) or 1]
+					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
 				end
 			love.graphics.pop()
 		end})
