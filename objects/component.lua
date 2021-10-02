@@ -75,7 +75,6 @@ local function MoveToMouse(self)
 	local mouseDist = util.AbsVal(forceVector)
 	
 	local forceMult = util.SmoothStep(0.2, 200, mouseDist)*100
-	print(forceMult)
 	
 	local mouseDiff = util.Mult(forceMult, util.Unit(util.Subtract({mx, my}, anchorPoint)))
 	self.body:setLinearVelocity(mouseDiff[1], mouseDiff[2])
@@ -124,7 +123,10 @@ local function NewComponent(self, physicsWorld)
 	end
 	
 	function self.ClickTest(x, y)
-		if not self.fixture:testPoint(x, y) and not (self.inShop and not ShopHandler.ShopSelectAllowed()) then
+		if self.inShop and not ShopHandler.ShopSelectAllowed() then
+			return
+		end
+		if (not self.fixture:testPoint(x, y)) then
 			return
 		end
 		return true

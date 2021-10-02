@@ -27,7 +27,6 @@ local function RestockItems()
 			inShop = true,
 		}
 		local component = ComponentHandler.SpawnComponent("generator", util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}), compData)
-		util.PrintTable(util.Add(shopPos, {0, (i - 1)*shopGap}))
 		self.items[#self.items + 1] = component
 	end
 	self.wantRestock = false
@@ -53,7 +52,6 @@ local function CheckRestock(dt)
 end
 
 local function SetItemPositions()
-print(#self.items, self.position, self.wantRestock)
 	for i = 1, #self.items do
 		local component = self.items[i]
 		if component.IsInShop() then
