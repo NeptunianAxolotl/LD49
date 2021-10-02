@@ -212,7 +212,7 @@ local function NewComponent(self, world)
 						if minStress > 0.8 then
 							data.joint:setMaxLength(data.joint:getMaxLength() + math.min(1.5, minStress - 0.8))
 						elseif minStress < 0.001 and data.joint:getMaxLength() > data.desiredLength then
-							data.joint:setMaxLength(data.joint:getMaxLength() - 1)
+							data.joint:setMaxLength(data.joint:getMaxLength() - 0.15)
 						end
 					end
 				end
