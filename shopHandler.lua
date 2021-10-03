@@ -62,6 +62,7 @@ local function CheckRestock(dt)
 		end
 		if self.position >= 1 then
 			self.position = 1
+			GameHandler.DoResearchTurn()
 			RestockItems()
 		end
 	else

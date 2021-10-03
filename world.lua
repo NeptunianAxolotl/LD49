@@ -40,6 +40,10 @@ function self.ScreenToInterface(pos)
 	return {x, y}
 end
 
+function self.GetMousePositionInterface()
+	local x, y = love.mouse.getPosition()
+	return self.ScreenToInterface({x, y})
+end
 
 function self.GetMousePosition()
 	local x, y = love.mouse.getPosition()

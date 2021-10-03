@@ -1,6 +1,5 @@
 local util = require("include/util")
 
-local wasHitSum = false
 local ignoreHitIndexUglyGlobal = false
 local function HitTest(fixture, x, y, xn, yn, fraction)
 	local component = fixture:getUserData()
@@ -25,15 +24,10 @@ local function CheckAdjacency(self, world)
 	local bx, by = self.body:getWorldCenter()
 	local physicsWorld = world.GetPhysicsWorld()
 	
-	local power = 2
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
-		wasHitSum = 0
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
-		if wasHitSum < 1 then
-			power = power + 2*math.max(0, 1 - wasHitSum)
-		end
 	end
 end
 

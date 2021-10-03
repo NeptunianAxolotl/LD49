@@ -201,8 +201,10 @@ local function MoveToMouse(self)
 end
 
 local function ReleaseMouse(self)
-	self.mouseJoint:destroy()
-	self.mouseJoint = nil
+	if self.mouseJoint then
+		self.mouseJoint:destroy()
+		self.mouseJoint = nil
+	end
 	--self.body:setLinearVelocity(0, 0.01)
 	self.body:setGravityScale(1)
 	self.mouseAnchor = false
@@ -298,7 +300,7 @@ end
 local function SpeedLimit(self)
 	local vx, vy = self.body:getLinearVelocity()
 	local velocity = {vx, vy}
-	if util.AbsVal(velocity) < Global.SPEED_LIMIT then
+	if vy > 0 or util.AbsVal(velocity) < Global.SPEED_LIMIT then
 		return
 	end
 	local speed = util.AbsVal(velocity)
