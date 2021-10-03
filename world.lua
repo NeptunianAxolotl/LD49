@@ -4,6 +4,8 @@ local MusicHandler = require("musicHandler")
 local ModuleTest = require("moduleTest")
 EffectsHandler = require("effectsHandler")
 
+local Camera = require("utilities/cameraUtilities")
+
 local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
 local PowerupHandler = require("powerupHandler")
@@ -16,12 +18,20 @@ local PriorityQueue = require("include/PriorityQueue")
 local self = {}
 
 function self.MousePressed(x, y)
+	x, y = self.cameraTransform:inverse():transformPoint(x, y)
 	PowerupHandler.MouseReleased(x, y)
 	ShopHandler.MousePressed(x, y)
 	ComponentHandler.MousePressed(x, y)
 end
 
+function self.GetMousePosition()
+	local x, y = love.mouse.getPosition()
+	x, y = self.cameraTransform:inverse():transformPoint(x, y)
+	return {x, y}
+end
+
 function self.MouseReleased(x, y)
+	x, y = self.cameraTransform:inverse():transformPoint(x, y)
 	PowerupHandler.MouseReleased(x, y)
 	ComponentHandler.MouseReleased(x, y)
 end
@@ -34,12 +44,6 @@ function self.GetPhysicsWorld()
 end
 
 function self.Update(dt)
-	--local playerPos, playerVelocity, playerSpeed = Player.GetPhysics()
-	--local cameraX, cameraY, cameraScale = Camera.UpdateCamera(dt, playerPos, playerVelocity, playerSpeed, Player.IsDead() and 0.96 or 0.85)
-	local windowX, windowY = love.window.getMode()
-	local cameraX, cameraY, cameraScale = 0, 0, 1
-	--self.cameraTransform:setTransformation(windowX/2, 160 + (1 - cameraScale)*60, 0, cameraScale*windowY/1080, cameraScale*windowY/1080, cameraX, cameraY)
-	
 	PhysicsHandler.Update(math.min(0.04, dt))
 	ComponentHandler.Update(dt)
 	ShopHandler.Update(dt)
@@ -50,8 +54,8 @@ function self.Update(dt)
 	MusicHandler.Update(dt)
 	SoundHandler.Update(dt)
 	
-	--love.graphics.replaceTransform(self.cameraTransform)
-
+	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(dt, ComponentHandler.GetViewRestriction(), 200, 0.1, 0.1)
+	Camera.UpdateTransform(self.cameraTransform, cameraX, cameraY, cameraScale)
 end
 
 function self.Draw()
@@ -98,6 +102,7 @@ function self.Initialize()
 	PowerupHandler.Initialize(self)
 	ShopHandler.Initialize(self)
 	island.Initialize(self)
+	Camera.Initialize()
 end
 
 return self

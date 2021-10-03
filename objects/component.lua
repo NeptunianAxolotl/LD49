@@ -142,9 +142,11 @@ end
 
 local function MoveToMouse(self)
 	if not self.mouseJoint then
-		self.mouseJoint = love.physics.newMouseJoint(self.body, love.mouse.getPosition())
+		local mousePos = self.world.GetMousePosition()
+		self.mouseJoint = love.physics.newMouseJoint(self.body, mousePos[1], mousePos[2])
 	end
-	self.mouseJoint:setTarget(love.mouse.getPosition())
+	local mousePos = self.world.GetMousePosition()
+	self.mouseJoint:setTarget(mousePos[1], mousePos[2])
 
 	if love.keyboard.isDown("space") then
 		self.body:setAngularVelocity(4)
@@ -191,6 +193,7 @@ end
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
+	self.world = world
 
 	SetupPhysicsBody(self, world.GetPhysicsWorld())
 	SetupMeshes(self)
@@ -211,6 +214,14 @@ local function NewComponent(self, world)
 		if self.def.EnergyFunc and not self.inShop then
 			self.def.EnergyFunc(self, world, AggFunc)
 		end
+	end
+	
+	function self.AddToView(viewPoints)
+		if self.dead or self.inShop then
+			return
+		end
+		local bx, by = self.body:getWorldCenter()
+		viewPoints[#viewPoints + 1] = {bx, by}
 	end
 	
 	function self.Update(dt)

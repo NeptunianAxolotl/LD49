@@ -95,9 +95,9 @@ end
 function self.Draw(drawQueue)
 	if firstClicked and not firstClicked.dead then
 		local firstPos = firstClicked.LocalToWorld(firstClickedPos)
-		local mx, my = love.mouse.getPosition()
+		local mousePos = world.GetMousePosition()
 		drawQueue:push({y=0; f=function()
-			love.graphics.line(firstPos[1], firstPos[2], mx, my)
+			love.graphics.line(firstPos[1], firstPos[2], mousePos[1], mousePos[2])
 		end})
 	end
 end

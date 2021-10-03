@@ -40,6 +40,12 @@ function api.AddEnergy(value)
 	self.totalEnergy = self.totalEnergy + value
 end
 
+function api.GetViewRestriction()
+	local pointsToView = {}
+	IterableMap.ApplySelf(self.components, "AddToView", pointsToView)
+	return pointsToView
+end
+
 function api.Update(dt)
 	IterableMap.ApplySelf(self.components, "Update", dt)
 	
