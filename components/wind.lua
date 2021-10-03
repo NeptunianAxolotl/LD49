@@ -15,7 +15,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	EnergyFunc = GenerateEnergy,
-	backgroundImage = "green",
-	borderImage = "green",
+	backgroundImage = "wind",
+	borderImage = "wind",
 	borderThickness = 40,
 }

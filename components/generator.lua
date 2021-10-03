@@ -6,6 +6,6 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	backgroundImage = "green",
-	borderImage = "border",
+	borderImage = "green",
 	borderThickness = 40,
 }

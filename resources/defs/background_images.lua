@@ -5,6 +5,21 @@ local defs = {
 	{
 		name = "border",
 	},
+	{
+		name = "solar",
+	},
+	{
+		name = "wind",
+	},
+	{
+		name = "office",
+	},
+	{
+		name = "research",
+	},
+	{
+		name = "marine",
+	},
 }
 
 for i = 1, #defs do

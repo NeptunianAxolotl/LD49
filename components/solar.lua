@@ -46,7 +46,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	EnergyFunc = GenerateEnergy,
-	backgroundImage = "green",
-	borderImage = "green",
+	backgroundImage = "solar",
+	borderImage = "solar",
 	borderThickness = 40,
 }
