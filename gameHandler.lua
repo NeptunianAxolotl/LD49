@@ -19,16 +19,32 @@ end
 
 function self.UpdateRates(research, popCost, popRoom)
 	self.researchRate = research/self.researchCost
-	self.populationCost = popCost
-	self.populationCap = self.populationCapBase + popRoom
+	self.adminRequired = popCost
+	self.adminSupplied = popRoom
 end
 
 function self.DoResearchTurn(damage)
 	self.researchProgress = self.researchProgress + self.researchRate
 end
 
-function self.GetWorkEfficiency(damage)
-	return math.max(0, 1 / (1 + self.populationCost / self.populationCap))
+function self.GetWorkEfficiency()
+	if self.adminSupplied <= 1 then
+		return 1
+	end
+	if self.adminRequired <= 1 then
+		return 1
+	end
+	return 1
+end
+
+function self.GetPostPowerMult()
+	if self.adminSupplied <= 1 then
+		return 1
+	end
+	if self.adminRequired <= 1 then
+		return 1
+	end
+	return 1 + self.adminSupplied*0.0025
 end
 
 --------------------------------------------------
@@ -43,7 +59,7 @@ function self.DrawInterface()
 	local drawPos = world.ScreenToInterface({0, windowY})
 	Resources.DrawImage("main_ui", drawPos[1], math.ceil(drawPos[2]))
 	
-	local totalEnergy = ComponentHandler.GetEnergy()
+	local totalEnergy = math.floor(ComponentHandler.GetEnergy()*self.GetPostPowerMult())
 	
 	love.graphics.setColor(1, 1, 1, 1)
 	Font.SetSize(0)
@@ -63,7 +79,7 @@ function self.DrawInterface()
 	
 	love.graphics.setColor(1, 1, 1, 1)
 	Font.SetSize(0)
-	love.graphics.printf("Workforce: " .. self.populationCap .. " / " .. self.populationCost, drawPos[1] + 45, drawPos[2] - 160, 500, "left")
+	love.graphics.printf("Admin bonus: " .. math.floor(100*(self.GetPostPowerMult() - 1)) .. "%", drawPos[1] + 45, drawPos[2] - 160, 500, "left")
 	love.graphics.setColor(1, 1, 1, 1)
 	
 	drawPos = world.ScreenToInterface({windowX, 0})
@@ -76,9 +92,8 @@ function self.Initialize(parentWorld)
 	self.researchRate = 0
 	self.researchProgress = 0
 	self.researchCost = 1
-	self.populationCapBase = 5
-	self.populationCap = 10
-	self.populationCost = 0
+	self.adminRequired = 0
+	self.adminSupplied = 0
 end
 
 return self

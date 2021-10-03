@@ -36,7 +36,6 @@ end
 --------------------------------------------------
 
 function love.update(dt)
-	print(dt)
 	if dt > 0.1 then
 		dt = 0.1
 	end

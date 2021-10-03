@@ -37,12 +37,12 @@ local function CheckAdjacency_Post(self, world, AggFunc)
 	
 	AggFunc("popRoom", self.def.popRoom)
 	
-	for i = 1, #rayTests do
-		local rayPos = util.Add({bx, by}, rayTests[i])
-		ignoreHitIndexUglyGlobal = self.index
-		marketingValueUglyGlobal = self.def.marketingValue
-		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
-	end
+	--for i = 1, #rayTests do
+	--	local rayPos = util.Add({bx, by}, rayTests[i])
+	--	ignoreHitIndexUglyGlobal = self.index
+	--	marketingValueUglyGlobal = self.def.marketingValue
+	--	physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
+	--end
 end
 
 return {
@@ -57,5 +57,5 @@ return {
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.05,
 	marketingValue = 0.25,
-	popRoom = 10,
+	popRoom = 20,
 }
