@@ -26,8 +26,8 @@ local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scale
 	if self.pinY then
 		if self.pinY[2] == 1 then
 			bottom = self.pinY[1]
-			if self.minScaleY and top > bottom - self.minScaleY then
-				top = bottom - self.minScaleY
+			if self.minScale and top > bottom - self.minScale then
+				top = bottom - self.minScale
 			end
 		end
 	end
@@ -35,8 +35,8 @@ local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scale
 	if self.pinX then
 		if self.pinX[2] == 0.5 then
 			local sideDiff = math.max((self.pinX[1] - left)*2, (right - self.pinX[1])*2)
-			if self.minScaleX and sideDiff < self.minScaleX then
-				sideDiff = self.minScaleX
+			if self.minScale and sideDiff < self.minScale then
+				sideDiff = self.minScale
 			end
 			left = self.pinX[1] - sideDiff*self.pinX[2]
 			right = self.pinX[1] + sideDiff*(1 - self.pinX[2])
@@ -82,8 +82,7 @@ local function Initialize(data)
 		cameraScale = data.initScale or 1080,
 		pinX = data.pinX,
 		pinY = data.pinY,
-		minScaleX = data.minScaleX,
-		minScaleY = data.minScaleY,
+		minScale = data.minScale,
 	}
 	
 	local windowX, windowY = love.window.getMode()

@@ -10,6 +10,7 @@ local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
 local PowerupHandler = require("powerupHandler")
 ShopHandler = require("shopHandler")
+local InterfaceHandler = require("interfaceHandler")
 
 local island = require("objects/island")
 
@@ -24,11 +25,21 @@ function self.MousePressed(x, y)
 	ComponentHandler.MousePressed(x, y)
 end
 
-function self.GetMousePosition()
-	local x, y = love.mouse.getPosition()
-	x, y = self.cameraTransform:inverse():transformPoint(x, y)
+function self.WorldToScreen(pos)
+	local x, y = self.cameraTransform:transformPoint(pos[1], pos[2])
 	return {x, y}
 end
+
+function self.ScreenToWorld(pos)
+	local x, y = self.cameraTransform:inverse():transformPoint(pos[1], pos[2])
+	return {x, y}
+end
+
+function self.GetMousePosition()
+	local x, y = love.mouse.getPosition()
+	return self.ScreenToWorld({x, y})
+end
+
 
 function self.MouseReleased(x, y)
 	x, y = self.cameraTransform:inverse():transformPoint(x, y)
@@ -107,8 +118,7 @@ function self.Initialize()
 	Camera.Initialize({
 		pinX = {980, 0.5},
 		pinY = {900, 1},
-		minScaleX = 1000/1600,
-		minScaleY = 1000,
+		minScale = 1000,
 		initPos = {980, 500}
 	})
 end
