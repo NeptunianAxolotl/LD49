@@ -45,6 +45,29 @@ local function ArbitraryBlock(sides)
 	return block
 end
 
+local function CalculateCentralRadius(self)
+	local unpackedCoords = {}
+	for i = 1, #self.coords do
+		unpackedCoords[2*i - 1] = self.coords[i][1]
+		unpackedCoords[2*i] = self.coords[i][2]
+	end
+
+	local isConvex = love.math.isConvex(unpackedCoords)
+	local magnitudes = {}
+
+	if isConvex == false then
+		for i = 1, #self.coords do
+			magnitudes[i],_ = util.CartToPolar(self.coords[i])
+		end
+		return math.min(unpack(magnitudes))
+	end
+
+	for i = 1, #self.coords-1 do
+		magnitudes[i] = util.DistanceToBoundedLine2({0,0}, {self.coords[i],self.coords[i+1]})
+	end
+	return math.min(unpack(magnitudes))
+end
+
 local function MakeBodyShapeFixtures(self, physicsWorld)
 	self.shapes = {}
 	self.fixtures = {}
@@ -137,6 +160,8 @@ local function SetupPhysicsBody(self, physicsWorld)
 	self.coords = ArbitraryBlock(self.sides)
 
 	MakeBodyShapeFixtures(self, physicsWorld)
+
+	self.imageRadius = CalculateCentralRadius(self)
 	
 	if self.initVelocity then
 		self.body:setLinearVelocity(self.initVelocity[1], self.initVelocity[2])

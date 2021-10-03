@@ -118,7 +118,7 @@ end
 
 -- The normal of v1 onto v2. Returns such that v1 = normal + projection
 function util.Normal(v1, v2)
-	local projection = Project(v1, v2)
+	local projection = util.Project(v1, v2)
 	return util.Subtract(v1, projection), projection
 end
 
@@ -259,6 +259,20 @@ function util.DistanceToBoundedLineSq(point, line)
 		return util.Dist(line[2], point)
 	end
 	return util.AbsValSq(util.Subtract(startToPos, normal)), normalFactor
+end
+
+function util.DistanceToBoundedLine2(point, line)
+	local startToPos = util.Subtract(point, line[1])
+	local startToEnd = util.Subtract(line[2], line[1])
+	local normal, projection = util.Normal(startToPos, startToEnd)
+	local projFactor = util.Dot(projection, startToEnd)
+	if projFactor < 0 then
+		return math.min(util.Dist(line[1], point), util.Dist(line[2], point))
+	end
+	if math.sqrt(projFactor) > util.AbsVal(startToEnd) then
+		return math.min(util.Dist(line[1], point), util.Dist(line[2], point))
+	end
+	return util.AbsVal(normal)
 end
 
 function util.DistanceToBoundedLine(point, line)
