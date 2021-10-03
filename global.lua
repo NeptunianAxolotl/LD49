@@ -5,6 +5,10 @@ local globals = {
 	VIEW_SPEED_LIMIT = 400,
 	CONTACT_FORCE = 0,
 	FORCE_STORE = 1,
+	
+	LINK_DRAW_ORDER = 10,
+	PIECE_DRAW_ORDER = 4,
+	PIECE_DRAW_ORDER_SHOP = 20,
 }
 
 return globals

@@ -414,7 +414,8 @@ local function NewComponent(self, world)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=0; f=function()
+		drawQueue:push({y = (self.inShop and Global.PIECE_DRAW_ORDER_SHOP) or Global.PIECE_DRAW_ORDER;
+			f = function()
 			love.graphics.push()
 				local x, y = self.body:getPosition()
 				local angle = self.body:getAngle()
@@ -450,7 +451,10 @@ local function NewComponent(self, world)
 				--Resources.DrawImage(self.def.foregroundImage, math.floor(bx), math.floor(by), 0, 1, self.imageRadius/100)
 				Resources.DrawImage(self.def.foregroundImage, bx, by, 0, 1, self.imageRadius/100)
 			end
-			
+		end})
+		
+		drawQueue:push({y = Global.LINK_DRAW_ORDER;
+			f = function()
 			if self.jointData then
 				for i = 1, #self.jointData do
 					local data = self.jointData[i]
@@ -467,6 +471,7 @@ local function NewComponent(self, world)
 				end
 			end
 		end})
+		
 		if DRAW_DEBUG then
 			love.graphics.circle('line',self.pos[1], self.pos[2], def.radius)
 		end

@@ -186,7 +186,7 @@ function self.DrawImage(name, x, y, rotation, alpha, scale, color)
 	)
 	
 	local data = self.images[name]
-	love.graphics.draw(data.image, x, y, rotation, data.xScale*scaleX, data.yScale*scaleX, data.xOffset, data.yOffset, 0, 0)
+	love.graphics.draw(data.image, x, y, rotation, data.xScale*scaleX, data.yScale*scaleY, data.xOffset, data.yOffset, 0, 0)
 end
 
 function self.DrawIsoImage(name, x, y, direction, alpha, scale, color)
