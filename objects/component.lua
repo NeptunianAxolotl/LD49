@@ -261,6 +261,7 @@ local function NewComponent(self, world)
 		
 		local bx, by = self.body:getPosition()
 		if by > 1020 then
+			self.Destroy()
 			return true -- Destroy
 		end
 	end
