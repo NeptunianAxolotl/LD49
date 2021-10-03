@@ -23,7 +23,7 @@ function api.Update(dt)
 end
 
 function api.Draw(drawQueue)
-	drawQueue:push({y=0; f=function()
+	drawQueue:push({y=0.8; f=function()
 		love.graphics.push()
 			local x, y = self.body:getPosition()
 			local angle = self.body:getAngle()
@@ -68,21 +68,21 @@ function api.Initialize(physics)
 	self.fixtures = {}
 
 	local numberOfWaves = 7
-	local leftWaveCoord = 400
+	local leftWaveCoord = 0
 	local downWaveCoord = 850
 
-	self.waveCoordinates = {}
-	self.randomDepth = {}
-	self.randomAlpha = {}
-	self.randomScale = {}
-	self.randomWaveMagSpeed = {}
+	self.waveCoordinates = {{-50,830},{-100,800},{-80,900},{-140,950},{-50,770},{-200,700},{-100,730}}
+	self.randomDepth = {0.9,0.8,0.95,0.7,0.8,0.6,0.5}
+	self.randomAlpha = {0.1,0.2,0.3,0.3,0.4,0.6,0.7}
+	self.randomScale = {{2,0.8},{5,0.6},{3,0.4},{6,0.5},{5,0.7},{6,0.6},{8,0.4}}
+	self.randomWaveMagSpeed = {{3,0.1,3,1.2},{5,0.3,1,1.1},{0.3,0.1,3,1.5},{1,0.6,1.8,1.5},{2.5,0.5,1.65,1.3},{0.6,0.8,1.5,1.1},{2.2,0.4,3,1.3}}
 
 	for i = 1, numberOfWaves do
-		self.waveCoordinates[i] = {leftWaveCoord + (700 * (math.random() - 0.5)), downWaveCoord + (200 * (math.random() - 0.5))}
-		self.randomDepth[i] = (math.random() - 0.5)
-		self.randomAlpha[i] = (0.5* math.random()) + 0.1
-		self.randomScale[i] = {0.6 * math.random()+ 0.4, 0.6 * math.random() + 0.4}
-		self.randomWaveMagSpeed[i] = {math.random() * 2, math.random() * 2, (math.random() * 2) + 1, (math.random() * 2) + 1}
+		-- self.waveCoordinates[i] = {leftWaveCoord + (700 * (math.random() - 0.5)), downWaveCoord + (200 * (math.random() - 0.5))}
+		-- self.randomDepth[i] = (math.random() - 0.5)
+		-- self.randomAlpha[i] = (0.5* math.random()) + 0.1}
+		-- self.randomScale[i] = {0.6 * math.random()+ 0.4, 0.6 * math.random() + 0.4}
+		-- self.randomWaveMagSpeed[i] = {math.random() * 4, math.random() * 1, (math.random() * 2.5) + 1, (math.random() * 1) + 1}
 	end
 
 	
