@@ -18,7 +18,7 @@ function self.AddSeaDamage(damage)
 end
 
 function self.SetResearchRate(newRate)
-	newRate = math.floor(math.pow(newRate, 0.75)*100)/100
+	newRate = math.floor(math.pow(newRate, 0.75))/100
 	self.researchRate = newRate
 end
 

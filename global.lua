@@ -7,6 +7,7 @@ local globals = {
 	FORCE_STORE = 1,
 	
 	SPEED_LIMIT = 850,
+	YEET = false,
 	
 	LINK_DRAW_ORDER = 10,
 	PIECE_DRAW_ORDER = 4,

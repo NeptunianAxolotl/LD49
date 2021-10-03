@@ -50,6 +50,25 @@ function api.Draw(drawQueue)
 		end})
 	end
 
+	drawQueue:push({y=-10; f=function()
+		love.graphics.push()
+			local x, y = self.body:getPosition()
+			local angle = self.body:getAngle()
+			
+			Resources.DrawImage("sky", x, y + 300)
+
+			love.graphics.translate(x, y)
+			love.graphics.rotate(angle)
+			for s = 1, #self.coordSets do
+				local coords = self.coordSets[s]
+				for i = 1, #coords do
+					local other = coords[(i < #coords and (i + 1)) or 1]
+					love.graphics.line(coords[i][1], coords[i][2], other[1], other[2])
+				end
+			end
+		love.graphics.pop()
+	end})
+
 	if DRAW_DEBUG then
 		love.graphics.circle('line',self.pos[1], self.pos[2], def.radius)
 	end
@@ -60,7 +79,7 @@ function api.Initialize(physics)
 	self.shapes = {}
 	self.fixtures = {}
 
-	local numberOfWaves = 5
+	local numberOfWaves = 7
 	local leftWaveCoord = 400
 	local downWaveCoord = 850
 

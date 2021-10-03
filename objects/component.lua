@@ -325,6 +325,9 @@ local function IsOverspeed(self)
 				end
 			end
 		end
+		if self.mouseAnchor then
+			self.overSpeed = false
+		end
 		if self.overSpeed then
 			return true
 		end
@@ -385,7 +388,7 @@ local function NewComponent(self, world)
 		if self.dead or self.inShop or self.mouseJoint then
 			return
 		end
-		if IsOverspeed(self) then
+		if IsOverspeed(self) and not Global.YEET then
 			return
 		end
 		local bx, by = self.body:getWorldCenter()
@@ -469,10 +472,10 @@ local function NewComponent(self, world)
 				love.graphics.translate(x, y)
 				love.graphics.rotate(angle)
 
+				love.graphics.setColor(1,1,1)
 				love.graphics.draw(self.mesh)
 				--love.graphics.draw(self.borderMesh)
 
-				love.graphics.setColor(1,1,1)
 				love.graphics.setLineWidth(3)
 				for i = 1, #self.coords do
 					local other = self.coords[(i < #self.coords and (i + 1)) or 1]
