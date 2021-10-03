@@ -26,29 +26,25 @@ local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scale
 	if self.pinY then
 		if self.pinY[2] == 1 then
 			bottom = self.pinY[1]
-			if self.minScale and top > bottom - self.minScale then
-				top = bottom - self.minScale
+			if self.minScaleY and top > bottom - self.minScaleY then
+				top = bottom - self.minScaleY
 			end
 		end
 	end
 	
 	if self.pinX then
 		if self.pinX[2] == 0.5 then
-			local sideDiff = math.max(self.pinX[1] - left, right - self.pinX[1])
-			if self.minScale and sideDiff*2 < self.minScale then
-				sideDiff = self.minScale/2
+			local sideDiff = math.max((self.pinX[1] - left)*(1 - self.pinX[2]), (right - self.pinX[1])*self.pinX[2])
+			if self.minScaleX and sideDiff < self.minScaleX then
+				sideDiff = self.minScaleX
 			end
-			left = self.pinX[1] - sideDiff
-			right = self.pinX[1] + sideDiff
+			left = self.pinX[1] - sideDiff*self.pinX[2]
+			right = self.pinX[1] + sideDiff*(1 - self.pinX[2])
 		end
 	end
 	
-	local wantedScale = math.max(right - left, bottom - top)
+	local wantedScale = math.max((right - left)*self.scaleMult[1], (bottom - top)*self.scaleMult[2])
 	local wantedPos = {(left + right)/2, (top + bottom)/2}
-	
-	if self.minScale and wantedScale < self.minScale then
-		wantedScale = self.minScale
-	end
 	
 	self.cameraVelocity = util.Average(self.cameraVelocity, self.posVelocity, (1 - moveSmooth))
 	local newPos = util.Add(util.Mult(dt, self.cameraVelocity), util.Average(self.cameraPos, wantedPos, (1 - moveSmooth)))
@@ -63,6 +59,7 @@ end
 local function UpdateTransform(cameraTransform, cameraX, cameraY, cameraScale)
 	local windowX, windowY = love.window.getMode()
 	local boundLimit = math.min(windowX, windowY)
+	self.scaleMult = {boundLimit/windowX, boundLimit/windowY}
 	
 	if math.random() < 0.01 then
 		print(boundLimit, cameraX, cameraY, cameraScale)
@@ -89,8 +86,13 @@ local function Initialize(data)
 		cameraScale = 0.93,
 		pinX = data.pinX,
 		pinY = data.pinY,
-		minScale = data.minScale,
+		minScaleX = data.minScaleX,
+		minScaleY = data.minScaleY,
 	}
+	
+	local windowX, windowY = love.window.getMode()
+	local boundLimit = math.min(windowX, windowY)
+	self.scaleMult = {boundLimit/windowX, boundLimit/windowY}
 end
 
 return {

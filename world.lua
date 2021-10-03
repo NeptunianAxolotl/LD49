@@ -102,7 +102,9 @@ function self.Initialize()
 	PowerupHandler.Initialize(self)
 	ShopHandler.Initialize(self)
 	island.Initialize(self)
-	Camera.Initialize({pinX = {1100, 0.5}, pinY = {900, 1}, minScale = 1100})
+	
+	-- Note that the camera pins only function for these particular second entries.
+	Camera.Initialize({pinX = {980, 0.5}, pinY = {900, 1}, minScaleX = 1000/1600, minScaleY = 1000})
 end
 
 return self
