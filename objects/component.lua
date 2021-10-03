@@ -173,7 +173,9 @@ local function MoveToMouse(self)
 end
 
 local function ReleaseMouse(self)
-	self.body:setLinearVelocity(0, 0.01)
+	self.mouseJoint:destroy()
+	self.mouseJoint = nil
+	--self.body:setLinearVelocity(0, 0.01)
 	self.body:setGravityScale(1)
 	self.mouseAnchor = false
 end
@@ -207,7 +209,7 @@ local function SetupMeshes(self)
 end
 
 local function UpdateJoints(self)
-	if not self.jointData then
+	if self.dead or (not self.jointData) then
 		return
 	end
 	
@@ -274,9 +276,6 @@ local function NewComponent(self, world)
 		self.animTime = self.animTime + dt
 		if self.mouseAnchor then
 			MoveToMouse(self)
-		elseif self.mouseJoint then
-			self.mouseJoint:destroy()
-			self.mouseJoint = nil
 		elseif self.inShop then
 			self.body:setAngularVelocity(1)
 		end
