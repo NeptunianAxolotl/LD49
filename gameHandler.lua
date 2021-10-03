@@ -17,7 +17,13 @@ function self.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
 end
 
+function self.SetResearchRate(newRate)
+	newRate = math.floor(math.pow(newRate, 0.75)*100)/100
+	self.researchRate = newRate
+end
+
 function self.DoResearchTurn(damage)
+	self.SetResearchRate(ComponentHandler.GetResearchRate())
 	self.researchProgress = self.researchProgress + self.researchRate
 end
 

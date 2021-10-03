@@ -49,13 +49,13 @@ end
 
 function api.GetEnergy(eType)
 	if eType then
-		return (self.totalEnergy[eType] or 0)
+		return ((self.energyByType and self.energyByType[eType]) or 0)
 	end
 	return self.totalEnergy or 0
 end
 
-function api.GetResearch(eType)
-	return (self.totalEnergy["research"] or 0)
+function api.GetResearchRate()
+	return ((self.energyByType and self.energyByType["research"]) or 0)
 end
 
 function api.GetViewRestriction()
@@ -76,6 +76,7 @@ function api.Update(dt)
 		IterableMap.ApplySelf(self.components, "CheckAdjacency")
 		IterableMap.ApplySelf(self.components, "CheckAdjacency_Post")
 		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
+		GameHandler.SetResearchRate(api.GetResearchRate())
 	end
 end
 
