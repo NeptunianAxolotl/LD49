@@ -210,10 +210,10 @@ local function SetupMeshes(self)
 	local meshCoords = {{0,0, 0, 0}}
 	local vertex = 1
 	for i = 1, #self.coords do
-		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
+		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 0.5}
 		vertex = 1 - vertex
 	end
-	meshCoords[#meshCoords + 1] = {self.coords[1][1], self.coords[1][2], 1, vertex}
+	meshCoords[#meshCoords + 1] = {self.coords[1][1], self.coords[1][2], vertex, 0.5}
 	
 	self.mesh = love.graphics.newMesh(meshCoords, "fan")
 	Resources.SetTexture(self.mesh, self.def.backgroundImage)
@@ -421,21 +421,24 @@ local function NewComponent(self, world)
 				love.graphics.rotate(angle)
 
 				love.graphics.draw(self.mesh)
-				love.graphics.draw(self.borderMesh)
+				--love.graphics.draw(self.borderMesh)
 
 				love.graphics.setColor(1,1,1)
-				love.graphics.setLineWidth(2)
-
-				if self.drawSplit then
-					for s = 1, #self.drawSplit do
-						local split = self.drawSplit[s]
-						for i = 1, #split do
-							local other = split[(i < #split and (i + 1)) or 1]
-							love.graphics.line(split[i][1], split[i][2], other[1], other[2])
-						end
-					end
+				love.graphics.setLineWidth(3)
+				for i = 1, #self.coords do
+					local other = self.coords[(i < #self.coords and (i + 1)) or 1]
+					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
 				end
-				
+
+				--if self.drawSplit then
+				--	for s = 1, #self.drawSplit do
+				--		local split = self.drawSplit[s]
+				--		for i = 1, #split do
+				--			local other = split[(i < #split and (i + 1)) or 1]
+				--			love.graphics.line(split[i][1], split[i][2], other[1], other[2])
+				--		end
+				--	end
+				--end
 
 				love.graphics.setLineWidth(1)
 
@@ -443,7 +446,7 @@ local function NewComponent(self, world)
 			
 			if self.def.foregroundImage then
 				local bx, by = self.body:getWorldCenter()
-				Resources.DrawImage(self.def.foregroundImage, bx, by, 0, 1, self.imageRadius/100)
+				Resources.DrawImage(self.def.foregroundImage, math.floor(bx), math.floor(by), 0, 1, self.imageRadius/100)
 			
 			end
 			
