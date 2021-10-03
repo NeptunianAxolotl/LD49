@@ -53,7 +53,9 @@ function api.Draw(drawQueue)
 	drawQueue:push({y=-10; f=function()
 		love.graphics.push()
 			local x, y = self.body:getPosition()
-			Resources.DrawImage("sky", x, y + 300)
+			for i = 1, 100 do
+				Resources.DrawImage("sky", x, y + 300)
+			end
 		love.graphics.pop()
 	end})
 
