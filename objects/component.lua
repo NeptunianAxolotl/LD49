@@ -393,10 +393,17 @@ local function NewComponent(self, world)
 						end
 					end
 				end
+				
 
 				love.graphics.setLineWidth(1)
 
 			love.graphics.pop()
+			
+			if self.def.foregroundImage then
+				local bx, by = self.body:getWorldCenter()
+				Resources.DrawImage(self.def.foregroundImage, bx, by, 0, 1, self.imageRadius/100)
+			
+			end
 			
 			if self.jointData then
 				for i = 1, #self.jointData do

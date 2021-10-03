@@ -12,13 +12,13 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 end
 
 local rayTests = {
-	{-600, -1000},
-	{-400, -1000},
+	{-600, -600},
+	{-400, -900},
 	{-200, -1000},
 	{0, -1000},
 	{200, -1000},
-	{400, -1000},
-	{600, -1000},
+	{400, -900},
+	{600, -600},
 }
 
 local function GenerateEnergy(self, world)
@@ -46,6 +46,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	EnergyFunc = GenerateEnergy,
+	foregroundImage = "office",
 	backgroundImage = "solar",
 	borderImage = "solar",
 	borderThickness = 40,
