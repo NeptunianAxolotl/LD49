@@ -5,4 +5,7 @@ return {
 	coords = {{1,0}, {1, 1}, {0, 1}, {-2, 0}},
 	minSize = 80,
 	maxSize = 100,
+	backgroundImage = "green",
+	borderImage = "border",
+	borderThickness = 40,
 }

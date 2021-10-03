@@ -14,5 +14,8 @@ return {
 	coords = {{1,0}, {1, 1}, {0, 1}, {-2, 0}},
 	minSize = 80,
 	maxSize = 100,
-	EnergyFunc = GenerateEnergy
+	EnergyFunc = GenerateEnergy,
+	backgroundImage = "green",
+	borderImage = "green",
+	borderThickness = 40,
 }

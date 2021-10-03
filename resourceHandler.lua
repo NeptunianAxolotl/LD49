@@ -156,6 +156,14 @@ end
 -- Drawing Functions
 --------------------------------------------------
 
+function self.SetTexture(mesh, name)
+	if not self.images[name] then
+		print("Invalid SetTexture ", name)
+		return
+	end
+	mesh:setTexture(self.images[name].image)
+end
+
 function self.DrawImage(name, x, y, rotation, alpha, scale, color)
 	if not self.images[name] then
 		print("Invalid DrawImage ", name)

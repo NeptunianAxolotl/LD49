@@ -159,13 +159,42 @@ local function ReleaseMouse(self)
 	self.mouseAnchor = false
 end
 
+local function SetupMeshes(self)
+	-- Background/interior
+	local meshCoords = {{0,0, 0, 0}}
+	local vertex = 1
+	for i = 1, #self.coords do
+		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
+		vertex = 1 - vertex
+	end
+	meshCoords[#meshCoords + 1] = {self.coords[1][1], self.coords[1][2], 1, vertex}
+	
+	self.mesh = love.graphics.newMesh(meshCoords, "fan")
+	Resources.SetTexture(self.mesh, self.def.backgroundImage)
+	
+	-- Border
+	meshCoords = {}
+	vertex = 1
+	for i = 1, #self.coords + 1 do
+		i = (i-1)%(#self.coords) + 1
+		local inPoint = util.Subtract(self.coords[i], util.SetLength(self.def.borderThickness, self.coords[i]))
+		print(util.AbsVal(util.Subtract(inPoint, self.coords[i])))
+		meshCoords[#meshCoords + 1] = {inPoint[1], inPoint[2], vertex, 0}
+		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
+		vertex = 1 - vertex
+	end
+	
+	self.borderMesh = love.graphics.newMesh(meshCoords, "strip")
+	Resources.SetTexture(self.borderMesh, self.def.borderImage)
+end
+
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
-	local textureImg = love.graphics.newImage("resources/images/polygonTextures/green.png")
 
 	SetupPhysicsBody(self, world.GetPhysicsWorld())
-	
+	SetupMeshes(self)
+
 	function self.IsDestroyed()
 		return self.dead
 	end
@@ -280,18 +309,17 @@ local function NewComponent(self, world)
 				love.graphics.translate(x, y)
 				love.graphics.rotate(angle)
 
-				local mesh = love.graphics.newMesh(util.CopyTable(self.coords, true, {0,0}), "fan")
-				mesh:setTexture(textureImg)
-				love.graphics.draw(mesh)
+				love.graphics.draw(self.mesh)
+				love.graphics.draw(self.borderMesh)
 
 				love.graphics.setColor(1,1,1)
 				love.graphics.setLineWidth(2)
 
 
-				for i = 1, #self.coords do
-					local other = self.coords[(i < #self.coords and (i + 1)) or 1]					
-					love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
-				end
+				--for i = 1, #self.coords do
+				--	local other = self.coords[(i < #self.coords and (i + 1)) or 1]
+				--	love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
+				--end
 
 				love.graphics.setLineWidth(1)
 
