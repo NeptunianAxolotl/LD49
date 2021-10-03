@@ -62,8 +62,9 @@ local function CalculateCentralRadius(self)
 		return math.min(unpack(magnitudes))
 	end
 
+	local x, y = self.body:getLocalCenter()
 	for i = 1, #self.coords-1 do
-		magnitudes[i] = util.DistanceToBoundedLine2({0,0}, {self.coords[i],self.coords[i+1]})
+		magnitudes[i] = util.DistanceToBoundedLine2({x,y}, {self.coords[i],self.coords[i+1]})
 	end
 	return math.min(unpack(magnitudes))
 end
