@@ -18,7 +18,8 @@ local powerupRadius = 180
 local powerupChance = 0.25
 
 local function GetShopPos(index)
-	return util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*shopGap})
+	--local windowX, windowY = love.window.getMode()
+	return util.Add(world.ScreenToWorld(shopPos), {self.position*shopMoveWidth, (index - 1)*shopGap})
 end
 
 local function RestockItems()
@@ -120,7 +121,7 @@ end
 function self.Draw(drawQueue)
 	for i = 1, #self.items do
 		if self.items[i] and self.items[i].isPowerup then
-			PowerupHandler.DrawPowerup(drawQueue, self.items[i].powerupType, util.Add(shopPos, {self.position*shopMoveWidth, (i - 1)*shopGap}))
+			PowerupHandler.DrawPowerup(drawQueue, self.items[i].powerupType, GetShopPos(i))
 		end
 	end
 end

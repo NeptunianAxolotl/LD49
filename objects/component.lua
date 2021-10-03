@@ -71,21 +71,21 @@ local function MakeBodyShapeFixtures(self, physicsWorld)
 	local mirrorSplit = {}
 	for i = 1, #self.coords do
 		if splitCoords[(i + math.floor(#self.coords/2) - 1)%#self.coords + 1] then
-			if not firstSplit then
-				firstSplit = i
-			end
 			mirrorSplit[i] = true
 			--print("Split Other", i)
 		end
 	end
 	
 	for i = 1, #self.coords do
+		if splitCoords[i] and not firstSplit then
+			firstSplit = i
+		end
 		if mirrorSplit[i] then
 			splitCoords[i] = true
 		end
 	end
 	
-	if #splitCoords == 0 then
+	if not firstSplit then
 		local modCoords = {}
 		for i = 1, #self.coords do
 			modCoords[#modCoords + 1] = self.coords[i][1]
@@ -197,7 +197,6 @@ local function SetupMeshes(self)
 	for i = 1, #self.coords + 1 do
 		i = (i-1)%(#self.coords) + 1
 		local inPoint = util.Subtract(self.coords[i], util.SetLength(self.def.borderThickness, self.coords[i]))
-		print(util.AbsVal(util.Subtract(inPoint, self.coords[i])))
 		meshCoords[#meshCoords + 1] = {inPoint[1], inPoint[2], vertex, 0}
 		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
 		vertex = 1 - vertex
@@ -349,15 +348,15 @@ local function NewComponent(self, world)
 				love.graphics.setColor(1,1,1)
 				love.graphics.setLineWidth(2)
 
-				--if self.drawSplit then
-				--	for s = 1, #self.drawSplit do
-				--		local split = self.drawSplit[s]
-				--		for i = 1, #split do
-				--			local other = split[(i < #split and (i + 1)) or 1]
-				--			love.graphics.line(split[i][1], split[i][2], other[1], other[2])
-				--		end
-				--	end
-				--end
+				if self.drawSplit then
+					for s = 1, #self.drawSplit do
+						local split = self.drawSplit[s]
+						for i = 1, #split do
+							local other = split[(i < #split and (i + 1)) or 1]
+							love.graphics.line(split[i][1], split[i][2], other[1], other[2])
+						end
+					end
+				end
 
 				love.graphics.setLineWidth(1)
 
