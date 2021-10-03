@@ -42,6 +42,7 @@ function love.update(dt)
 	World.Update(dt)
 end
 
+local util = require("include/util")
 --------------------------------------------------
 -- Loading
 --------------------------------------------------
@@ -56,5 +57,9 @@ function love.load(arg)
 	math.randomseed(os.clock())
 	Resources.LoadResources()
 	World.Initialize()
+	local width, height, flags = love.window.getMode( )
+	print(width, height)
+	util.PrintTable(flags)
+	
 	love.window.maximize() -- Do not fullscreen since we lack an exit button.
 end

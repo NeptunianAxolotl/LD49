@@ -13,6 +13,10 @@ local world
 -- API
 --------------------------------------------------
 
+function self.AddSeaDamage(damage)
+	self.seaDamage = self.seaDamage + damage
+end
+
 --------------------------------------------------
 -- Updating
 --------------------------------------------------
@@ -32,14 +36,18 @@ function self.DrawInterface()
 	love.graphics.printf(totalEnergy, drawPos[1] + 45, drawPos[2] - 45, 300, "left")
 	love.graphics.setColor(1, 1, 1, 1)
 	
+	love.graphics.setColor(1, 1, 1, 1)
+	Font.SetSize(0)
+	love.graphics.printf(math.floor(self.seaDamage*100) .. "%", drawPos[1] + 345, drawPos[2] - 45, 300, "left")
+	love.graphics.setColor(1, 1, 1, 1)
 	
 	drawPos = world.ScreenToInterface({windowX, 0})
 	Resources.DrawImage("menu_button", drawPos[1], math.ceil(drawPos[2]))
-	
 end
 
 function self.Initialize(parentWorld)
 	world = parentWorld
+	self.seaDamage = 0
 end
 
 return self

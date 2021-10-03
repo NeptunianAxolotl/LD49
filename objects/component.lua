@@ -356,6 +356,7 @@ local function NewComponent(self, world)
 		local bx, by = self.body:getPosition()
 		if by > 1020 and not self.inShop and not self.mouseAnchor then
 			self.Destroy()
+			GameHandler.AddSeaDamage(self.def.seaDamage)
 			return true -- Destroy
 		end
 	end
@@ -446,8 +447,8 @@ local function NewComponent(self, world)
 			
 			if self.def.foregroundImage then
 				local bx, by = self.body:getWorldCenter()
-				Resources.DrawImage(self.def.foregroundImage, math.floor(bx), math.floor(by), 0, 1, self.imageRadius/100)
-			
+				--Resources.DrawImage(self.def.foregroundImage, math.floor(bx), math.floor(by), 0, 1, self.imageRadius/100)
+				Resources.DrawImage(self.def.foregroundImage, bx, by, 0, 1, self.imageRadius/100)
 			end
 			
 			if self.jointData then

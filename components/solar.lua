@@ -58,4 +58,5 @@ return {
 	borderImage = "solar",
 	borderThickness = 40,
 	opacity = 0.3,
+	seaDamage = 0.04,
 }

@@ -46,4 +46,5 @@ return {
 	borderImage = "nuclear",
 	borderThickness = 40,
 	CheckAdjacency = CheckAdjacency,
+	seaDamage = 0.15,
 }

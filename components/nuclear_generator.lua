@@ -26,4 +26,5 @@ return {
 	borderThickness = 40,
 	ResetAggregators = ResetAggregators,
 	GenerateEnergy = GenerateEnergy,
+	seaDamage = 0.07,
 }

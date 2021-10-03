@@ -10,7 +10,7 @@ local PhysicsHandler = require("physicsHandler")
 local PowerupHandler = require("powerupHandler")
 ComponentHandler = require("componentHandler")
 ShopHandler = require("shopHandler")
-local GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.
+GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.
 
 local island = require("objects/island")
 

@@ -8,4 +8,5 @@ return {
 	backgroundImage = "research",
 	borderImage = "research",
 	borderThickness = 40,
+	seaDamage = 0.06,
 }

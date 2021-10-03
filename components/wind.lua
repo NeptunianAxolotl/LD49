@@ -60,4 +60,5 @@ return {
 	backgroundImage = "wind",
 	borderImage = "wind",
 	borderThickness = 40,
+	seaDamage = 0.04,
 }

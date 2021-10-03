@@ -8,4 +8,5 @@ return {
 	backgroundImage = "office",
 	borderImage = "office",
 	borderThickness = 40,
+	seaDamage = 0.05,
 }
