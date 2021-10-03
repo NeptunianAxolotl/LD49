@@ -217,7 +217,7 @@ local function NewComponent(self, world)
 	end
 	
 	function self.AddToView(viewPoints)
-		if self.dead or self.inShop then
+		if self.dead or self.inShop or self.mouseJoint then
 			return
 		end
 		local bx, by = self.body:getWorldCenter()
