@@ -2,6 +2,8 @@
 local IterableMap = require("include/IterableMap")
 local util = require("include/util")
 
+local Resources = require("resourceHandler")
+
 local self = {}
 local api = {}
 
@@ -14,6 +16,11 @@ function api.Draw(drawQueue)
 		love.graphics.push()
 			local x, y = self.body:getPosition()
 			local angle = self.body:getAngle()
+			
+			
+			
+			Resources.DrawImage("island", x, y)
+			
 			love.graphics.translate(x, y)
 			love.graphics.rotate(angle)
 			for s = 1, #self.coordSets do

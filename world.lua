@@ -10,7 +10,7 @@ local PhysicsHandler = require("physicsHandler")
 local ComponentHandler = require("componentHandler")
 local PowerupHandler = require("powerupHandler")
 ShopHandler = require("shopHandler")
-local InterfaceHandler = require("interfaceHandler")
+local GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.
 
 local island = require("objects/island")
 
@@ -101,7 +101,7 @@ function self.Draw()
 	
 	-- Draw interface
 	EffectsHandler.DrawInterface()
-	InterfaceHandler.DrawInterface()
+	GameHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end
@@ -118,7 +118,7 @@ function self.Initialize()
 	ComponentHandler.Initialize(self)
 	PowerupHandler.Initialize(self)
 	ShopHandler.Initialize(self)
-	InterfaceHandler.Initialize(self)
+	GameHandler.Initialize(self)
 	island.Initialize(self)
 	
 	-- Note that the camera pins only function for these particular second entries.
