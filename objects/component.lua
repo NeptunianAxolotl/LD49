@@ -458,9 +458,11 @@ local function NewComponent(self, world)
 						local startPos = self.LocalToWorld(data.startPos)
 						local endPos = data.endComponent.LocalToWorld(data.endPos)
 						local x, y = data.joint:getReactionForce(0.033)
-						love.graphics.setLineWidth(1 + util.AbsVal({x, y}))
-						love.graphics.line(startPos[1], startPos[2], endPos[1], endPos[2])
-						love.graphics.setLineWidth(1)
+						local linkVector = util.Subtract(endPos, startPos)
+						Resources.DrawImage(data.image, startPos[1], startPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
+						--love.graphics.setLineWidth(1 + util.AbsVal({x, y}))
+						--love.graphics.line(startPos[1], startPos[2], endPos[1], endPos[2])
+						--love.graphics.setLineWidth(1)
 					end
 				end
 			end

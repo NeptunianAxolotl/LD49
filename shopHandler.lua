@@ -8,7 +8,7 @@ local PowerupHandler = require("powerupHandler")
 local self = {}
 local world
 
-local shopSpeed = 1.2
+local shopSpeed = 1.25
 local shopItemSpots = 3
 local shopMoveWidth = 280
 local shopGap = 280
@@ -22,7 +22,7 @@ local function GetShopPos(index)
 	shopGap = windowY*0.25
 	shopPos[1] = windowX*0.92
 	shopPos[2] = windowY*0.25
-	shopMoveWidth = windowX*0.15
+	shopMoveWidth = windowX*0.135
 	return world.ScreenToWorld(util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*shopGap}))
 end
 

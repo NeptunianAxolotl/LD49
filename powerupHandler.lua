@@ -10,6 +10,20 @@ local world
 
 local powerupList = {
 	"rope",
+	"chain",
+}
+
+local powerupDefs = {
+	rope = {
+		shopImage = "rope_powerup",
+		gameImage = "rope_strand",
+		strength = 0.9,
+	},
+	chain = {
+		shopImage = "chain_powerup",
+		gameImage = "chain_strand",
+		strength = 1.3,
+	},
 }
 
 local currentPowerup = false
@@ -40,6 +54,8 @@ local function DoPowerupMouseAction(x, y)
 		return
 	end
 	
+	local powerupData = powerupDefs[currentPowerup]
+	
 	local firstPos = firstClicked.LocalToWorld(firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
 	local joint = love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)
@@ -51,8 +67,9 @@ local function DoPowerupMouseAction(x, y)
 		startPos = firstClickedPos,
 		endComponent = component,
 		endPos = component.WorldToLocal({x, y}),
-		strength = 0.95,
+		strength = powerupData.strength,
 		restore = 0.01,
+		image = powerupData.gameImage,
 	}
 	
 	currentPowerup = false
@@ -82,7 +99,7 @@ end
 
 function self.DrawPowerup(drawQueue, powerupType, pos)
 	drawQueue:push({y=0; f=function()
-		Resources.DrawImage(powerupType, pos[1], pos[2], self.animDt)
+		Resources.DrawImage(powerupDefs[powerupType].shopImage, pos[1], pos[2], self.animDt)
 	end})
 end
 
