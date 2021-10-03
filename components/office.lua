@@ -21,14 +21,22 @@ for i = 1, 16 do
 	rayTests[i] = util.Mult(100, util.RotateVector({0 , 1}, i*math.pi/12))
 end
 
-local function CheckAdjacency(self, world)
+local function ResetAggregators(self, world)
+	self.hitByNuclear = 0
+end
+
+local function CheckAdjacency_Post(self, world)
 	local bx, by = self.body:getWorldCenter()
 	local physicsWorld = world.GetPhysicsWorld()
 	
-	local power = 2
+	print(self.hitByNuclear, self.hitByNuclear or 0 > 0)
+	if (self.hitByNuclear or 0) > 0 then
+		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+		return
+	end
+	
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
-		wasHitSum = 0
 		ignoreHitIndexUglyGlobal = self.index
 		marketingValueUglyGlobal = self.def.marketingValue
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
@@ -43,7 +51,8 @@ return {
 	backgroundImage = "office",
 	borderImage = "office",
 	borderThickness = 40,
-	CheckAdjacency = CheckAdjacency,
+	CheckAdjacency_Post = CheckAdjacency_Post,
+	ResetAggregators = ResetAggregators,
 	seaDamage = 0.05,
-	marketingValue = 0.2
+	marketingValue = 0.25
 }

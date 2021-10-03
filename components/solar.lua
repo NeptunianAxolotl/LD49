@@ -29,6 +29,10 @@ local rayTests = {
 	{600, -600},
 }
 
+local function ResetAggregators(self, world)
+	self.hitByMarketing = 0
+end
+
 local function GenerateEnergy(self, world)
 	local bx, by = self.body:getWorldCenter()
 	local physicsWorld = world.GetPhysicsWorld()
@@ -43,9 +47,14 @@ local function GenerateEnergy(self, world)
 			power = power + 2*math.max(0, 1 - wasHitSum)
 		end
 	end
-	
+
+	local text = power
+	if self.hitByMarketing > 0 then
+		text = text .. " + " .. math.floor(power*self.hitByMarketing)
+		power = power*(1 + self.hitByMarketing)
+	end
+	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
 	ComponentHandler.AddEnergy("solar", power)
-	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = power})
 end
 
 return {
@@ -53,6 +62,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	GenerateEnergy = GenerateEnergy,
+	ResetAggregators = ResetAggregators,
 	foregroundImage = "solar_icon",
 	backgroundImage = "solar",
 	borderImage = "solar",

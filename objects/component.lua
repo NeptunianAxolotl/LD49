@@ -309,7 +309,7 @@ local function SpeedLimit(self)
 end
 
 local function IsOverspeed(self)
-		if self.overSpeed then
+	if self.overSpeed then
 		local contacts = self.body:getContacts()
 		if #contacts == 0 then
 			return true
@@ -370,8 +370,14 @@ local function NewComponent(self, world)
 	end
 	
 	function self.CheckAdjacency()
-		if self.def.CheckAdjacency and not self.inShop then
+		if self.def.CheckAdjacency and not self.inShop and not IsOverspeed(self) then
 			self.def.CheckAdjacency(self, world)
+		end
+	end
+	
+	function self.CheckAdjacency_Post()
+		if self.def.CheckAdjacency_Post and not self.inShop and not IsOverspeed(self) then
+			self.def.CheckAdjacency_Post(self, world)
 		end
 	end
 	
