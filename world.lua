@@ -102,6 +102,7 @@ function self.Draw()
 	-- Draw interface
 	EffectsHandler.DrawInterface()
 	GameHandler.DrawInterface()
+	PowerupHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end

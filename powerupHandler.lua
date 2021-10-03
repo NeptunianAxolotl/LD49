@@ -115,11 +115,22 @@ function self.Draw(drawQueue)
 	if firstClicked and not firstClicked.dead then
 		local firstPos = firstClicked.LocalToWorld(firstClickedPos)
 		local mousePos = world.GetMousePosition()
-		drawQueue:push({y=0; f=function()
-			love.graphics.line(firstPos[1], firstPos[2], mousePos[1], mousePos[2])
+		drawQueue:push({y=Global.WORLD_MOUSE_DRAW_ORDER; 
+		f=function()
+			local linkVector = util.Subtract(mousePos, firstPos)
+			Resources.DrawImage(powerupDefs[currentPowerup].gameImage, firstPos[1], firstPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
 		end})
 	end
 end
+
+function self.DrawInterface()
+	if currentPowerup then
+		local x, y = love.mouse.getPosition()
+		local angle = math.sin(self.animDt*15)*0.2
+		Resources.DrawImage(powerupDefs[currentPowerup].shopImage, x, y, angle, 1, 0.5)
+	end
+end
+
 
 function self.Initialize(parentWorld)
 	world = parentWorld

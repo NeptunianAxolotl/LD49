@@ -9,6 +9,7 @@ local globals = {
 	LINK_DRAW_ORDER = 10,
 	PIECE_DRAW_ORDER = 4,
 	PIECE_DRAW_ORDER_SHOP = 20,
+	WORLD_MOUSE_DRAW_ORDER = 25,
 }
 
 return globals
