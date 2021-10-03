@@ -73,6 +73,7 @@ function self.Update(dt)
 	EffectsHandler.Update(dt)
 	MusicHandler.Update(dt)
 	SoundHandler.Update(dt)
+	island.Update(dt)
 	
 	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(dt, ComponentHandler.GetViewRestriction(), 550, 0.98, 0.98)
 	Camera.UpdateTransform(self.cameraTransform, cameraX, cameraY, cameraScale)

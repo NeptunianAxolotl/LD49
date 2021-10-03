@@ -7,8 +7,19 @@ local Resources = require("resourceHandler")
 local self = {}
 local api = {}
 
+local dTotal = 0
+
 function api.Update(dt)
-	IterableMap.ApplySelf(self.components, "Update", dt)
+	-- IterableMap.ApplySelf(self.components, "Update", dt)
+	dTotal = dTotal + dt
+
+	for i = 1, #self.waveCoordinates do
+		local xSway = self.randomWaveMagSpeed[i][1] * math.cos(dTotal * self.randomWaveMagSpeed[i][3])
+		local ySway = self.randomWaveMagSpeed[i][2] * math.sin(dTotal * self.randomWaveMagSpeed[i][4])
+		self.waveCoordinates[i][1] = self.waveCoordinates[i][1] + xSway
+		self.waveCoordinates[i][2] = self.waveCoordinates[i][2] + ySway
+	end
+
 end
 
 function api.Draw(drawQueue)
@@ -17,10 +28,8 @@ function api.Draw(drawQueue)
 			local x, y = self.body:getPosition()
 			local angle = self.body:getAngle()
 			
-			
-			
 			Resources.DrawImage("island", x, y)
-			
+
 			love.graphics.translate(x, y)
 			love.graphics.rotate(angle)
 			for s = 1, #self.coordSets do
@@ -32,6 +41,15 @@ function api.Draw(drawQueue)
 			end
 		love.graphics.pop()
 	end})
+
+	for i = 1, #self.randomDepth do
+		drawQueue:push({y=self.randomDepth[i]; f=function()
+			love.graphics.push()
+			Resources.DrawImage("waves", self.waveCoordinates[i][1], self.waveCoordinates[i][2], 0, self.randomAlpha[i], self.randomScale[i])
+			love.graphics.pop()
+		end})
+	end
+
 	if DRAW_DEBUG then
 		love.graphics.circle('line',self.pos[1], self.pos[2], def.radius)
 	end
@@ -41,6 +59,25 @@ function api.Initialize(physics)
 	self.pos = {560, 780}
 	self.shapes = {}
 	self.fixtures = {}
+
+	local numberOfWaves = 5
+	local leftWaveCoord = 400
+	local downWaveCoord = 850
+
+	self.waveCoordinates = {}
+	self.randomDepth = {}
+	self.randomAlpha = {}
+	self.randomScale = {}
+	self.randomWaveMagSpeed = {}
+
+	for i = 1, numberOfWaves do
+		self.waveCoordinates[i] = {leftWaveCoord + (700 * (math.random() - 0.5)), downWaveCoord + (200 * (math.random() - 0.5))}
+		self.randomDepth[i] = (math.random() - 0.5)
+		self.randomAlpha[i] = (0.5* math.random()) + 0.1
+		self.randomScale[i] = {0.6 * math.random()+ 0.4, 0.6 * math.random() + 0.4}
+		self.randomWaveMagSpeed[i] = {math.random() * 2, math.random() * 2, (math.random() * 2) + 1, (math.random() * 2) + 1}
+	end
+
 	
 	local lowerExtent = 200
 	local coordinates = {
