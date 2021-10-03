@@ -313,8 +313,20 @@ local function NewComponent(self, world)
 	end
 	
 	function self.GenerateEnergy(AggFunc)
-		if self.def.EnergyFunc and not self.inShop then
-			self.def.EnergyFunc(self, world, AggFunc)
+		if self.def.GenerateEnergy and not self.inShop then
+			self.def.GenerateEnergy(self, world, AggFunc)
+		end
+	end
+	
+	function self.ResetAggregators()
+		if self.def.ResetAggregators and not self.inShop then
+			self.def.ResetAggregators(self, world)
+		end
+	end
+	
+	function self.CheckAdjacency()
+		if self.def.CheckAdjacency and not self.inShop then
+			self.def.CheckAdjacency(self, world)
 		end
 	end
 	

@@ -66,6 +66,8 @@ function api.Update(dt)
 		self.energyTime = 0
 		self.totalEnergy = 0
 		self.energyByType = {}
+		IterableMap.ApplySelf(self.components, "ResetAggregators")
+		IterableMap.ApplySelf(self.components, "CheckAdjacency")
 		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
 	end
 end

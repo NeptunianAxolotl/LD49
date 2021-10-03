@@ -55,7 +55,7 @@ return {
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
-	EnergyFunc = GenerateEnergy,
+	GenerateEnergy = GenerateEnergy,
 	backgroundImage = "wind",
 	borderImage = "wind",
 	borderThickness = 40,
