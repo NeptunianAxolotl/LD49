@@ -14,13 +14,14 @@ local function UpdateCameraToPlayer(dt, playerPos, playerVelocity, playerSpeed, 
 end
 
 local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scaleSmooth)
-	if #pointList == 0 then
-		return self.cameraPos[1], self.cameraPos[2], self.cameraScale
-	end
-	local left, right, top, bottom = pointList[1][1] - radius, pointList[1][1] + radius, pointList[1][2] - radius, pointList[1][2] + radius
-	for i = 2, #pointList do
-		left, right = math.min(left, pointList[i][1] - radius), math.max(right, pointList[i][1] + radius)
-		top, bottom = math.min(top, pointList[i][2] - radius), math.max(bottom, pointList[i][2] + radius)
+	local left, right, top, bottom = self.pinX[2], self.pinY[2], self.pinX[2], self.pinY[2]
+	
+	if #pointList > 0 then
+		local left, right, top, bottom = pointList[1][1] - radius, pointList[1][1] + radius, pointList[1][2] - radius, pointList[1][2] + radius
+		for i = 2, #pointList do
+			left, right = math.min(left, pointList[i][1] - radius), math.max(right, pointList[i][1] + radius)
+			top, bottom = math.min(top, pointList[i][2] - radius), math.max(bottom, pointList[i][2] + radius)
+		end
 	end
 	
 	if self.pinY then
