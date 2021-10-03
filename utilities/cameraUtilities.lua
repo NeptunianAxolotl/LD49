@@ -34,7 +34,7 @@ local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scale
 	
 	if self.pinX then
 		if self.pinX[2] == 0.5 then
-			local sideDiff = math.max((self.pinX[1] - left)*(1 - self.pinX[2]), (right - self.pinX[1])*self.pinX[2])
+			local sideDiff = math.max((self.pinX[1] - left)*2, (right - self.pinX[1])*2)
 			if self.minScaleX and sideDiff < self.minScaleX then
 				sideDiff = self.minScaleX
 			end
@@ -60,10 +60,6 @@ local function UpdateTransform(cameraTransform, cameraX, cameraY, cameraScale)
 	local windowX, windowY = love.window.getMode()
 	local boundLimit = math.min(windowX, windowY)
 	self.scaleMult = {boundLimit/windowX, boundLimit/windowY}
-	
-	if math.random() < 0.01 then
-		print(boundLimit, cameraX, cameraY, cameraScale)
-	end
 	
 	if self.pinY then
 		if self.pinY[2] == 1 then

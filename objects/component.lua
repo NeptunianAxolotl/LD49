@@ -58,19 +58,29 @@ local function MakeBodyShapeFixtures(self, physicsWorld)
 		local back = self.coords[(i - 2)%#self.coords + 1]
 		local front = self.coords[i%#self.coords + 1]
 		local coord = self.coords[i]
+		--print((i - 2)%#self.coords + 1, i, i%#self.coords + 1, #self.coords)
 		
 		local cross = util.Cross2D(util.Subtract(front, coord), util.Subtract(coord, back))
 		if cross > 0 then
+			--print("Split", i)
 			splitCoords[i] = true
 		end
 	end
 	
 	local firstSplit = false
+	local mirrorSplit = {}
 	for i = 1, #self.coords do
-		if splitCoords[(i + math.floor(#self.coords/2))%#self.coords + 1] then
+		if splitCoords[(i + math.floor(#self.coords/2) - 1)%#self.coords + 1] then
 			if not firstSplit then
 				firstSplit = i
 			end
+			mirrorSplit[i] = true
+			--print("Split Other", i)
+		end
+	end
+	
+	for i = 1, #self.coords do
+		if mirrorSplit[i] then
 			splitCoords[i] = true
 		end
 	end
@@ -89,20 +99,27 @@ local function MakeBodyShapeFixtures(self, physicsWorld)
 	
 	self.body = love.physics.newBody(physicsWorld, self.pos[1], self.pos[2], "dynamic")
 	
+	self.drawSplit = {}
 	local modCoords = {}
+	local drawCoods = {}
 	local i = firstSplit
 	while true do
 		if splitCoords[i] then
 			modCoords = {}
 			modCoords[#modCoords + 1] = 0
 			modCoords[#modCoords + 1] = 0
+			drawCoods[#drawCoods + 1] = {0, 0}
 		end
 		modCoords[#modCoords + 1] = self.coords[i][1]
 		modCoords[#modCoords + 1] = self.coords[i][2]
+		drawCoods[#drawCoods + 1] = self.coords[i]
 		i = i%(#self.coords) + 1
 		if splitCoords[i] then
 			modCoords[#modCoords + 1] = self.coords[i][1]
 			modCoords[#modCoords + 1] = self.coords[i][2]
+			drawCoods[#drawCoods + 1] = self.coords[i]
+			
+			self.drawSplit[#self.drawSplit + 1] = drawCoods
 			local shape = love.physics.newPolygonShape(unpack(modCoords))
 			local fixture = love.physics.newFixture(self.body, shape, self.def.density)
 			self.shapes[#self.shapes + 1] = shape
@@ -332,10 +349,14 @@ local function NewComponent(self, world)
 				love.graphics.setColor(1,1,1)
 				love.graphics.setLineWidth(2)
 
-
-				--for i = 1, #self.coords do
-				--	local other = self.coords[(i < #self.coords and (i + 1)) or 1]
-				--	love.graphics.line(self.coords[i][1], self.coords[i][2], other[1], other[2])
+				--if self.drawSplit then
+				--	for s = 1, #self.drawSplit do
+				--		local split = self.drawSplit[s]
+				--		for i = 1, #split do
+				--			local other = split[(i < #split and (i + 1)) or 1]
+				--			love.graphics.line(split[i][1], split[i][2], other[1], other[2])
+				--		end
+				--	end
 				--end
 
 				love.graphics.setLineWidth(1)
