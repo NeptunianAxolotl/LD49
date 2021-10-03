@@ -20,6 +20,9 @@ local defs = {
 	{
 		name = "marine",
 	},
+	{
+		name = "nuclear",
+	},
 }
 
 for i = 1, #defs do
