@@ -70,7 +70,7 @@ local function CheckRestock(dt)
 			self.position = self.position + dt*shopSpeed
 		end
 		if self.position > 0.2 and self.wantResearch then
-			GameHandler.DoResearchTurn()
+			GameHandler.DoTurn()
 			self.wantResearch = false
 		end
 		if self.position >= 1 then

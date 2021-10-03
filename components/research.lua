@@ -19,6 +19,7 @@ local function GenerateEnergy(self, world, AggFunc)
 end
 
 return {
+	density = 2 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
@@ -26,7 +27,7 @@ return {
 	backgroundImage = "research",
 	borderImage = "research",
 	borderThickness = 40,
-	researchPower = 0.1,
+	researchPower = 10,
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.06,

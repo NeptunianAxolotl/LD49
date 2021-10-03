@@ -18,13 +18,18 @@ function self.AddSeaDamage(damage)
 end
 
 function self.UpdateRates(research, popCost, popRoom)
-	self.researchRate = research/self.researchCost
+	self.researchRate = research/DeckHandler.GetResearchCost()
 	self.adminRequired = popCost
 	self.adminSupplied = popRoom
 end
 
-function self.DoResearchTurn(damage)
+function self.DoTurn()
+	self.turn = self.turn + 1
 	self.researchProgress = self.researchProgress + self.researchRate
+	if self.researchProgress >= 1 then
+		self.researchProgress = 0
+		DeckHandler.TechUp()
+	end
 end
 
 function self.GetWorkEfficiency()
@@ -35,6 +40,10 @@ function self.GetWorkEfficiency()
 		return 1
 	end
 	return 1
+end
+
+function self.GetTurn()
+	return self.turn
 end
 
 function self.GetPostPowerMult()
@@ -82,6 +91,11 @@ function self.DrawInterface()
 	love.graphics.printf("Admin bonus: " .. math.floor(100*(self.GetPostPowerMult() - 1)) .. "%", drawPos[1] + 45, drawPos[2] - 160, 500, "left")
 	love.graphics.setColor(1, 1, 1, 1)
 	
+	love.graphics.setColor(1, 1, 1, 1)
+	Font.SetSize(0)
+	love.graphics.printf("Turn: " .. self.turn, drawPos[1] + 45, drawPos[2] - 800, 500, "left")
+	love.graphics.setColor(1, 1, 1, 1)
+	
 	drawPos = world.ScreenToInterface({windowX, 0})
 	Resources.DrawImage("menu_button", drawPos[1], math.ceil(drawPos[2]))
 end
@@ -94,6 +108,7 @@ function self.Initialize(parentWorld)
 	self.researchCost = 1
 	self.adminRequired = 0
 	self.adminSupplied = 0
+	self.turn = 0
 end
 
 return self

@@ -39,7 +39,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	local physicsWorld = world.GetPhysicsWorld()
 	local work = GameHandler.GetWorkEfficiency()
 	
-	local power = 30
+	local power = 60
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		wasHitSum = 0
@@ -64,6 +64,7 @@ local function GenerateEnergy(self, world, AggFunc)
 end
 
 return {
+	density = 1 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,

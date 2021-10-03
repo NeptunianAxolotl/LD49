@@ -46,6 +46,7 @@ local function CheckAdjacency_Post(self, world, AggFunc)
 end
 
 return {
+	density = 1.8 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,

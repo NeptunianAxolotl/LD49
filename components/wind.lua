@@ -20,12 +20,12 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 end
 
 local rayTests = {
-	{-400, 0},
-	{-400, -50},
-	{-400, 50},
-	{400, 0},
-	{400, -50},
-	{400, 50},
+	{-200, 0},
+	{-200, -50},
+	{-200, 50},
+	{200, 0},
+	{200, -50},
+	{200, 50},
 }
 local raySide = {
 	-25,
@@ -46,16 +46,16 @@ local function GenerateEnergy(self, world, AggFunc)
 	local physicsWorld = world.GetPhysicsWorld()
 	local work = GameHandler.GetWorkEfficiency()
 
-	local heightMult = (1000 - by)/1000 + 1
+	local heightMult = (1000 - by)/1200 + 1
 	
-	local power = 20
+	local power = 60
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx + raySide[i], by}, rayTests[i])
 		wasHitSum = 0
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 5, rayPos[1], rayPos[2], HitTest)
 		if wasHitSum < 1 then
-			power = power + 10*math.max(0, 1 - wasHitSum)
+			power = power + 12*math.max(0, 1 - wasHitSum)
 		end
 	end
 	power = (power*0.35 + power*0.65*heightMult)*work
@@ -73,6 +73,7 @@ local function GenerateEnergy(self, world, AggFunc)
 end
 
 return {
+	density = 1.4 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,

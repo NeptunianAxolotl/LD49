@@ -3,10 +3,6 @@ local util = require("include/util")
 local Resources = require("resourceHandler")
 local Font = require("include/font")
 
-local DEF = {
-	density = 1,
-}
-
 local function RandomCut(sections, minAngle)
 	local cuts = {0}
 	local sectionAngle = 2 * math.pi/sections
@@ -461,7 +457,7 @@ local function NewComponent(self, world)
 		self.mouseAnchor = util.RotateVector(util.Subtract(mousePoint, bodyPoint), -angle)
 		self.body:setGravityScale(0)
 		for i = 1, #self.fixtures do
-			self.fixtures[i]:setFriction(self.def.friction or 0.98)
+			self.fixtures[i]:setFriction(self.def.friction or 0.99)
 		end
 	end
 	

@@ -20,6 +20,7 @@ local function GenerateEnergy(self, world, AggFunc)
 end
 
 return {
+	density = 3 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
