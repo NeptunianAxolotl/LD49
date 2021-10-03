@@ -42,7 +42,9 @@ end
 
 function api.AddEnergy(eType, value)
 	self.energyByType[eType] = (self.energyByType[eType] or 0) + value
-	self.totalEnergy = self.totalEnergy + value
+	if eType ~= "research" then
+		self.totalEnergy = self.totalEnergy + value
+	end
 end
 
 function api.GetEnergy(eType)
@@ -50,6 +52,10 @@ function api.GetEnergy(eType)
 		return (self.totalEnergy[eType] or 0)
 	end
 	return self.totalEnergy or 0
+end
+
+function api.GetResearch(eType)
+	return (self.totalEnergy["research"] or 0)
 end
 
 function api.GetViewRestriction()

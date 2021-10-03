@@ -18,7 +18,7 @@ end
 
 local rayTests = {}
 for i = 1, 16 do
-	rayTests[i] = util.Mult(100, util.RotateVector({0 , 1}, i*math.pi/12))
+	rayTests[i] = util.Mult(120, util.RotateVector({0 , 1}, i*math.pi/12))
 end
 
 local function ResetAggregators(self, world)
@@ -54,5 +54,5 @@ return {
 	CheckAdjacency_Post = CheckAdjacency_Post,
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.05,
-	marketingValue = 0.25
+	marketingValue = 0.5
 }
