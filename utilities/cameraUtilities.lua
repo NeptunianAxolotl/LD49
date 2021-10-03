@@ -76,10 +76,10 @@ end
 
 local function Initialize(data)
 	self = {
-		cameraPos = {0, 0},
+		cameraPos = data.initPos or {0, 0},
 		cameraVelocity = {0, 0},
 		posVelocity = {0, 0},
-		cameraScale = 0.93,
+		cameraScale = data.initScale or 1080,
 		pinX = data.pinX,
 		pinY = data.pinY,
 		minScaleX = data.minScaleX,

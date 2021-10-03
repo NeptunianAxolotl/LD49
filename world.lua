@@ -54,7 +54,7 @@ function self.Update(dt)
 	MusicHandler.Update(dt)
 	SoundHandler.Update(dt)
 	
-	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(dt, ComponentHandler.GetViewRestriction(), 200, 0.1, 0.1)
+	local cameraX, cameraY, cameraScale = Camera.UpdateCameraToViewPoints(dt, ComponentHandler.GetViewRestriction(), 500, 0.98, 0.98)
 	Camera.UpdateTransform(self.cameraTransform, cameraX, cameraY, cameraScale)
 end
 
@@ -104,7 +104,13 @@ function self.Initialize()
 	island.Initialize(self)
 	
 	-- Note that the camera pins only function for these particular second entries.
-	Camera.Initialize({pinX = {980, 0.5}, pinY = {900, 1}, minScaleX = 1000/1600, minScaleY = 1000})
+	Camera.Initialize({
+		pinX = {980, 0.5},
+		pinY = {900, 1},
+		minScaleX = 1000/1600,
+		minScaleY = 1000,
+		initPos = {980, 500}
+	})
 end
 
 return self

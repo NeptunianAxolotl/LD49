@@ -80,20 +80,6 @@ function api.Initialize(world)
 	for key,_ in pairs(ComponentDefs) do
 		self.componentDefList[#self.componentDefList + 1] = key
 	end
-	
-	-- Testing
-	data = {
-		initVelocity = {80, 80}
-	}
-	api.SpawnComponent("generator", {200, 200}, data)
-	data = {
-		initVelocity = {-80, 80}
-	}
-	api.SpawnComponent("generator", {400, 200}, data)
-	data = {
-		initVelocity = {-80, 0}
-	}
-	api.SpawnComponent("generator", {600, 200}, data)
 end
 
 return api
