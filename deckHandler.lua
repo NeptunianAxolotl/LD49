@@ -10,12 +10,11 @@ local techProgression = require("defs/techProgression")
 local self = {}
 local world
 
--- Note that the deck is drawn backwards.
 local initialDeck = {
-	"wind",
-	"research",
-	"fuelcell",
 	"nuclear_generator",
+	"fuelcell",
+	"research",
+	"wind",
 }
 
 local function GetDrawSize()
@@ -31,10 +30,10 @@ local function DrawCard()
 			return (math.random() < 0.5 and "wind") or "research"
 		end
 		util.Permute(self.deck)
-		self.drawIndex = #self.deck
+		self.drawIndex = 1
 	end
 	local draw = self.deck[self.drawIndex]
-	self.drawIndex = self.drawIndex - 1
+	self.drawIndex = self.drawIndex + 1
 	return draw
 end
 
@@ -49,6 +48,12 @@ function self.TechUp()
 			print("adding", tech.newCards[i])
 			self.deck[#self.deck + 1] = tech.newCards[i]
 		end
+	end
+	if tech.jumpToEnd then
+		self.drawIndex = #self.deck
+	end
+	if tech.shuffleDeck then
+		util.Permute(self.deck)
 	end
 	if tech.drawSize then
 		self.drawSize = tech.drawSize
@@ -84,7 +89,7 @@ end
 function self.Initialize(parentWorld)
 	world = parentWorld
 	self.deck = util.CopyTable(initialDeck)
-	self.drawIndex = #self.deck
+	self.drawIndex = 1
 	self.drawSize = 2
 	self.currentTech = 1
 	self.nextTechCost = techProgression.GetTech(self.currentTech).cost

@@ -99,6 +99,8 @@ function api.Initialize(world)
 	}
 	
 	self.energyTime = 0
+	self.energyByType = {}
+	
 	self.componentDefList = {}
 	for key,_ in pairs(ComponentDefs) do
 		self.componentDefList[#self.componentDefList + 1] = key

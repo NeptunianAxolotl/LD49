@@ -25,7 +25,7 @@ end
 
 function self.DoTurn()
 	self.turn = self.turn + 1
-	self.researchProgress = self.researchProgress + self.researchRate
+	self.researchProgress = self.researchProgress + ComponentHandler.GetResearchRate()/DeckHandler.GetResearchCost()
 	if self.researchProgress >= 1 then
 		self.researchProgress = 0
 		DeckHandler.TechUp()

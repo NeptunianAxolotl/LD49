@@ -1,29 +1,34 @@
 
 local techProgression = {
 	{
-		cost = 40,
+		cost = 50,
 		newCards = {
 			"solar",
 			"wind",
 			"solar",
-			"research",
 		},
-	},
-	{
-		cost = 40,
-		newCards = {
-			"rope",
-			"fuelcell",
-			"wind",
-		},
+		jumpToEnd = true,
 	},
 	{
 		cost = 120,
 		newCards = {
-			"solar",
-			"wind",
 			"fuelcell",
+			"wind",
+			"rope",
 		},
+		jumpToEnd = true,
+	},
+	{
+		cost = 240,
+		newCards = {
+			"solar",
+			"research",
+			"fuelcell",
+			"wind",
+			"nuclear_generator",
+			"rope",
+		},
+		shuffleDeck = true,
 	},
 	{
 		cost = 600,

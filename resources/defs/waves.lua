@@ -5,6 +5,6 @@ return {
 	xScale = 0.5,
 	yScale = 0.8,
 	width = 400,
-	xOffset = 0,
-	yOffset = 0.35,
+	xOffset = 0.5,
+	yOffset = 0.22,
 }

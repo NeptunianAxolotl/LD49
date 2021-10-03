@@ -12,7 +12,7 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		return 1
 	end
 	if wasHitMultParam then
-		wasHitSum = wasHitSum + (component.def.wind_opacity or 0.6)
+		wasHitSum = wasHitSum + (component.def.wind_opacity or 0.5)
 	else
 		wasHitSum = wasHitSum + 1
 	end
@@ -73,10 +73,11 @@ local function GenerateEnergy(self, world, AggFunc)
 end
 
 return {
-	density = 1.4 * Global.DENSITY_MULT,
+	density = 1 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
+	wind_opacity = 0.75,
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
 	foregroundImage = "wind_icon",

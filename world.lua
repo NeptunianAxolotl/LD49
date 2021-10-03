@@ -4,7 +4,7 @@ local MusicHandler = require("musicHandler")
 local ModuleTest = require("moduleTest")
 EffectsHandler = require("effectsHandler")
 
-local Camera = require("utilities/cameraUtilities")
+Camera = require("utilities/cameraUtilities")
 
 local PhysicsHandler = require("physicsHandler")
 local PowerupHandler = require("powerupHandler")

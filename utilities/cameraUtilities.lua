@@ -52,7 +52,7 @@ local function UpdateCameraToViewPoints(dt, pointList, radius, moveSmooth, scale
 	self.cameraVelocity = util.Average(self.cameraVelocity, self.posVelocity, (1 - moveSmooth))
 	local newPos = util.Add(util.Mult(dt, self.cameraVelocity), util.Average(self.cameraPos, wantedPos, (1 - moveSmooth)))
 	self.cameraScale = self.cameraScale*scaleSmooth + wantedScale*(1 - scaleSmooth)
-	
+
 	self.posVelocity = util.Subtract(newPos, self.cameraPos)
 	self.cameraPos = newPos
 	
@@ -77,6 +77,10 @@ local function UpdateTransform(cameraTransform, cameraX, cameraY, cameraScale)
 		cameraX, cameraY)
 end
 
+local function GetCameraScale()
+	return self.cameraScale
+end
+
 local function Initialize(data)
 	self = {
 		cameraPos = data.initPos or {0, 0},
@@ -98,4 +102,5 @@ return {
 	UpdateCameraToViewPoints = UpdateCameraToViewPoints,
 	UpdateTransform = UpdateTransform,
 	Initialize = Initialize,
+	GetCameraScale = GetCameraScale,
 }

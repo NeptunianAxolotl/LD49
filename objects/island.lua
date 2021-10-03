@@ -43,11 +43,16 @@ function api.Draw(drawQueue)
 			--end
 		love.graphics.pop()
 	end})
-
+	
+	local sideScaleMult = math.max(1, Camera.GetCameraScale() / 3000)
 	for i = 1, #self.randomDepth do
 		drawQueue:push({y=self.randomDepth[i]; f=function()
 			love.graphics.push()
-			Resources.DrawImage("waves", self.waveCoordinates[i][1], self.waveCoordinates[i][2], 0, self.randomAlpha[i], self.randomScale[i])
+			local scale = self.randomScale[i]
+			if sideScaleMult > 1 then
+				scale = {scale[1]*sideScaleMult, scale[2]}
+			end
+			Resources.DrawImage("waves", self.waveCoordinates[i][1], self.waveCoordinates[i][2], 0, self.randomAlpha[i], scale)
 			love.graphics.pop()
 		end})
 	end
@@ -55,7 +60,11 @@ function api.Draw(drawQueue)
 	drawQueue:push({y=-10; f=function()
 		love.graphics.push()
 			local x, y = self.body:getPosition()
-			Resources.DrawImage("sky", x, y + 300)
+			local scale = false
+			if sideScaleMult > 1 then
+				scale = {sideScaleMult, 1}
+			end
+			Resources.DrawImage("sky", x, y + 300, 0, 1, scale)
 		love.graphics.pop()
 	end})
 
@@ -68,27 +77,31 @@ function api.Initialize(physics)
 	self.pos = {560, 780}
 	self.shapes = {}
 	self.fixtures = {}
-
+	
 	self.waveCoordinates = {{-50,830},{-100,800},{-80,900},{-140,930},{-50,740},{-200,670},{-100,700},{-20,810},{-100,790}, {-200,980}}
-	self.randomDepth = {iQR+0.5,iQR+0.5,iQR+0.6,iQR-0.1,iQR,iQR-0.2,iQR-0.3,iQR+15,iQR+14, iQR+20}
+	for i = 1, #self.waveCoordinates do
+		self.waveCoordinates[i][1] = self.waveCoordinates[i][1] + 600
+	end
+	
+	self.randomDepth = {iQR+0.5,iQR+0.5,iQR+0.6,iQR-0.1,iQR,iQR-0.2,iQR-0.3,iQR+6,iQR+7, iQR+8}
 	self.randomAlpha = {0.2,0.2,0.3,0.3,0.4,0.6,0.7,0.9,0.7, 1}
 	self.randomScale = {{2,0.8},{5,0.6},{3,0.4},{6,0.5},{5,0.7},{6,0.6},{8,0.4},{4,0.4},{3,0.2},{7,0.4}}
 	self.randomWaveMagSpeed = {{5,0.3,1.2,0.6},{4.3,0.3,0.7,0.9},{0.3,0.1,3,1.5},{1,0.6,1.8,1.5},{2.5,0.19,1.45,1.2},{0.6,0.15,1.3,1.},{2.2,0.2,2.5,1.2},{3,0.1,0.6,0.3},{2.5,0.2,0.9,0.4},{0.1,0.03,1,0.3}}
 
-	
 	local lowerExtent = 200
+	local islandScale = 1.08
 	local coordinates = {
-		{-20, 50},
-		{4, 0},
-		{18, -3},
-		{45, -7.5},
-		{100, -10},
-		{275, -12},
-		{450, -10},
-		{505, -7.5},
-		{532, -3},
-		{546, 0},
-		{570, 50},
+		{islandScale * 0, 50},
+		{islandScale * 10, 0},
+		{islandScale * 18, -3},
+		{islandScale * 45, -7.5},
+		{islandScale * 100, -10},
+		{islandScale * 275, -12},
+		{islandScale * 450, -10},
+		{islandScale * 505, -7.5},
+		{islandScale * 532, -3},
+		{islandScale * 546, 0},
+		{islandScale * 556, 50},
 		--{21, -41},
 		--{51, -78},
 		--{74, -116},

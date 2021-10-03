@@ -449,6 +449,11 @@ local function NewComponent(self, world)
 			for i = 1, #self.fixtures do
 				self.fixtures[i]:setMask()
 			end
+			local AggFunc = ComponentHandler.AddEnergy
+			self.ResetAggregators(AggFunc)
+			self.CheckAdjacency(AggFunc)
+			self.CheckAdjacency_Post(AggFunc)
+			self.GenerateEnergy(AggFunc)
 		end
 		local bx, by = self.body:getPosition()
 		local angle = self.body:getAngle()
