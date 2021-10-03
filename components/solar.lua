@@ -53,7 +53,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	GenerateEnergy = GenerateEnergy,
-	foregroundImage = "office",
+	foregroundImage = "solar_icon",
 	backgroundImage = "solar",
 	borderImage = "solar",
 	borderThickness = 40,

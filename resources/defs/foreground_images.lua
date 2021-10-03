@@ -1,24 +1,24 @@
 local defs = {
 	{
-		name = "green",
+		name = "solar_icon",
 	},
 	{
-		name = "border",
+		name = "wind_icon",
 	},
 	{
-		name = "solar",
+		name = "office_icon",
 	},
 	{
-		name = "wind",
+		name = "research_icon",
 	},
 	{
-		name = "office",
+		name = "marine_icon",
 	},
 	{
-		name = "research",
+		name = "generator_icon",
 	},
 	{
-		name = "marine",
+		name = "fuelcell_icon",
 	},
 }
 
@@ -28,7 +28,7 @@ for i = 1, #defs do
 	defs[i].yScale = 0.25
 	defs[i].xOffset = 0
 	defs[i].yOffset = 0
-	defs[i].file = "resources/images/polygonTextures/" .. defs[i].name .. ".png"
+	defs[i].file = "resources/images/polygonIcons/" .. defs[i].name .. ".png"
 end
 
 return defs

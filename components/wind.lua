@@ -56,6 +56,7 @@ return {
 	minSize = 80,
 	maxSize = 100,
 	GenerateEnergy = GenerateEnergy,
+	foregroundImage = "wind_icon",
 	backgroundImage = "wind",
 	borderImage = "wind",
 	borderThickness = 40,

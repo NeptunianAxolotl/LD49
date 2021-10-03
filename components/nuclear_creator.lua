@@ -41,8 +41,9 @@ return {
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
-	backgroundImage = "nuclear_creator",
-	borderImage = "nuclear_creator",
+	foregroundImage = "fuelcell_icon",
+	backgroundImage = "nuclear",
+	borderImage = "nuclear",
 	borderThickness = 40,
 	CheckAdjacency = CheckAdjacency,
 }
