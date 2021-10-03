@@ -15,7 +15,7 @@ local shopGap = 280
 local shopPos = {1760, 220}
 
 local powerupRadius = 180
-local powerupChance = 0.25
+local powerupChance = 0.18
 
 local function GetShopPos(index)
 	local windowX, windowY = love.window.getMode()
@@ -35,12 +35,14 @@ local function RestockItems()
 	end
 	
 	self.items = {}
+	local alreadyFoundPickup = false
 	for i = 1, shopItemSpots do
-		if math.random() < powerupChance then
+		if math.random() < powerupChance and not alreadyFoundPickup then
 			self.items[#self.items + 1] = {
 				isPowerup = true,
 				powerupType = PowerupHandler.GetRandomPowerup(),
 			}
+			alreadyFoundPickup = true
 		else
 			local compData = {
 				inShop = true,

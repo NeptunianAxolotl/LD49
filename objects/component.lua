@@ -206,6 +206,36 @@ local function SetupMeshes(self)
 	Resources.SetTexture(self.borderMesh, self.def.borderImage)
 end
 
+local function UpdateJoints(self)
+	if not self.jointData then
+		return
+	end
+	
+	for i = 1, #self.jointData do
+		local data = self.jointData[i]
+		if not data.endComponent.dead then
+			local x, y = data.joint:getReactionForce(0.033)
+			local stress = util.AbsVal({x, y})
+			data.stressIndex = (data.stressIndex or 0)%Global.STRESS_AVE_TIME + 1
+			data.stressRem = data.stressRem or {}
+			data.stressRem[data.stressIndex] = stress
+			if #data.stressRem == Global.STRESS_AVE_TIME then
+				local minStress = stress
+				for j = 1, #data.stressRem do
+					if data.stressRem[j] < stress then
+						minStress = data.stressRem[j]
+					end
+				end
+				if data.strength > data.strength then
+					data.joint:setMaxLength(data.joint:getMaxLength() + math.min(data.strength + 1, minStress - data.strength))
+				elseif minStress < data.restore and data.joint:getMaxLength() > data.desiredLength then
+					data.joint:setMaxLength(data.joint:getMaxLength() - 0.15)
+				end
+			end
+		end
+	end
+end
+
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
@@ -251,31 +281,7 @@ local function NewComponent(self, world)
 			self.body:setAngularVelocity(1)
 		end
 		
-		if self.jointData then
-			for i = 1, #self.jointData do
-				local data = self.jointData[i]
-				if not data.endComponent.dead then
-					local x, y = data.joint:getReactionForce(0.033)
-					local stress = util.AbsVal({x, y})
-					data.stressIndex = (data.stressIndex or 0)%Global.STRESS_AVE_TIME + 1
-					data.stressRem = data.stressRem or {}
-					data.stressRem[data.stressIndex] = stress
-					if #data.stressRem == Global.STRESS_AVE_TIME then
-						local minStress = stress
-						for j = 1, #data.stressRem do
-							if data.stressRem[j] < stress then
-								minStress = data.stressRem[j]
-							end
-						end
-						if minStress > 0.8 then
-							data.joint:setMaxLength(data.joint:getMaxLength() + math.min(1.5, minStress - 0.8))
-						elseif minStress < 0.001 and data.joint:getMaxLength() > data.desiredLength then
-							data.joint:setMaxLength(data.joint:getMaxLength() - 0.15)
-						end
-					end
-				end
-			end
-		end
+		UpdateJoints(self)
 		
 		local bx, by = self.body:getPosition()
 		if by > 1020 then

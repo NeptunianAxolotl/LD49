@@ -51,6 +51,8 @@ local function DoPowerupMouseAction(x, y)
 		startPos = firstClickedPos,
 		endComponent = component,
 		endPos = component.WorldToLocal({x, y}),
+		strength = 0.95,
+		restore = 0.01,
 	}
 	
 	currentPowerup = false
