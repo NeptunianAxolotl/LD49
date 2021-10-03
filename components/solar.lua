@@ -44,6 +44,7 @@ local function GenerateEnergy(self, world)
 		end
 	end
 	
+	ComponentHandler.AddEnergy("solar", power)
 	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = power})
 end
 

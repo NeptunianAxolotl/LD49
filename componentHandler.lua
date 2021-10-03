@@ -40,8 +40,16 @@ function api.MouseReleased(x, y)
 	IterableMap.ApplySelf(self.components, "SetMouseAnchor")
 end
 
-function api.AddEnergy(value)
+function api.AddEnergy(eType, value)
+	self.energyByType[eType] = (self.energyByType[eType] or 0) + value
 	self.totalEnergy = self.totalEnergy + value
+end
+
+function api.GetEnergy(eType)
+	if eType then
+		return (self.totalEnergy[eType] or 0)
+	end
+	return self.totalEnergy or 0
 end
 
 function api.GetViewRestriction()
@@ -57,6 +65,7 @@ function api.Update(dt)
 	if self.energyTime > Global.ENERGY_TIME_PERIOD then
 		self.energyTime = 0
 		self.totalEnergy = 0
+		self.energyByType = {}
 		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
 	end
 end
