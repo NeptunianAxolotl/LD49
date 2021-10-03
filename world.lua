@@ -35,11 +35,16 @@ function self.ScreenToWorld(pos)
 	return {x, y}
 end
 
+function self.ScreenToInterface(pos)
+	local x, y = self.interfaceTransform:inverse():transformPoint(pos[1], pos[2])
+	return {x, y}
+end
+
+
 function self.GetMousePosition()
 	local x, y = love.mouse.getPosition()
 	return self.ScreenToWorld({x, y})
 end
-
 
 function self.MouseReleased(x, y)
 	x, y = self.cameraTransform:inverse():transformPoint(x, y)
@@ -96,6 +101,7 @@ function self.Draw()
 	
 	-- Draw interface
 	EffectsHandler.DrawInterface()
+	InterfaceHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end
@@ -112,14 +118,15 @@ function self.Initialize()
 	ComponentHandler.Initialize(self)
 	PowerupHandler.Initialize(self)
 	ShopHandler.Initialize(self)
+	InterfaceHandler.Initialize(self)
 	island.Initialize(self)
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({
-		pinX = {980, 0.5},
+		pinX = {875, 0.5},
 		pinY = {900, 1},
 		minScale = 1000,
-		initPos = {980, 500}
+		initPos = {875, 500}
 	})
 end
 
