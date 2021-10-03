@@ -258,6 +258,11 @@ local function NewComponent(self, world)
 				end
 			end
 		end
+		
+		local bx, by = self.body:getPosition()
+		if by > 1020 then
+			return true -- Destroy
+		end
 	end
 	
 	function self.ClickTest(x, y, noShop)
