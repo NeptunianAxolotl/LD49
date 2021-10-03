@@ -18,8 +18,12 @@ local powerupRadius = 180
 local powerupChance = 0.25
 
 local function GetShopPos(index)
-	--local windowX, windowY = love.window.getMode()
-	return util.Add(world.ScreenToWorld(shopPos), {self.position*shopMoveWidth, (index - 1)*shopGap})
+	local windowX, windowY = love.window.getMode()
+	shopGap = windowY*0.25
+	shopPos[1] = windowX*0.92
+	shopPos[2] = windowY*0.25
+	shopMoveWidth = windowX*0.15
+	return world.ScreenToWorld(util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*shopGap}))
 end
 
 local function RestockItems()

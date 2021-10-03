@@ -247,6 +247,8 @@ local function NewComponent(self, world)
 		elseif self.mouseJoint then
 			self.mouseJoint:destroy()
 			self.mouseJoint = nil
+		elseif self.inShop then
+			self.body:setAngularVelocity(1)
 		end
 		
 		if self.jointData then
