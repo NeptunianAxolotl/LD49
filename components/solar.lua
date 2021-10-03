@@ -1,19 +1,18 @@
 local util = require("include/util")
 
 local wasHitSum = false
-local wasHitMultParam = false
 local ignoreHitIndexUglyGlobal = false
 local function HitTest(fixture, x, y, xn, yn, fraction)
 	local component = fixture:getUserData()
-	if component and component.index == ignoreHitIndexUglyGlobal then
+	if component and (component.index == ignoreHitIndexUglyGlobal or component.inShop or component.isDead) then
 		return 1
 	end
 	if not component then
 		wasHitSum = wasHitSum + 1
 		return 1
 	end
-	if wasHitMultParam and ComponentHandler.GetComponentByIndex(component.index) then
-		wasHitSum = wasHitSum + (ComponentHandler.GetComponentByIndex(component.index).def[wasHitMultParam] or 1)
+	if wasHitMultParam then
+		wasHitSum = wasHitSum + (component.def.opacity or 1)
 	else
 		wasHitSum = wasHitSum + 1
 	end
@@ -38,7 +37,6 @@ local function GenerateEnergy(self, world)
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		wasHitSum = 0
-		wasHitMultParam = "opacity"
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
 		if wasHitSum < 1 then

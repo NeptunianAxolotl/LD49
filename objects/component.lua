@@ -396,7 +396,7 @@ local function NewComponent(self, world)
 		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
 		for i = 1, #self.fixtures do
-			self.fixtures[i]:setFriction(self.def.friction or 0.95)
+			self.fixtures[i]:setFriction(self.def.friction or 0.98)
 		end
 	end
 	
