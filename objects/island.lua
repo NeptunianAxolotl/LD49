@@ -32,13 +32,13 @@ function api.Draw(drawQueue)
 
 			love.graphics.translate(x, y)
 			love.graphics.rotate(angle)
-			for s = 1, #self.coordSets do
-				local coords = self.coordSets[s]
-				for i = 1, #coords do
-					local other = coords[(i < #coords and (i + 1)) or 1]
-					love.graphics.line(coords[i][1], coords[i][2], other[1], other[2])
-				end
-			end
+			--for s = 1, #self.coordSets do
+			--	local coords = self.coordSets[s]
+			--	for i = 1, #coords do
+			--		local other = coords[(i < #coords and (i + 1)) or 1]
+			--		love.graphics.line(coords[i][1], coords[i][2], other[1], other[2])
+			--	end
+			--end
 		love.graphics.pop()
 	end})
 
@@ -53,19 +53,7 @@ function api.Draw(drawQueue)
 	drawQueue:push({y=-10; f=function()
 		love.graphics.push()
 			local x, y = self.body:getPosition()
-			local angle = self.body:getAngle()
-			
 			Resources.DrawImage("sky", x, y + 300)
-
-			love.graphics.translate(x, y)
-			love.graphics.rotate(angle)
-			for s = 1, #self.coordSets do
-				local coords = self.coordSets[s]
-				for i = 1, #coords do
-					local other = coords[(i < #coords and (i + 1)) or 1]
-					love.graphics.line(coords[i][1], coords[i][2], other[1], other[2])
-				end
-			end
 		love.graphics.pop()
 	end})
 
@@ -100,12 +88,17 @@ function api.Initialize(physics)
 	
 	local lowerExtent = 200
 	local coordinates = {
-		{0, 0},
-		{100, -20},
-		{200, -30},
-		{350, -30},
-		{450, -20},
-		{550, 0},
+		{-20, 50},
+		{6, 0},
+		{18, -3},
+		{45, -7.5},
+		{100, -10},
+		{275, -12},
+		{450, -10},
+		{505, -7.5},
+		{532, -3},
+		{544, 0},
+		{570, 50},
 		--{21, -41},
 		--{51, -78},
 		--{74, -116},
