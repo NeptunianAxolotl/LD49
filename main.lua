@@ -36,8 +36,9 @@ end
 --------------------------------------------------
 
 function love.update(dt)
-	if dt > 0.08 then
-		dt = 0.08
+	print(dt)
+	if dt > 0.1 then
+		dt = 0.1
 	end
 	World.Update(dt)
 end
