@@ -89,7 +89,7 @@ function api.Initialize(physics)
 	local lowerExtent = 200
 	local coordinates = {
 		{-20, 50},
-		{6, 0},
+		{4, 0},
 		{18, -3},
 		{45, -7.5},
 		{100, -10},
@@ -97,7 +97,7 @@ function api.Initialize(physics)
 		{450, -10},
 		{505, -7.5},
 		{532, -3},
-		{544, 0},
+		{546, 0},
 		{570, 50},
 		--{21, -41},
 		--{51, -78},

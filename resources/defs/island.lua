@@ -6,6 +6,6 @@ return {
 	yScale = 0.95,
 	width = 400,
 	xOffset = 0,
-	yOffset = 0.55,
+	yOffset = 0.53,
 	duration = 0.4,
 }
