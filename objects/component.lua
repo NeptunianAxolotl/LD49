@@ -293,6 +293,10 @@ local function NewComponent(self, world)
 		if self.dead or self.inShop or self.mouseJoint then
 			return
 		end
+		local vx, vy = self.body:getLinearVelocity()
+		if util.AbsVal({vx, vy}) > Global.VIEW_SPEED_LIMIT then
+			return
+		end
 		local bx, by = self.body:getWorldCenter()
 		viewPoints[#viewPoints + 1] = {bx, by}
 	end
@@ -308,7 +312,7 @@ local function NewComponent(self, world)
 		UpdateJoints(self)
 		
 		local bx, by = self.body:getPosition()
-		if by > 1020 then
+		if by > 1020 and not self.inShop and not self.mouseAnchor then
 			self.Destroy()
 			return true -- Destroy
 		end
