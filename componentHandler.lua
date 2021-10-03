@@ -42,20 +42,21 @@ end
 
 function api.AddEnergy(eType, value)
 	self.energyByType[eType] = (self.energyByType[eType] or 0) + value
-	if eType ~= "research" then
-		self.totalEnergy = self.totalEnergy + value
-	end
 end
 
 function api.GetEnergy(eType)
 	if eType then
 		return ((self.energyByType and self.energyByType[eType]) or 0)
 	end
-	return self.totalEnergy or 0
+	return api.GetEnergy("solar") + api.GetEnergy("wind") + api.GetEnergy("nuclear")
 end
 
 function api.GetResearchRate()
-	return ((self.energyByType and self.energyByType["research"]) or 0)
+	return api.GetEnergy("research")
+end
+
+function api.GetWorkforce()
+	return api.GetEnergy("popCost"), api.GetEnergy("popRoom")
 end
 
 function api.GetViewRestriction()
@@ -70,13 +71,12 @@ function api.Update(dt)
 	self.energyTime = self.energyTime + dt
 	if self.energyTime > Global.ENERGY_TIME_PERIOD then
 		self.energyTime = 0
-		self.totalEnergy = 0
 		self.energyByType = {}
-		IterableMap.ApplySelf(self.components, "ResetAggregators")
-		IterableMap.ApplySelf(self.components, "CheckAdjacency")
-		IterableMap.ApplySelf(self.components, "CheckAdjacency_Post")
+		IterableMap.ApplySelf(self.components, "ResetAggregators", api.AddEnergy)
+		IterableMap.ApplySelf(self.components, "CheckAdjacency", api.AddEnergy)
+		IterableMap.ApplySelf(self.components, "CheckAdjacency_Post", api.AddEnergy)
 		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
-		GameHandler.SetResearchRate(api.GetResearchRate())
+		GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("popCost"), api.GetEnergy("popRoom"))
 	end
 end
 

@@ -25,15 +25,17 @@ local function ResetAggregators(self, world)
 	self.hitByNuclear = 0
 end
 
-local function CheckAdjacency_Post(self, world)
+local function CheckAdjacency_Post(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
 	local physicsWorld = world.GetPhysicsWorld()
 	
-	print(self.hitByNuclear, self.hitByNuclear or 0 > 0)
+	print(self.hitByNuclear, (self.hitByNuclear or 0) > 0)
 	if (self.hitByNuclear or 0) > 0 then
 		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
 		return
 	end
+	
+	AggFunc("popRoom", self.def.popRoom)
 	
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
@@ -54,5 +56,6 @@ return {
 	CheckAdjacency_Post = CheckAdjacency_Post,
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.05,
-	marketingValue = 0.5
+	marketingValue = 0.25,
+	popRoom = 10,
 }

@@ -1,20 +1,21 @@
 local util = require("include/util")
 
-local function ResetAggregators(self, world)
+local function ResetAggregators(self, world, AggFunc)
 	self.hitByNuclear = 0
+	AggFunc("popCost", self.def.popCost)
 end
 
-local function GenerateEnergy(self, world)
+local function GenerateEnergy(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
 	
-	print(self.hitByNuclear, self.hitByNuclear or 0 > 0)
 	if (self.hitByNuclear or 0) > 0 then
 		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
 		return
 	end
+	local work = GameHandler.GetWorkEfficiency()
 	
 	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Science"})
-	ComponentHandler.AddEnergy("research", self.def.researchPower)
+	AggFunc("research", self.def.researchPower*work)
 end
 
 return {
@@ -29,4 +30,5 @@ return {
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.06,
+	popCost = 2,
 }

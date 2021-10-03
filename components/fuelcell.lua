@@ -20,15 +20,17 @@ for i = 1, 24 do
 	rayTests[i] = util.Mult(120, util.RotateVector({0 , 1}, i*math.pi/12))
 end
 
-local function CheckAdjacency(self, world)
+local function CheckAdjacency(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
 	local physicsWorld = world.GetPhysicsWorld()
-	
+
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
 	end
+	
+	AggFunc("popCost", self.def.popCost)
 end
 
 return {
@@ -41,4 +43,5 @@ return {
 	borderThickness = 40,
 	CheckAdjacency = CheckAdjacency,
 	seaDamage = 0.15,
+	popCost = 1,
 }

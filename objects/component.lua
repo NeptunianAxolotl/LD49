@@ -309,6 +309,10 @@ local function SpeedLimit(self)
 end
 
 local function IsOverspeed(self)
+	if self.mouseAnchor then
+		self.overSpeed = false
+		return false
+	end
 	if self.overSpeed then
 		local contacts = self.body:getContacts()
 		if #contacts == 0 then
@@ -324,9 +328,6 @@ local function IsOverspeed(self)
 					end
 				end
 			end
-		end
-		if self.mouseAnchor then
-			self.overSpeed = false
 		end
 		if self.overSpeed then
 			return true
@@ -366,21 +367,21 @@ local function NewComponent(self, world)
 		end
 	end
 	
-	function self.ResetAggregators()
+	function self.ResetAggregators(AggFunc)
 		if self.def.ResetAggregators and not self.inShop then
-			self.def.ResetAggregators(self, world)
+			self.def.ResetAggregators(self, world, AggFunc)
 		end
 	end
 	
-	function self.CheckAdjacency()
+	function self.CheckAdjacency(AggFunc)
 		if self.def.CheckAdjacency and not self.inShop and not IsOverspeed(self) then
-			self.def.CheckAdjacency(self, world)
+			self.def.CheckAdjacency(self, world, AggFunc)
 		end
 	end
 	
-	function self.CheckAdjacency_Post()
+	function self.CheckAdjacency_Post(AggFunc)
 		if self.def.CheckAdjacency_Post and not self.inShop and not IsOverspeed(self) then
-			self.def.CheckAdjacency_Post(self, world)
+			self.def.CheckAdjacency_Post(self, world, AggFunc)
 		end
 	end
 	
