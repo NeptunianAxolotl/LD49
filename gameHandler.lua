@@ -77,7 +77,7 @@ function self.Initialize(parentWorld)
 	self.researchProgress = 0
 	self.researchCost = 1
 	self.populationCapBase = 5
-	self.populationCap = 5
+	self.populationCap = 10
 	self.populationCost = 0
 end
 

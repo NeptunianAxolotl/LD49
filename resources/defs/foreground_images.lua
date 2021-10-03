@@ -4,8 +4,8 @@ local defs = {
 	},
 	{
 		name = "wind_icon",
-		xScale = 0.35,
-		yScale = 0.35,
+		xScale = 0.43,
+		yScale = 0.43,
 	},
 	{
 		name = "office_icon",
