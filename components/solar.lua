@@ -39,7 +39,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	local physicsWorld = world.GetPhysicsWorld()
 	local work = GameHandler.GetWorkEfficiency()
 	
-	local power = 20
+	local power = 30
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		wasHitSum = 0

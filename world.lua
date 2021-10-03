@@ -8,6 +8,7 @@ local Camera = require("utilities/cameraUtilities")
 
 local PhysicsHandler = require("physicsHandler")
 local PowerupHandler = require("powerupHandler")
+DeckHandler = require("deckHandler")
 ComponentHandler = require("componentHandler")
 ShopHandler = require("shopHandler")
 GameHandler = require("gameHandler") -- Handles the gamified parts of the game, such as score, progress and interface.

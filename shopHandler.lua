@@ -9,21 +9,28 @@ local self = {}
 local world
 
 local shopSpeed = 1.25
-local shopItemSpots = 3
+local shopItemSpots = 2
 local shopMoveWidth = 280
+local shopTopProp = 0.25
+local shopGapProp = 0.25
 local shopGap = 280
 local shopPos = {1760, 220}
 
 local powerupRadius = 180
-local powerupChance = 0.18
 
 local function GetShopPos(index)
 	local windowX, windowY = love.window.getMode()
-	shopGap = windowY*0.25
+	
+	local increment = windowY*shopGapProp
 	shopPos[1] = windowX*0.92
-	shopPos[2] = windowY*0.25
+	shopPos[2] = windowY*shopTopProp
 	shopMoveWidth = windowX*0.135
-	return world.ScreenToWorld(util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*shopGap}))
+	return world.ScreenToWorld(util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*increment}))
+end
+
+local function UpdateShopGeo()
+	shopTopProp = 1 / (shopItemSpots + 1)
+	shopGapProp = shopTopProp
 end
 
 local function RestockItems()
@@ -34,21 +41,23 @@ local function RestockItems()
 		end
 	end
 	
+	local draw = DeckHandler.GetNextDraw()
+	shopItemSpots = #draw
+	UpdateShopGeo()
+	
 	self.items = {}
-	local alreadyFoundPickup = false
-	for i = 1, shopItemSpots do
-		if math.random() < powerupChance and not alreadyFoundPickup then
+	for i = 1, #draw do
+		local nextItem = draw[i]
+		if PowerupHandler.IsPowerup(nextItem) then
 			self.items[#self.items + 1] = {
 				isPowerup = true,
-				powerupType = PowerupHandler.GetRandomPowerup(),
+				powerupType = nextItem,
 			}
-			alreadyFoundPickup = true
 		else
 			local compData = {
 				inShop = true,
 			}
-			local componentType = util.SampleList(ComponentHandler.GetComponentDefList())
-			local component = ComponentHandler.SpawnComponent(componentType, GetShopPos(i), compData)
+			local component = ComponentHandler.SpawnComponent(nextItem, GetShopPos(i), compData)
 			self.items[#self.items + 1] = component
 		end
 	end

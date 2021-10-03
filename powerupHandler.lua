@@ -89,6 +89,10 @@ function self.SelectPowerup(powerupType)
 	currentPowerup = powerupType
 end
 
+function self.IsPowerup(powerupType)
+	return powerupDefs[powerupType]
+end
+
 function self.MousePressed(x, y)
 	DoPowerupMouseAction(x, y)
 end

@@ -48,7 +48,7 @@ local function GenerateEnergy(self, world, AggFunc)
 
 	local heightMult = (1000 - by)/1000 + 1
 	
-	local power = 10
+	local power = 20
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx + raySide[i], by}, rayTests[i])
 		wasHitSum = 0
@@ -58,7 +58,7 @@ local function GenerateEnergy(self, world, AggFunc)
 			power = power + 10*math.max(0, 1 - wasHitSum)
 		end
 	end
-	power = power*heightMult*work
+	power = (power*0.35 + power*0.65*heightMult)*work
 	
 	power = math.ceil(power)
 	local text = power
