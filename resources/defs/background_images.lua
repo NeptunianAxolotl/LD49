@@ -21,10 +21,7 @@ local defs = {
 		name = "marine",
 	},
 	{
-		name = "nuclear_creator",
-	},
-	{
-		name = "nuclear_energy",
+		name = "nuclear",
 	},
 }
 
