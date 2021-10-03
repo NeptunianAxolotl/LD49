@@ -8,6 +8,8 @@ local self = {}
 local api = {}
 
 local dTotal = 0
+-- island queue rank
+local iQR = 3
 
 function api.Update(dt)
 	-- IterableMap.ApplySelf(self.components, "Update", dt)
@@ -23,7 +25,7 @@ function api.Update(dt)
 end
 
 function api.Draw(drawQueue)
-	drawQueue:push({y=0.8; f=function()
+	drawQueue:push({y=iQR; f=function()
 		love.graphics.push()
 			local x, y = self.body:getPosition()
 			local angle = self.body:getAngle()
@@ -67,23 +69,11 @@ function api.Initialize(physics)
 	self.shapes = {}
 	self.fixtures = {}
 
-	local numberOfWaves = 7
-	local leftWaveCoord = 0
-	local downWaveCoord = 850
-
-	self.waveCoordinates = {{-50,830},{-100,800},{-80,900},{-140,950},{-50,770},{-200,700},{-100,730}}
-	self.randomDepth = {0.9,0.8,0.95,0.7,0.8,0.6,0.5}
-	self.randomAlpha = {0.1,0.2,0.3,0.3,0.4,0.6,0.7}
-	self.randomScale = {{2,0.8},{5,0.6},{3,0.4},{6,0.5},{5,0.7},{6,0.6},{8,0.4}}
-	self.randomWaveMagSpeed = {{3,0.1,3,1.2},{5,0.3,1,1.1},{0.3,0.1,3,1.5},{1,0.6,1.8,1.5},{2.5,0.5,1.65,1.3},{0.6,0.8,1.5,1.1},{2.2,0.4,3,1.3}}
-
-	for i = 1, numberOfWaves do
-		-- self.waveCoordinates[i] = {leftWaveCoord + (700 * (math.random() - 0.5)), downWaveCoord + (200 * (math.random() - 0.5))}
-		-- self.randomDepth[i] = (math.random() - 0.5)
-		-- self.randomAlpha[i] = (0.5* math.random()) + 0.1}
-		-- self.randomScale[i] = {0.6 * math.random()+ 0.4, 0.6 * math.random() + 0.4}
-		-- self.randomWaveMagSpeed[i] = {math.random() * 4, math.random() * 1, (math.random() * 2.5) + 1, (math.random() * 1) + 1}
-	end
+	self.waveCoordinates = {{-50,830},{-100,800},{-80,900},{-140,930},{-50,740},{-200,670},{-100,700},{-20,810},{-100,790}, {-200,980}}
+	self.randomDepth = {iQR+0.5,iQR+0.5,iQR+0.6,iQR-0.1,iQR,iQR-0.2,iQR-0.3,iQR+15,iQR+14, iQR+20}
+	self.randomAlpha = {0.2,0.2,0.3,0.3,0.4,0.6,0.7,0.9,0.7, 1}
+	self.randomScale = {{2,0.8},{5,0.6},{3,0.4},{6,0.5},{5,0.7},{6,0.6},{8,0.4},{4,0.4},{3,0.2},{7,0.4}}
+	self.randomWaveMagSpeed = {{5,0.3,1.2,0.6},{4.3,0.3,0.7,0.9},{0.3,0.1,3,1.5},{1,0.6,1.8,1.5},{2.5,0.19,1.45,1.2},{0.6,0.15,1.3,1.},{2.2,0.2,2.5,1.2},{3,0.1,0.6,0.3},{2.5,0.2,0.9,0.4},{0.1,0.03,1,0.3}}
 
 	
 	local lowerExtent = 200
