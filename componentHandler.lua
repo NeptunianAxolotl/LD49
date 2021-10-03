@@ -25,6 +25,10 @@ function api.GetComponentAt(x, y, noShop)
 	return IterableMap.GetFirstSatisfies(self.components, "ClickTest", x, y, noShop)
 end
 
+function api.GetComponentByIndex(index)
+	return IterableMap.Get(self.components, index)
+end
+
 function api.MousePressed(x, y)
 	local component = IterableMap.GetFirstSatisfies(self.components, "ClickTest", x, y, not ShopHandler.ShopSelectAllowed())
 	if component then

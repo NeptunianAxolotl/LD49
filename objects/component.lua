@@ -263,6 +263,35 @@ local function UpdateJoints(self)
 	end
 end
 
+local function StickToContacts(self)
+	if Global.CONTACT_FORCE <= 0 then
+		return
+	end
+	
+	self.forceIndex = (self.forceIndex or 0)%Global.FORCE_STORE + 1
+	self.forceStore = self.forceStore or {}
+	
+	local contactList = self.body:getContacts()
+	local currentStore = {}
+	for i = 1, #contactList do
+		local contact = contactList[i]
+		if contact:isTouching() then
+			--local x1, y1, x2, y2 = contact:getPositions()
+			local nx, ny = contact:getNormal()
+			nx, ny = nx*Global.CONTACT_FORCE*(self.def.stickiness or 1), ny*Global.CONTACT_FORCE*(self.def.stickiness or 1)
+			currentStore[#currentStore + 1] = {-nx, -ny}
+		end
+	end
+	self.forceStore[self.forceIndex] = currentStore
+	
+	for i = 1, #self.forceStore do
+		for j = 1, #self.forceStore[i] do
+			local force = self.forceStore[i][j]
+			self.body:applyForce(force[1], force[2])
+		end
+	end
+end
+
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
@@ -310,6 +339,7 @@ local function NewComponent(self, world)
 		end
 		
 		UpdateJoints(self)
+		StickToContacts(self)
 		
 		local bx, by = self.body:getPosition()
 		if by > 1020 and not self.inShop and not self.mouseAnchor then
@@ -366,7 +396,7 @@ local function NewComponent(self, world)
 		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
 		for i = 1, #self.fixtures do
-			self.fixtures[i]:setFriction(self.def.friction or 0.85)
+			self.fixtures[i]:setFriction(self.def.friction or 0.95)
 		end
 	end
 	

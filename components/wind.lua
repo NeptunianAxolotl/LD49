@@ -1,9 +1,53 @@
 local util = require("include/util")
 
+local wasHitSum = false
+local wasHitMultParam = false
+local ignoreHitIndexUglyGlobal = false
+local function HitTest(fixture, x, y, xn, yn, fraction)
+	local component = fixture:getUserData()
+	if component and component.index == ignoreHitIndexUglyGlobal then
+		return 1
+	end
+	if not component then
+		wasHitSum = wasHitSum + 1
+		return 1
+	end
+	if wasHitMultParam and ComponentHandler.GetComponentByIndex(component.index) then
+		wasHitSum = wasHitSum + (ComponentHandler.GetComponentByIndex(component.index).def[wasHitMultParam] or 0.6)
+	else
+		wasHitSum = wasHitSum + 1
+	end
+	return 1
+end
+
+local rayTests = {
+	{-1000, 0},
+	{-1000, -200},
+	{-1000, 200},
+	{1000, 0},
+	{1000, -200},
+	{1000, 200},
+}
+
 local function GenerateEnergy(self, world)
 	local bx, by = self.body:getWorldCenter()
+	local physicsWorld = world.GetPhysicsWorld()
+
+	local heightMult = (1000 - by)/1000 + 1
 	
-	local power = math.floor((1000 - by)/100)
+	local power = 1
+	for i = 1, #rayTests do
+		local rayPos = util.Add({bx, by}, rayTests[i])
+		wasHitSum = 0
+		wasHitMultParam = "wind_opacity"
+		ignoreHitIndexUglyGlobal = self.index
+		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
+		if wasHitSum < 1 then
+			power = power + math.max(0, 1 - wasHitSum)
+		end
+	end
+	power = power*heightMult
+	power = math.floor(power*10)/10
 	
 	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = power})
 end
