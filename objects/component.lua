@@ -180,6 +180,9 @@ local function SetupPhysicsBody(self, physicsWorld)
 		self.fixtures[i]:setUserData(self)
 		self.fixtures[i]:setRestitution(0.00)
 	end
+	
+	self.body:setLinearDamping(0)
+	self.body:setAngularDamping(0.001)
 end
 
 local function MoveToMouse(self)
@@ -292,6 +295,46 @@ local function StickToContacts(self)
 	end
 end
 
+local function SpeedLimit(self)
+	local vx, vy = self.body:getLinearVelocity()
+	local velocity = {vx, vy}
+	if util.AbsVal(velocity) < Global.SPEED_LIMIT then
+		return
+	end
+	local speed = util.AbsVal(velocity)
+	velocity = util.Mult(0.95, velocity)
+	self.body:setLinearVelocity(velocity[1], velocity[2])
+end
+
+local function IsOverspeed(self)
+		if self.overSpeed then
+		local contacts = self.body:getContacts()
+		if #contacts == 0 then
+			return true
+		end
+		for i = 1, #contacts do
+			if contacts[i]:isTouching() then
+				local fixtureA, fixtureB = contacts[i]:getFixtures()
+				if fixtureA and fixtureB then
+					local compA, compB = fixtureA:getUserData(), fixtureB:getUserData()
+					if (not compA or not compA.overSpeed) or (not compB or not compB.overSpeed) then
+						self.overSpeed = false
+					end
+				end
+			end
+		end
+		if self.overSpeed then
+			return true
+		end
+	end
+	local vx, vy = self.body:getLinearVelocity()
+	if util.AbsVal({vx, vy}) > Global.VIEW_SPEED_LIMIT then
+		self.overSpeed = true
+		return true
+	end
+	return false
+end
+
 local function NewComponent(self, world)
 	-- pos
 	self.animTime = 0
@@ -313,7 +356,7 @@ local function NewComponent(self, world)
 	end
 	
 	function self.GenerateEnergy(AggFunc)
-		if self.def.GenerateEnergy and not self.inShop then
+		if self.def.GenerateEnergy and not self.inShop and not IsOverspeed(self) then
 			self.def.GenerateEnergy(self, world, AggFunc)
 		end
 	end
@@ -334,8 +377,7 @@ local function NewComponent(self, world)
 		if self.dead or self.inShop or self.mouseJoint then
 			return
 		end
-		local vx, vy = self.body:getLinearVelocity()
-		if util.AbsVal({vx, vy}) > Global.VIEW_SPEED_LIMIT then
+		if IsOverspeed(self) then
 			return
 		end
 		local bx, by = self.body:getWorldCenter()
@@ -350,6 +392,7 @@ local function NewComponent(self, world)
 			self.body:setAngularVelocity(1)
 		end
 		
+		SpeedLimit(self)
 		UpdateJoints(self)
 		StickToContacts(self)
 		
@@ -389,8 +432,6 @@ local function NewComponent(self, world)
 		if not x then
 			if self.mouseAnchor then
 				ReleaseMouse(self)
-				self.body:setLinearDamping(0)
-				self.body:setAngularDamping(0)
 			end
 			return
 		end
@@ -405,8 +446,6 @@ local function NewComponent(self, world)
 		local bodyPoint = {bx, by}
 		local mousePoint = {x, y}
 		self.mouseAnchor = util.RotateVector(util.Subtract(mousePoint, bodyPoint), -angle)
-		self.body:setLinearDamping(0.2)
-		self.body:setAngularDamping(0.2)
 		self.body:setGravityScale(0)
 		for i = 1, #self.fixtures do
 			self.fixtures[i]:setFriction(self.def.friction or 0.98)
