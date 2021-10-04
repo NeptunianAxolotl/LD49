@@ -46,16 +46,17 @@ local function GenerateEnergy(self, world, AggFunc)
 	local physicsWorld = world.GetPhysicsWorld()
 	local work = GameHandler.GetWorkEfficiency()
 
-	local heightMult = (1000 - by)/1200 + 1
+	local heightMult = (1000 - by)/800 + 1
 	
-	local power = 60
+	local power = 40
+	local windHit = 1
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx + raySide[i], by}, rayTests[i])
 		wasHitSum = 0
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 5, rayPos[1], rayPos[2], HitTest)
 		if wasHitSum < 1 then
-			power = power + 12*math.max(0, 1 - wasHitSum)
+			power = power + 15*math.max(0, 1 - wasHitSum)
 		end
 	end
 	power = (power*0.35 + power*0.65*heightMult)*work
@@ -72,6 +73,7 @@ local function GenerateEnergy(self, world, AggFunc)
 		EffectsHandler.SpawnEffect("mult_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
 	end
 	AggFunc("wind", power)
+	self.animSpeed = -power*0.04
 end
 
 return {

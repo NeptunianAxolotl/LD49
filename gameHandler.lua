@@ -356,7 +356,7 @@ local function UpdateEnergyDemand()
 	if self.energyDemand == 0 then
 		self.energyDemand = 300
 	elseif self.turn%5 == 0 then
-		self.energyDemand = self.energyDemand + 100 + math.floor(self.turn/10)*50
+		self.energyDemand = self.energyDemand + 100 + math.floor(self.turn/10)*50 + math.floor(self.turn/25)*100
 	end
 end
 

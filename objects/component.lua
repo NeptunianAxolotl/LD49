@@ -406,7 +406,7 @@ local function NewComponent(self, world)
 	end
 	
 	function self.Update(dt)
-		self.animTime = self.animTime + dt
+		self.animTime = self.animTime + dt*(self.animSpeed or 0)
 		if self.mouseAnchor then
 			MoveToMouse(self)
 		elseif self.inShop then
@@ -519,7 +519,7 @@ local function NewComponent(self, world)
 			if self.def.foregroundImage then
 				local bx, by = self.body:getWorldCenter()
 				--Resources.DrawImage(self.def.foregroundImage, math.floor(bx), math.floor(by), 0, 1, self.imageRadius/100)
-				Resources.DrawImage(self.def.foregroundImage, bx, by, 0, 1, self.imageRadius/100)
+				Resources.DrawImage(self.def.foregroundImage, bx, by, self.animTime or 0, 1, self.imageRadius/100)
 			end
 		end})
 		
