@@ -25,10 +25,10 @@ local function GetDrawSize()
 end
 
 local function DrawCard()
+	if self.currentTech == 1 and GameHandler.GetTurn() > 3 and math.random() < 0.5 then
+		return "research"
+	end
 	if not self.deck[self.drawIndex] then
-		if self.currentTech == 1 then
-			return (math.random() < 0.5 and "wind") or "research"
-		end
 		util.Permute(self.deck)
 		self.drawIndex = 1
 	end
