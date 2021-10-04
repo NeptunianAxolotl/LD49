@@ -114,7 +114,7 @@ local chatProgression = {
 		},
 	},
     unlock_slot_2 = {
-        text = {"Negotiations with the locals have", "netted us access to local airspace.", "We can now import a greater variety", "of components!", ""},
+        text = {"Our science has wowed the locals", "and has netted us access to local", "airspace. We can now import a", "greater variety of components!", ""},
         sound = "chat_good",
         },
     unlock_rope = {
