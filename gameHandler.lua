@@ -351,6 +351,10 @@ end
 -- API
 --------------------------------------------------
 
+function self.GetSeaDamage()
+	return GetNumber("sea")
+end
+
 function self.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
 	SetNumber("sea", self.seaDamage)

@@ -11,6 +11,10 @@ local dTotal = 0
 -- island queue rank
 local iQR = 3
 
+local function GetSeaColor(prop)
+	return self.baseSeaColor
+end
+
 function api.Update(dt)
 	-- IterableMap.ApplySelf(self.components, "Update", dt)
 	dTotal = dTotal + dt
@@ -21,7 +25,6 @@ function api.Update(dt)
 		self.waveCoordinates[i][1] = self.waveCoordinates[i][1] + xSway
 		self.waveCoordinates[i][2] = self.waveCoordinates[i][2] + ySway
 	end
-
 end
 
 function api.Draw(drawQueue)
@@ -47,13 +50,15 @@ function api.Draw(drawQueue)
 	local windowX, windowY = love.window.getMode()
 	local sideScaleMult = math.max(1, (windowX / windowY) * (Camera.GetCameraScale() / 3000))
 	for i = 1, #self.randomDepth do
+		local seaColor = GetSeaColor(GameHandler.GetSeaDamage())
 		drawQueue:push({y=self.randomDepth[i]; f=function()
 			love.graphics.push()
 			local scale = self.randomScale[i]
 			if sideScaleMult > 1 then
 				scale = {scale[1]*sideScaleMult, scale[2]}
 			end
-			Resources.DrawImage("waves", self.waveCoordinates[i][1], self.waveCoordinates[i][2], 0, self.randomAlpha[i], scale)
+			
+			Resources.DrawImage("waves", self.waveCoordinates[i][1], self.waveCoordinates[i][2], 0, self.randomAlpha[i], scale, seaColor)
 			love.graphics.pop()
 		end})
 	end
@@ -88,6 +93,8 @@ function api.Initialize(physics)
 	self.randomAlpha = {0.2,0.2,0.3,0.3,0.4,0.6,0.7,0.9,0.7, 1}
 	self.randomScale = {{2,0.8},{5,0.6},{3,0.4},{6,0.5},{5,0.7},{6,0.6},{8,0.4},{4,0.4},{3,0.2},{7,0.4}}
 	self.randomWaveMagSpeed = {{5,0.3,1.2,0.6},{4.3,0.3,0.7,0.9},{0.3,0.1,3,1.5},{1,0.6,1.8,1.5},{2.5,0.19,1.45,1.2},{0.6,0.15,1.3,1.},{2.2,0.2,2.5,1.2},{3,0.1,0.6,0.3},{2.5,0.2,0.9,0.4},{0.1,0.03,1,0.3}}
+
+	self.baseSeaColor = {62/255, 114/255, 195/255}
 
 	local lowerExtent = 200
 	local islandScale = 1.08
