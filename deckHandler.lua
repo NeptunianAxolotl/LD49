@@ -11,6 +11,7 @@ local self = {}
 local world
 
 local initialDeck = {
+	"office",
 	"wind",
 	"nuclear_generator",
 	"fuelcell",

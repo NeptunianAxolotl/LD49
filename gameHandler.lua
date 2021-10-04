@@ -213,6 +213,7 @@ local getItemValue = {
 	energy = function () return Round(ComponentHandler.GetEnergy()), ComponentHandler.GetEnergy() > 0 end,
 	demand = function () return self.energyDemand, self.energyDemand > 0 end,
 	admin = function ()
+		print(api.GetPostPowerMult())
 		return "+" .. Round(100*(api.GetPostPowerMult() - 1)) .. "%", api.GetPostPowerMult() > 1
 	end,
 	research = function ()

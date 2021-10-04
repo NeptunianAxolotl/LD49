@@ -8,6 +8,8 @@ local soundFiles = util.LoadDefDirectory("sounds/defs")
 local api = {}
 local world
 
+local DELAY_TIME = 2
+
 local font = love.graphics.newFont(70)
 
 -- First eligible tracks are used as start music
@@ -80,7 +82,7 @@ function api.Update(dt)
 		if world.MusicEnabled() then
 			if trackRunning then
 				for i = 1, #currentTrack do
-					SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false)
+					SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false, DELAY_TIME)
 				end
 			end
 			currentTrack = GetTracks()
@@ -88,17 +90,11 @@ function api.Update(dt)
 			for i = 1, 3 do
 				currentTrackRemaining = math.max(currentTrackRemaining, soundFiles[currentTrack[i].sound].duration or Global.DEFAULT_SOUND_DURATION)
 			end
-			currentTrackRemaining = currentTrackRemaining
-			util.PrintTable(currentTrack)
+			currentTrackRemaining = currentTrackRemaining - DELAY_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, 0.1)
+				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, DELAY_TIME)
 			end
-			local sources = love.audio.pause()
-			local function StartSound()
-				love.audio.play(sources)
-			end
-			Delay.Add(10, StartSound)
 		elseif trackRunning then
 			print("trackRunning", currentTrackRemaining, trackRunning, world.MusicEnabled())
 			for i = 1, #currentTrack do

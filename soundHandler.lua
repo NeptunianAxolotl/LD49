@@ -45,19 +45,18 @@ function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
 	soundData.want = 1
 	soundData.delay = delay
 	if not soundData.delay then
-		print("PLAY", soundData.name)
 		love.audio.play(soundData.source)
 		soundData.source:setVolume(soundData.want * soundData.volumeMult)
 	end
 end
 
-function api.StopSound(id, death)
-	print("stop sound", id)
+function api.StopSound(id, death, delay)
 	local soundData = IterableMap.Get(sounds, id)
 	if not soundData then
 		return
 	end
 	soundData.want = 0
+	soundData.delay = delay
 	if death then
 		soundData.source:stop()
 	end
@@ -70,9 +69,8 @@ function api.Update(dt)
 			if soundData.delay < 0 then
 				soundData.delay = false
 				if soundData.want > 0 then
-					print("PLAY", soundData.name)
 					love.audio.play(soundData.source)
-					soundData.source:setVolume(soundData.have * soundData.volumeMult)
+					soundData.source:setVolume(soundData.want * soundData.volumeMult)
 				end
 			end
 		else
