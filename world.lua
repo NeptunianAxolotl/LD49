@@ -1,6 +1,6 @@
 
-local SoundHandler = require("soundHandler")
 local ModuleTest = require("moduleTest")
+SoundHandler = require("soundHandler")
 MusicHandler = require("musicHandler")
 EffectsHandler = require("effectsHandler")
 

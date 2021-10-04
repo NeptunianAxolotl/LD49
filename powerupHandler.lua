@@ -21,8 +21,8 @@ local powerupDefs = {
 		strength = 1.5,
 		restore = 0.02,
 		maxStretch = 2,
-		sounndFirst = "rope_1",
-		sounndSecond = "rope_2",
+		sounndFirst = "rope_grab",
+		sounndSecond = "rope_release",
 	},
 	chain = {
 		shopImage = "chain_powerup",
@@ -30,8 +30,8 @@ local powerupDefs = {
 		strength = 2.8,
 		restore = 0.04,
 		maxStretch = 1.5,
-		sounndFirst = "chain_1",
-		sounndSecond = "chain_2",
+		sounndFirst = "chain_grab",
+		sounndSecond = "chain_release",
 	},
 	nano = {
 		shopImage = "nano_powerup",
@@ -40,8 +40,8 @@ local powerupDefs = {
 		restore = 0.04,
 		maxStretch = 0.8,
 		setDistance = true,
-		sounndFirst = "nano_1",
-		sounndSecond = "nano_2",
+		sounndFirst = "nano_grab",
+		sounndSecond = "nano_release",
 	},
 }
 
@@ -70,7 +70,7 @@ local function DoPowerupMouseAction(x, y)
 	if self.firstClicked.index == component.index then
 		return
 	end
-	SoundHandler.PlaySound(powerupData.soundSecond)
+	SoundHandler.PlaySound(powerupData.sounndSecond)
 	
 	local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
@@ -103,6 +103,7 @@ function api.GetRandomPowerup()
 end
 
 function api.SelectPowerup(powerupType)
+	SoundHandler.PlaySound("obj_grab")
 	self.currentPowerup = powerupType
 end
 

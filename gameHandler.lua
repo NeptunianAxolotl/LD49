@@ -40,7 +40,7 @@ local function UpdateSmoothNumber(dt, name)
 		return
 	end
 	local rate = 0.1*(0.24 + 0.06 * math.abs(number.want - number.has) / number.diff)
-	if math.abs(rate) <= 0.008 then
+	if math.abs(rate) <= 0.008 or math.abs(number.want - number.has) < 0.02*number.diff then
 		number.has = number.want
 		number.diff = false
 	end
