@@ -27,11 +27,11 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [10] = {
-            text = {"The sand at one end of the beach", "is starting to bake together into", "glass in the heat of discarded", "reactor fuel."},
+            text = {"The sand at one end of the beach", "is starting to bake together into", "glass in the heat of discarded", "reactor fuel.", ""},
             sound = "chat_bad",
             },
         [20] = {
-            text = {"The water off the east bank has", "a strange sheen to it. You tell", "the eco lawyers to pass it off", "as an 'oil spill'."},
+            text = {"The water off the east bank has", "a strange sheen to it. You tell", "the eco lawyers to pass it off", "as an 'oil spill'.", ""},
             sound = "chat_bad",
             },
         [30] = {
@@ -39,7 +39,7 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [40] = {
-            text = {"You remember hearing about global", "currents that cause tornadoes every", "year, in some parts of the world.", "You hope you're not in one of those", "parts."},
+            text = {"You remember hearing about global", "currents that cause tornadoes every", "year, in some parts of the world.", "You hope you're not in one of those", "parts.", ""},
             sound = "chat_bad",
             },
         [50] = {
@@ -47,11 +47,11 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [60] = {
-            text = {"You swear that dolphin you saw", "yesterday looked at you funny.",  "You're having trouble sleeping."},
+            text = {"You swear that dolphin you saw", "yesterday looked at you funny.",  "You're having trouble sleeping.", ""},
             sound = "chat_bad",
         },
         [70] = {
-            text = {"You hear a whale moaning in the", "distance.  It sounds like it's in", "pain."},
+            text = {"You hear a whale moaning in the", "distance.  It sounds like it's in", "pain.", ""},
             sound = "chat_bad",
         },
         [80] = {
@@ -59,7 +59,7 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [90] = {
-            text = {"A bird fell out of the sky the", "other day. The ocean is steaming.", "You wonder if the fumes reach as", "high as your tower of reactors", "does."},
+            text = {"A bird fell out of the sky the", "other day. The ocean is steaming.", "You wonder if the fumes reach as", "high as your tower of reactors", "does.", ""},
             sound = "chat_bad",
         },
         [100] = {
