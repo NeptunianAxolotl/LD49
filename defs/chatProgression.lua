@@ -20,6 +20,12 @@ local chatProgression = {
 	unlock_rope = {
 		text = {"Scientists have unlocked rope to tie things together."},
 	},
+	unlock_office = {
+		text = {"Scientists have unlocked the power of accounting", "to boost efficiency."},
+	},
+	unlock_slot_3 = {
+		text = {"Recent advances quantum gravity unlock 50%", "more free will."},
+	},
 }
 
 

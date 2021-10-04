@@ -57,7 +57,9 @@ function self.AddTurnMessage(messageName)
 end
 
 function self.DrawConsole()
-	local botPad = love.graphics:getHeight() - Global.CONSOLE_BOTTOM + #self.lines*25
+	local windowX, windowY = love.window.getMode()
+	local drawPos = world.ScreenToInterface({0, windowY*0.25})
+	local botPad = drawPos[2] + #self.lines*25
 
 	for i = 1, #self.lines do
 		local line = self.lines[i]

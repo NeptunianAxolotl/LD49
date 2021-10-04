@@ -23,7 +23,7 @@ local techProgression = {
 		message = "unlock_rope",
 	},
 	{
-		cost = 240,
+		cost = 120,
 		newCards = {
 			"solar",
 			"research",
@@ -31,15 +31,15 @@ local techProgression = {
 			"wind",
 			"nuclear_generator",
 			"rope",
+			"office"
 		},
-		shuffleDeck = true,
+		jumpToEnd = true,
+		message = "unlock_office",
 	},
 	{
-		cost = 600,
-		newCards = {
-			"office",
-			"research",
-		},
+		cost = 200,
+		drawSize = 3,
+		message = "unlock_slot_3"
 	},
 
 }
