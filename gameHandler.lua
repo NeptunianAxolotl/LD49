@@ -17,7 +17,23 @@ local function Round(x)
 	return math.floor(x + 0.5)
 end
 
-local function UpdateSmoothNumber(dt, number)
+
+local smoothNumberList = {
+	{
+		name = "research",
+		wrap = 1,
+	},
+	{
+		name = "sea",
+	},
+	{
+		name = "bank",
+	},
+}
+
+
+local function UpdateSmoothNumber(dt, name)
+	local number = self.smoothNumbers[name]
 	if not number.diff or number.diff == 0 then
 		return
 	end
@@ -307,8 +323,8 @@ function self.Update(dt)
 	for i = 1, #itemList do
 		UpdateItemShow(dt, itemList[i])
 	end
-	for _, data in pairs(self.smoothNumbers) do
-		UpdateSmoothNumber(dt, data)
+	for i = 1, #smoothNumberList do
+		UpdateSmoothNumber(dt, smoothNumberList[i].name)
 	end
 end
 
@@ -373,14 +389,15 @@ function self.Initialize(parentWorld)
 		bank = 0,
 	}
 	
-	self.smoothNumbers = {
-		research = {
+	self.smoothNumbers = {}
+	for i = 1, #smoothNumberList do
+		self.smoothNumbers[smoothNumberList[i].name] = {
 			has = 0,
 			want = 0,
 			diff = false,
-			wrap = 1,
+			wrap = smoothNumberList[i].wrap,
 		}
-	}
+	end
 
 	self.turn = 1
 	ChatHandler.ChatTurn(self.turn)

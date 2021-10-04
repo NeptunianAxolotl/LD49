@@ -179,13 +179,14 @@ local function SetupPhysicsBody(self, physicsWorld)
 	end
 	
 	self.body:setLinearDamping(0)
-	self.body:setAngularDamping(0.001)
+	self.body:setAngularDamping(0.02)
 end
 
 local function MoveToMouse(self)
 	if not self.mouseJoint then
 		local mousePos = self.world.GetMousePosition()
 		self.mouseJoint = love.physics.newMouseJoint(self.body, mousePos[1], mousePos[2])
+		self.body:setAngularDamping(0)
 	end
 	local mousePos = self.world.GetMousePosition()
 	self.mouseJoint:setTarget(mousePos[1], mousePos[2])
@@ -202,7 +203,7 @@ local function ReleaseMouse(self)
 		self.mouseJoint:destroy()
 		self.mouseJoint = nil
 	end
-	--self.body:setLinearVelocity(0, 0.01)
+	self.body:setAngularDamping(0.02)
 	self.body:setGravityScale(1)
 	self.overSpeed = true
 	self.mouseAnchor = false
@@ -409,7 +410,7 @@ local function NewComponent(self, world)
 		StickToContacts(self)
 		
 		local bx, by = self.body:getPosition()
-		if by > 1020 and not self.inShop and not self.mouseAnchor then
+		if by > Global.SEA_DEATH and not self.inShop and not self.mouseAnchor then
 			self.Destroy()
 			GameHandler.AddSeaDamage(self.def.seaDamage)
 			return true -- Destroy

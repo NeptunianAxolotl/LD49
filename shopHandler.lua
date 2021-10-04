@@ -101,6 +101,7 @@ function self.ShopSelectAllowed()
 end
 
 function self.ItemSelected(item, index)
+	GameHandler.DoTurn()
 	if item then
 		item.inShop = false
 	end
@@ -108,7 +109,6 @@ function self.ItemSelected(item, index)
 		self.items[index] = false
 	end
 	self.wantRestock = true
-	GameHandler.DoTurn()
 end
 
 function self.MousePressed(x, y)
