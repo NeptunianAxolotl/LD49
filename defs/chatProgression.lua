@@ -86,7 +86,7 @@ local chatProgression = {
             sound = "chat_bad",
             },
         [100] = {
-            text = {""},
+            text = {"Your performance review has concluded,", "and we have decided to find a new", "candidate for your position.  The", "budget will certainly not accommodate", "a helicopter following your poor performance.",  "I am afraid you will have to swim", "home.", "", "If your replacement finds you still", "present on the island, they have", "been authorized to evict you with","extreme prejudice.", "", "You have lost the game.", "Press Ctrl+R to restart."},
             sound = "chat_very_bad",
             },
         },
