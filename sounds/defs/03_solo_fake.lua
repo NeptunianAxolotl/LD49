@@ -4,4 +4,5 @@ return {
     minHealth = 0.86,
     maxHealth = 1,
     duration = 0,
+    handler = 3,
 }
