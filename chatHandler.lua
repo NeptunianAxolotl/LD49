@@ -56,7 +56,19 @@ function api.AddTurnMessage(messageName)
 end
 
 function api.ReportOnRecord(name, value, oldValue)
-
+	name = name .. "Damage"
+	if not chatProgression[name] then
+		return
+	end
+	local chatData = chatProgression[name]
+	local upperBound = util.Round(value*100)
+	local lowerBound = util.Round(oldValue*100) + 1
+	for i = upperBound, lowerBound, -1 do
+		if chatData[i] then
+			api.AddTurnMessageRaw(chatData[i])
+			return
+		end
+	end
 end
 
 function api.DrawConsole()
