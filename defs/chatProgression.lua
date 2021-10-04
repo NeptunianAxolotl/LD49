@@ -180,8 +180,11 @@ local chatProgression = {
     unlock_more_nano = { --one additional nano
         text = {"The scientists have optimised", "nanotube production. There are", "now more nanotubes available.", ""},
         sound = "chat_good",
+    },
+    unlock_grant = {
+        text = {"The scientists have developed a", "better way to write grant applications.",  "This technology is of no use to you."},
+        sound = "chat_good",
         },
-    
     unlock_perpetual = {
         text = {"The scientists are working on a", "method to transport their new", "perpetual motion machine to", "somewhere...safer.", ""},
         sound = "chat_good",
