@@ -70,7 +70,7 @@ local chatProgression = {
             sound = "chat_bad",
             },
         [60] = {
-            text = {""},
+            text = {"Please make sure the company has", "your updated home address on file.", "This information is required for", "security purposes."},
             sound = "chat_bad",
             },
         [70] = {
@@ -124,7 +124,7 @@ local chatProgression = {
         sound = "chat_good",
         },
     unlock_research2 = {
-        text = {"The scientists have invented 75-hour", "work weeks! Management has mandated", "the immediate implementation of this", "new technology."},
+        text = {"The scientists have invented 75-hour", "work weeks, which should result", "in a 150% improvement in research", "output. Management has mandated", "the immediate implementation of this", "new technology."},
         sound = "chat_good",
     },
     unlock_light = {
