@@ -327,7 +327,7 @@ local function UpdateEnergyAndDemand()
 	SetNumber("bank", self.bankDeath)
 	SetNumber("score", self.score)
 	
-	if self.bankDeath >= 1 then
+	if Round(self.bankDeath*100) >= 100 then
 		world.SetGameOver(false, "bank_death")
 	end
 end
@@ -355,7 +355,7 @@ function self.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
 	SetNumber("sea", self.seaDamage)
 	
-	if self.seaDamage >= 1 then
+	if Round(self.seaDamage*100) >= 100 then
 		world.SetGameOver(false, "sea_death")
 	end
 end
