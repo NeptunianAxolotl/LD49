@@ -135,6 +135,7 @@ local techProgression = {
 	{
 		cost = 2500,
 		newCards = {
+			"marine",
 			"wind",
 			"fan",
 			"fan",

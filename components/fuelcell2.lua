@@ -44,8 +44,8 @@ end
 return {
 	density = 3 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
-	minSize = 100,
-	maxSize = 120,
+	minSize = 90,
+	maxSize = 110,
 	foregroundImage = "fuelcell_icon2",
 	backgroundImage = "nuclear_energy",
 	borderImage = "nuclear_energy",
