@@ -29,6 +29,14 @@ local powerupDefs = {
 		restore = 0.04,
 		maxStretch = 1.5,
 	},
+	nano = {
+		shopImage = "nano_powerup",
+		gameImage = "nano_strand",
+		strength = 15,
+		restore = 0.04,
+		maxStretch = 0.8,
+		setDistance = true,
+	},
 }
 
 --------------------------------------------------
@@ -56,7 +64,6 @@ local function DoPowerupMouseAction(x, y)
 	end
 	
 	local powerupData = powerupDefs[self.currentPowerup]
-	
 	local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
 	local joint = love.physics.newRopeJoint(self.firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)
@@ -124,7 +131,7 @@ function api.Draw(drawQueue)
 			local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 			local mousePos = world.GetMousePosition()
 			local linkVector = util.Subtract(mousePos, firstPos)
-			
+			print(powerupDefs[self.currentPowerup].gameImage)
 			Resources.DrawImage(powerupDefs[self.currentPowerup].gameImage, firstPos[1], firstPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
 		end})
 	end
