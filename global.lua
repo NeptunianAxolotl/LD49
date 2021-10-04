@@ -8,6 +8,9 @@ local globals = {
 	
 	SEA_DEATH = 950,
 	
+	SEA_HEAL_BASE = 0.01,
+	SEA_HEAL_DECAY = 0.98,
+	
 	SCORE_DISPLAY_TURN = 4,
 	
 	CONSOLE_BOTTOM = 700,

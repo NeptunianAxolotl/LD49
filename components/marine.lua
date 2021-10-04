@@ -2,25 +2,22 @@ local util = require("include/util")
 
 local function ResetAggregators(self, world, AggFunc)
 	self.hitByNuclear = 0
-	AggFunc("popCost", self.def.popCost)
 end
 
-local function GenerateEnergy(self, world, AggFunc)
+local function GenerateEnergy_Post(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
-	
-	print(self.hitByNuclear, self.hitByNuclear or 0 > 0)
 	if (self.hitByNuclear or 0) > 0 then
 		if ComponentHandler.WantEffectsGraphics() then
-			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+			EffectsHandler.SpawnEffect("irradiate", {bx, by}, {scale = self.imageRadius/50})
 		end
 		return
 	end
-	local work = GameHandler.GetWorkEfficiency()
 	
-	if ComponentHandler.WantEffectsGraphics() then
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Conservation"})
+	local generated = GameHandler.GetSeaHealMult()*self.def.seaHealPower
+	if ComponentHandler.WantEffectsGraphics() and GameHandler.GetRealSeaDamage() > 0 then
+		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "-" .. ("%.2g"):format(generated*100) .. "%"})
 	end
-	AggFunc("heal", self.def.seaHeal*work)
+	AggFunc("heal", generated)
 end
 
 return {
@@ -33,8 +30,8 @@ return {
 	borderImage = "marine",
 	borderThickness = 40,
 	ResetAggregators = ResetAggregators,
-	GenerateEnergy = GenerateEnergy,
-	seaHeal = 1,
+	GenerateEnergy_Post = GenerateEnergy_Post,
+	seaHealPower = 1,
 	seaDamage = 0.03,
-	popCost = 2,
+	nuclearDisables = true,
 }

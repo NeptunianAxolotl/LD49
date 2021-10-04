@@ -333,7 +333,11 @@ local function UpdateEnergyAndDemand()
 end
 
 local function UpdateSeaHealth()
-
+	if self.seaDamage > 0 and self.seaHeal > 0 then
+		self.seaDamage = math.max(0, self.seaDamage - self.seaHeal)
+		self.seaHealMult = self.seaHealMult*Global.SEA_HEAL_DECAY
+		SetNumber("sea", self.seaDamage)
+	end
 end
 
 local function UpdateEnergyDemand()
@@ -351,8 +355,16 @@ end
 -- API
 --------------------------------------------------
 
+function self.GetSeaHealMult()
+	return self.seaHealMult
+end
+
 function self.GetSeaDamage()
 	return GetNumber("sea")
+end
+
+function self.GetRealSeaDamage()
+	return self.seaDamage
 end
 
 function self.AddSeaDamage(damage)
@@ -364,9 +376,10 @@ function self.AddSeaDamage(damage)
 	end
 end
 
-function self.UpdateRates(research, adminMult)
+function self.UpdateRates(research, adminMult, seaHeal)
 	self.researchRate = research/DeckHandler.GetResearchCost()
 	self.adminMult = adminMult
+	self.seaHeal = seaHeal
 end
 
 function self.DoTurn()
@@ -431,6 +444,8 @@ function self.Initialize(parentWorld)
 	self.researchCost = 1
 	self.adminMult = 0
 	self.energyDemand = 0
+	self.seaHeal = 0
+	self.seaHealMult = Global.SEA_HEAL_BASE
 	self.bankDeath = 0
 	self.score = 0
 	self.barDt = 0

@@ -11,6 +11,7 @@ local self = {}
 local world
 
 local initialDeck = {
+	"marine",
 	"wind",
 	"nuclear_generator",
 	"fuelcell",
