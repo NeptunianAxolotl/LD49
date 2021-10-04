@@ -27,6 +27,10 @@ local function GenerateEnergy(self, world, AggFunc)
 			EffectsHandler.SpawnEffect("error_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = "No Fuel"})
 		end
 	end
+	
+	local vel = util.Add({0, -1}, util.RandomPointInCircle(1))
+	EffectsHandler.SpawnEffect("reactor_smoke", {bx, by - 32}, {scale = 1 + 1.5*math.random(), velocity = vel})
+	
 	AggFunc("nuclear", power)
 end
 

@@ -39,22 +39,13 @@ local fallbackTrack = {
 	'01_solo_fake',
 }
 
-local fadeRate = 1
-
 local currentTrack = {}
-local queuedTracks = {}
-local currentTrackRemaining = 0
 local trackRunning = false
+local fadeRate = 1
 
 function api.StopCurrentTrack()
 	currentTrackRemaining = 0
 end
-
-local fadeRate = 1
-
-local currentTrack = nil
-local queuedTracks = {}
-local currentTrackRemaining = 0
 
 local function GetTracks()
 	local foundTrack = {}
@@ -63,7 +54,7 @@ local function GetTracks()
 	for i = 1, #trackList do
 		local track = soundFiles[trackList[i]]
 		if track.handler and not foundTrack[track.handler] then
-			if seaDamage > track.minHealth and seaDamage <= track.maxHealth then
+			if seaDamage >= track.minHealth and (seaDamage < track.maxHealth or (seaDamage == 1 and track.maxHealth == 1)) then
 				foundTrack[track.handler] = {sound = trackList[i]}
 			end
 		end
@@ -90,7 +81,7 @@ function api.Update(dt)
 			end
 			currentTrack = GetTracks()
 			currentTrackRemaining = soundFiles[currentTrack[1].sound].duration or 38.4
-			print(duration)
+			util.PrintTable(currentTrack)
 			for i = 1, #currentTrack do
 				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, 0)
 			end
