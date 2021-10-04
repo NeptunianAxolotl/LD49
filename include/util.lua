@@ -454,8 +454,10 @@ end
 -- Nice Functions
 
 function util.SmoothZeroToOne(value, factor)
+	local minVal = 1 / (1 + math.exp( - factor * (-0.5)))
+	local maxVal = 1 / (1 + math.exp( - factor * (0.5)))
 	factor = factor or 1
-	return 1 / (1 + math.exp( - factor * (value - 0.5)))
+	return (1 / (1 + math.exp( - factor * (value - 0.5))) - minVal) / (maxVal - minVal)
 end
 
 function util.SmoothStep(startRange, endRange, value, factor)

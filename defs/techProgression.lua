@@ -48,7 +48,7 @@ local costMult = 1.4
 local baseCost = 100
 for i = 1, #techProgression do
 	if not techProgression[i].cost then
-		techProgression[i].cost = baseCost*math.pow(costMult, i)
+		techProgression[i].cost = math.floor(baseCost*math.pow(costMult, i)/10)*10
 	end
 end
 

@@ -20,11 +20,11 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 end
 
 local rayTests = {
-	{-200, 0},
-	{-200, -50},
+	{-160, 0},
+	{-180, -50},
 	{-200, 50},
-	{200, 0},
-	{200, -50},
+	{160, 0},
+	{180, -50},
 	{200, 50},
 }
 local raySide = {
