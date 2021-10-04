@@ -193,13 +193,10 @@ local function MoveToMouse(self)
 
 	if love.keyboard.isDown("space") or love.keyboard.isDown("d") or love.keyboard.isDown("x") or love.keyboard.isDown("right") then
 		self.body:setAngularVelocity(4)
-		self.hadSetVelocity = true
 	elseif love.keyboard.isDown("a") or love.keyboard.isDown("z") or love.keyboard.isDown("left") then
 		self.body:setAngularVelocity(-4)
-		self.hadSetVelocity = true
-	elseif self.hadSetVelocity then
-		self.body:setAngularVelocity(0)
-		self.hadSetVelocity = false
+	else
+		self.body:setAngularVelocity(self.body:getAngularVelocity()*0.2)
 	end
 end
 

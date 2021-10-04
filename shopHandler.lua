@@ -8,9 +8,9 @@ local PowerupHandler = require("powerupHandler")
 local self = {}
 local world
 
-local shopSpeed = 1.25
+local shopSpeed = 0.92
 local shopItemSpots = 2
-local shopMoveWidth = 280
+local shopMoveWidth = 265
 local shopTopProp = 0.25
 local shopGapProp = 0.25
 local shopGap = 280
@@ -25,7 +25,7 @@ local function GetShopPos(index)
 	shopPos[1] = windowX*0.92
 	shopPos[2] = windowY*shopTopProp
 	shopMoveWidth = windowX*0.135
-	return world.ScreenToWorld(util.Add(shopPos, {self.position*shopMoveWidth, (index - 1)*increment}))
+	return world.ScreenToWorld(util.Add(shopPos, {util.SmoothZeroToOne(self.position, 6)*shopMoveWidth, (index - 1)*increment}))
 end
 
 local function UpdateShopGeo()
