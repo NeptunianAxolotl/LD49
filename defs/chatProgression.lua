@@ -2,19 +2,20 @@
 local chatProgression = {
 	onTurn = {
 		[1] = {
-			text = {" - Click and drag the windmill", "   onto the island to start making", "   power."},
+			text = {" - Click and drag the windmill", "   onto the island to start making", "   power.", ""},
 			delay = 0,
 		},
 		[3] = {
-			text = {" - Put the fuel cell near the", "   reactor to give it energy."},
+			text = {" - Put the fuel cell near the", "   reactor to give it energy.", ""},
 			delay = 1.5,
 		},
 		[5] = {
-			text = {" - Add a research lab to unlock", "   more and better tech. Don't put", "   those scientists too close to", "   the fuel cell!"},
+			text = {" - Add a research lab to unlock", "   more and better tech. Don't put", "   those scientists too close to", "   the fuel cell!", ""},
 			delay = 1.5,
 		},
         [20] = {
-            text = {"Ah - by the way, here is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!"}, --score
+            text = {"Ah - by the way, here is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
+            delay = 1.5,
         },
 	},
     seaDamage = {
@@ -77,10 +78,10 @@ local chatProgression = {
 		text = {"The scientists have invented rope,", "to hold things together. They say", "they plan to invent the bicycle", "next."},
 	},
 	unlock_solar = {
-		text = {"The scientists have invented solar", "panels! They’re not very efficient,", "but it’s not like that sunlight", "was doing anything else anyway."},
+		text = {"The scientists have invented solar", "panels! They’re not very efficient,", "but it’s not like that sunlight was", "doing anything else anyway."},
 	},
     unlock_wsad = {
-        text = {"The scientists have discovered", "an instruction manual! It is very", "dusty.  It says:", "You can rotate the blocks with", "A/D, Z/X, space, or the arrow", "keys.'"},
+        text = {"The scientists have discovered", "an instruction manual! It is very", "dusty.  It says:", "", "'You can rotate the blocks with", "A/D, Z/X, space, or the arrow", "keys.'"},
     },
     unlock_office = {
 		text = {"The scientists have invented", "offices, saddling other people", "with the responsibility for making", "this undertaking more efficient."},
@@ -89,13 +90,13 @@ local chatProgression = {
 		text = {"The scientists have applied recent", "advances in quantum gravity research", "to grant you 50% more free will."},
 	},
     unlock_marine = {
-        text = {"The scientists have invented marine", "conservation. The process consists", "of putting fish in a box that does", "not contain nuclear reactors.", "Might net you some brownie points."},
+        text = {"The scientists have invented marine", "conservation. The process consists", "of putting fish in a box that does", "not contain nuclear reactors.", "", "Might net you some brownie points."},
     },
     unlock_chain = {
-        text = {"The scientists have invented chain!", "Chain will stretch less under", "tension than rope does. It can also", "be repurposed into ad-hoc medieval", "armor, in case the locals attack.", "", "If the locals attack, please", "inform management immediately."},
+        text = {"The scientists have invented chain!", "Chain will stretch less under tension", "than rope does. It can also be", "repurposed into ad-hoc medieval", "armor, in case the locals attack.", "", "If the locals attack, please inform", "management immediately."},
         },
     unlock_research2 = {
-        text = {"The scientists have invented", "75-hour work weeks! Management has", "mandated the immediate implementation", "of this new technology."},
+        text = {"The scientists have invented 75-hour", "work weeks! Management has mandated", "the immediate implementation of this", "new technology."},
     },
     unlock_light = {
         text = {"Scientists have condensed the", "power of two suns into one light", "bulb. Place the light bulb next to", "a solar panel to power other light", "bulbs.", "", "Our perpetual motion device is", "patent pending."},
@@ -110,7 +111,7 @@ local chatProgression = {
         text = {"Previous quantum gravity research", "has granted scientists the free", "will required to continue research", "on quantum gravity. Your free", "will has been increased another", "33% by association."},
         },
     unlock_fan = {
-        text = {"Wind turbine efficiency can now", "be improved by positioning fans", "next to the turbines. The scientists suggest", "that efficiency might be improved", "even further by placing turbines", "in the open air, instead of under", "twelve reactors."},
+        text = {"Wind turbine efficiency can now", "be improved by positioning fans", "next to the turbines. The scientists", "suggest that efficiency might be", "improved even further by placing", "turbines in the open air, instead of", "under twelve reactors."},
     },
     unlock_nano = {
         text = {"The scientists have improved our", "chains by putting more carbon in", "them, calling the new product ‘carbon", "nanotubes’. Dissenters calling the", "new product ‘but it’s just steel’", "have been fired."},
