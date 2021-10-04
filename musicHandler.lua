@@ -12,28 +12,28 @@ local font = love.graphics.newFont(70)
 
 -- First eligible tracks are used as start music
 local trackList = {
-	'LD49_01_drums',
-	'LD49_01_rhythm',
-	'LD49_01_solo_1',
-	'LD49_01_solo_2',
-	'LD49_01_solo_3',
-	'LD49_01_solo_4',
-	'LD49_01_solo_5',
-	'LD49_01_solo_6',
-	'LD49_02_drums',
-	'LD49_02_rhythm',
-	'LD49_02_solo_7',
-	'LD49_02_solo_8',
-	'LD49_03_transition',
-	'LD49_03_drums_rhythm',
-	'LD49_03_solo_9',
-	'LD49_03_solo_10',
+	'01_drums',
+	'01_rhythm',
+	'01_solo_1',
+	'01_solo_2',
+	'01_solo_3',
+	'01_solo_4',
+	'01_solo_5',
+	'01_solo_6',
+	'02_drums',
+	'02_rhythm',
+	'02_solo_7',
+	'02_solo_8',
+	'03_transition',
+	'03_drums_rhythm',
+	'03_solo_9',
+	'03_solo_10',
 }
 
 local fallbackTrack = {
-	'LD49_01_solo_1',
-	'LD49_02_drums',
-	'LD49_03_solo_9',
+	'01_solo_1',
+	'02_drums',
+	'03_solo_9',
 }
 
 local fadeRate = 1
