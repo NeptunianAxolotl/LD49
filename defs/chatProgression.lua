@@ -74,7 +74,7 @@ local chatProgression = {
             sound = "chat_bad",
             },
         [70] = {
-            text = {""},
+            text = {"The only reason we trust you with", "a company car is because you're", "trapped on an island.  Don't get", "any big ideas."},
             sound = "chat_bad",
             },
         [80] = {
@@ -108,7 +108,7 @@ local chatProgression = {
         sound = "chat_good",
     },
     unlock_office = {
-		text = {"The scientists have invented", "offices, saddling other people", "with the responsibility for making", "this undertaking more efficient."},
+		text = {"The scientists have invented", "offices, saddling other people", "with the responsibility for making", "energy production more efficient."},
         sound = "chat_good",
 	},
     unlock_slot_3 = {
