@@ -67,19 +67,15 @@ function api.SetGameOver(hasWon, overType)
 end
 
 function api.KeyPressed(key, scancode, isRepeat)
-	if key == "escape" then
+	if key == "escape" or key == "return" or key == "kpenter" then
 		GameHandler.ToggleMenu()
-		--SoundHandler.PlaySound("pause")
 	end
 	if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		spi.Restart()
+		api.Restart()
 	end
-	if api.GetPaused() then
-		if key == "return" or key == "kpenter" then
-			self.paused = false
-			--SoundHandler.PlaySound("pause")
-		end
-		return
+	if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		love.filesystem.setIdentity("screenshots")
+		love.graphics.captureScreenshot("screenshot_" .. (os.time() or math.floor(math.random()*100000)) .. "_.png")
 	end
 end
 
@@ -203,8 +199,8 @@ function api.Initialize()
 	
 	Delay.Initialise()
 	EffectsHandler.Initialize()
-	MusicHandler.Initialize(api)
 	SoundHandler.Initialize()
+	MusicHandler.Initialize(api)
 	ChatHandler.Initialize(api)
 	PhysicsHandler.Initialize(api)
 	DeckHandler.Initialize(api)

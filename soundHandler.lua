@@ -19,7 +19,7 @@ function addSource(name, id)
 	end
 end
 
-function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
+function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay, isPreload)
 	id = name .. (id or 1)
 	fadeIn = fadeIn or 10
 	fadeOut = fadeOut or 10
@@ -28,16 +28,20 @@ function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
 		local def = soundFiles[name]
 		soundData = {
 			name = name,
-			want = 1,
+			want = (isPreload and 0.0001) or 1,
 			have = 0,
 			volumeMult = def.volMult * GLOBAL_VOL_MULT,
 			source = addSource(name, id),
 			fadeOut = fadeOut,
 			fadeIn = fadeIn,
 			delay = delay,
+			isPreload = isPreload,
 		}
 		if loop then
 			soundData.source:setLooping(true)
+		end
+		if isPreload then
+			soundData.source:setVolume(0.001)
 		end
 		IterableMap.Add(sounds, id, soundData)
 	end
@@ -70,11 +74,20 @@ function api.Update(dt)
 				soundData.delay = false
 				if soundData.want > 0 then
 					love.audio.play(soundData.source)
-					soundData.source:setVolume(soundData.want * soundData.volumeMult)
+					if not soundData.isPreload then
+						soundData.source:setVolume(soundData.want * soundData.volumeMult)
+					end
+				end
+				if soundData.isPreload then
+					soundData.killSound = true
+					soundData.delay = 5 + math.random()*20
+				end
+				if soundData.killSound then
+					soundData.source:stop()
 				end
 			end
 		else
-			if soundData.want > soundData.have then
+			if soundData.want > soundData.have and not soundData.isPreload then
 				soundData.have = soundData.have + (soundData.fadeIn or 10)*dt
 				if soundData.have > soundData.want then
 					soundData.have = soundData.want

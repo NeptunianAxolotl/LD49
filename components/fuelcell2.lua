@@ -18,13 +18,13 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		return 1
 	end
 	alreadyHit[component.index] = true
-	component.hitByNuclear = (component.hitByNuclear or 0) + 1.4*fraction
+	component.hitByNuclear = (component.hitByNuclear or 0) + 1.55*fraction
 	return 1
 end
 
 local rayTests = {}
 for i = 1, 24 do
-	rayTests[i] = util.Mult(200, util.RotateVector({0 , 1}, i*math.pi/12))
+	rayTests[i] = util.Mult(190, util.RotateVector({0 , 1}, i*math.pi/12))
 end
 
 local function CheckAdjacency(self, world, AggFunc)
