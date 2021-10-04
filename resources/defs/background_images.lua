@@ -1,11 +1,5 @@
 local defs = {
 	{
-		name = "green",
-	},
-	{
-		name = "border",
-	},
-	{
 		name = "solar",
 	},
 	{

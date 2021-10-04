@@ -97,6 +97,10 @@ function api.Initialize()
 		soundData.source:stop()
 	end
 	sounds = IterableMap.New()
+	
+	for name, data in pairs(soundFiles) do
+		addSource(name, -1)
+	end
 end
 
 return api
