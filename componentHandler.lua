@@ -71,7 +71,6 @@ end
 
 function api.RecalcEffects(showGraphics)
 	self.showGraphics = showGraphics
-	self.energyTime = 0
 	self.energyByType = {}
 	IterableMap.ApplySelf(self.components, "ResetAggregators", api.AddEnergy)
 	IterableMap.ApplySelf(self.components, "CheckAdjacency", api.AddEnergy)
@@ -85,6 +84,7 @@ function api.Update(dt)
 	
 	self.energyTime = self.energyTime + dt
 	if self.energyTime > Global.ENERGY_TIME_PERIOD then
+		self.energyTime = 0
 		api.RecalcEffects(true)
 	end
 end

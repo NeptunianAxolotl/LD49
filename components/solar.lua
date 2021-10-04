@@ -11,11 +11,7 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		wasHitSum = wasHitSum + 1
 		return 1
 	end
-	if wasHitMultParam then
-		wasHitSum = wasHitSum + (component.def.opacity or 0.5)
-	else
-		wasHitSum = wasHitSum + 1
-	end
+	wasHitSum = wasHitSum + (component.def.opacity or 1)
 	return 1
 end
 
@@ -76,7 +72,7 @@ return {
 	backgroundImage = "solar",
 	borderImage = "solar",
 	borderThickness = 40,
-	opacity = 0.1,
+	opacity = 0.5,
 	seaDamage = 0.04,
 	popCost = 1,
 }

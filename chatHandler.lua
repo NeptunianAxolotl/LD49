@@ -40,6 +40,22 @@ function self.AddMessage(text, timer, turns, color)
 	table.insert(self.lines, line)
 end
 
+function self.AddTurnMessageRaw(message)
+	local function AddFunc()
+		for i = #message.text, 1, -1 do
+			self.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color)
+		end
+	end
+	Delay.Add(message.delay or 0.7, AddFunc)
+end
+
+function self.AddTurnMessage(messageName)
+	local message = chatProgression[messageName]
+	if message then
+		self.AddTurnMessageRaw(message)
+	end
+end
+
 function self.DrawConsole()
 	local botPad = love.graphics:getHeight() - Global.CONSOLE_BOTTOM + #self.lines*25
 
@@ -73,14 +89,9 @@ function self.ChatTurn(turn)
 		end
 	end
 	
-	if chatProgression[turn] then
-		local msg = chatProgression[turn]
-		local function AddFunc()
-			for i = #msg.text, 1, -1 do
-				self.AddMessage(msg.text[i], msg.timer or 1.4, msg.turns or 1, msg.color)
-			end
-		end
-		Delay.Add(msg.delay or 1.5, AddFunc)
+	if chatProgression.onTurn[turn] then
+		local message = chatProgression.onTurn[turn]
+		self.AddTurnMessageRaw(message)
 	end
 end
 

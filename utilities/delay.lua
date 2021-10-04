@@ -17,7 +17,6 @@ function self.Update(dt)
 	end
 	for i = #self.funcs, 1, -1 do
 		self.funcs[i].timer = self.funcs[i].timer - dt
-		print(self.funcs[i].timer)
 		if self.funcs[i].timer <= 0 then
 			self.funcs[i].func()
 			table.remove(self.funcs, i)

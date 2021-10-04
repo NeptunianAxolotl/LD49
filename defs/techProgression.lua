@@ -1,4 +1,6 @@
 
+local util = require("include/util")
+
 local techProgression = {
 	{
 		cost = 50,
@@ -8,15 +10,17 @@ local techProgression = {
 			"solar",
 		},
 		jumpToEnd = true,
+		message = "unlock_solar",
 	},
 	{
-		cost = 120,
+		cost = 100,
 		newCards = {
 			"fuelcell",
 			"wind",
 			"rope",
 		},
 		jumpToEnd = true,
+		message = "unlock_rope",
 	},
 	{
 		cost = 240,

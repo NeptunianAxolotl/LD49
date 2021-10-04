@@ -11,21 +11,22 @@ local self = {}
 local world
 
 local initialDeck = {
+	"wind",
 	"nuclear_generator",
 	"fuelcell",
-	"research",
 	"wind",
+	"research",
 }
 
 local function GetDrawSize()
-	if GameHandler.GetTurn() <= 3 then
+	if GameHandler.GetTurn() <= 5 then
 		return 1
 	end
 	return self.drawSize
 end
 
 local function DrawCard()
-	if self.currentTech == 1 and GameHandler.GetTurn() > 3 and math.random() < 0.5 then
+	if self.currentTech == 1 and GameHandler.GetTurn() > 5 and math.random() < 0.5 then
 		return "research"
 	end
 	if not self.deck[self.drawIndex] then
@@ -61,6 +62,9 @@ function self.TechUp()
 	
 	self.currentTech = self.currentTech + 1
 	self.nextTechCost = techProgression.GetTech(self.currentTech).cost
+	if tech.message then
+		ChatHandler.AddTurnMessage(tech.message)
+	end
 end
 
 function self.GetResearchCost()
