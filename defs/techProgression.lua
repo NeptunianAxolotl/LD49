@@ -7,6 +7,7 @@ local techProgression = {
 		newCards = {
 			"nuclear_generator",
 			"fuelcell",
+			"research",
 		},
 		shuffleDeck = true,
 		message = "unlock_slot_2",
@@ -92,9 +93,9 @@ local techProgression = {
 	{
 		cost = 750,
 		newCards = {
-			"light",
-			"light",
 			"solar",
+			"light",
+			"light",
 		},
 		jumpToEnd = true,
 		message = "unlock_light",
@@ -170,6 +171,9 @@ local techProgression = {
 	{
 		cost = 5000,
 		newCards = {
+			"light",
+			"fan",
+			"nuclear_generator",
 			"nano",
 		},
 		message = "unlock_more_nano",

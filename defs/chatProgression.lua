@@ -13,7 +13,7 @@ local chatProgression = {
 			text = {" - Add a research lab to unlock", "   more and better tech. Don't put", "   those scientists too close to", "   the fuel cell!", ""},
 			delay = 1.5,
 		},
-        [20] = {
+        [Global.SCORE_DISPLAY_TURN + 1] = {
             text = {"Ah - by the way, here is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
             delay = 1.5,
         },
@@ -81,7 +81,7 @@ local chatProgression = {
 		text = {"The scientists have invented solar", "panels! They’re not very efficient,", "but it’s not like that sunlight was", "doing anything else anyway."},
 	},
     unlock_wsad = {
-        text = {"The scientists have discovered", "an instruction manual! It is very", "dusty.  It says:", "", "'You can rotate the blocks with", "A/D, Z/X, space, or the arrow", "keys.'"},
+        text = {"The scientists have discovered", "an instruction manual! It is very", "dusty.  It says:", "'You can rotate the blocks with", "A/D, Z/X, space, or the arrow", "keys.'"},
     },
     unlock_office = {
 		text = {"The scientists have invented", "offices, saddling other people", "with the responsibility for making", "this undertaking more efficient."},

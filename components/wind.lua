@@ -55,7 +55,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	local physicsWorld = world.GetPhysicsWorld()
 	local work = GameHandler.GetWorkEfficiency()
 
-	local heightMult = (1000 - by)/800 + 1
+	local heightMult = (1000 - by)/450 + 1
 	
 	local power = 40
 	local windHit = 1

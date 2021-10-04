@@ -18,7 +18,7 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		return 1
 	end
 	alreadyHit[component.index] = true
-	component.hitByNuclear = (component.hitByNuclear or 0) + 1.55*fraction
+	component.hitByNuclear = (component.hitByNuclear or 0) + 1.65*fraction
 	return 1
 end
 
