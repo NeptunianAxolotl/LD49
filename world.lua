@@ -187,6 +187,8 @@ function self.Initialize()
 	ShopHandler.Initialize(self)
 	GameHandler.Initialize(self)
 	island.Initialize(self)
+
+	MusicHandler.SwitchTrack("background_music")
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({
