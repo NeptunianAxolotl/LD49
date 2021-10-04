@@ -76,6 +76,9 @@ local techProgression = {
 			"research2",
 			"research2",
 		},
+		removeCards = {
+			"research",
+		},
 		jumpToEnd = true,
 		message = "unlock_research2",
 	},

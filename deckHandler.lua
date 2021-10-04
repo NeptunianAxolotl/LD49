@@ -11,6 +11,7 @@ local self = {}
 local world
 
 local initialDeck = {
+"nano",
 "light", "solar",
 	"wind",
 	"nuclear_generator",
@@ -43,6 +44,16 @@ end
 
 function self.TechUp()
 	local tech = techProgression.GetTech(self.currentTech)
+	if tech.removeCards then
+		for i = 1, #tech.removeCards do
+			for j = #self.deck, 1, -1 do
+				if self.deck[j] == tech.removeCards[i] then
+					table.remove(self.deck, j)
+					break
+				end
+			end
+		end
+	end
 	if tech.newCards then
 		for i = 1, #tech.newCards do
 			print("adding", tech.newCards[i])
