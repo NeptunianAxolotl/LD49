@@ -35,5 +35,23 @@ return {
 		xOffset = 0.5,
 		yOffset = 0.5,
 	},
+	{
+		name = "sea_icon",
+		file = "resources/images/interface/hating_the_planet.png",
+		form = "image",
+		xScale = 0.45,
+		yScale = 0.45,
+		xOffset = 0.5,
+		yOffset = 0.5,
+	},
+	{
+		name = "bank_icon",
+		file = "resources/images/interface/stonksbad.png",
+		form = "image",
+		xScale = 0.45,
+		yScale = 0.45,
+		xOffset = 0.5,
+		yOffset = 0.5,
+	},
 }
 

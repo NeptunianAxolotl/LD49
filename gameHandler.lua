@@ -67,7 +67,7 @@ end
 --------------------------------------------------
 
 local botOffset = 0
-local elWidth = 196
+local elWidth = 202
 local showSpeed = 0.5
 local barCol = 0.4
 
@@ -97,18 +97,18 @@ local itemOrigin = {
 	admin = {0, 1},
 	research = {0, 0},
 	score = {0, 0},
-	sea = {0, 1},
-	bank = {0, 1},
+	sea = {0, 0.333},
+	bank = {0, 0.666},
 }
 
 local posStart = {
-	energy = {-botOffset, 200},
-	demand = {elWidth - botOffset, 200},
-	admin = {2*elWidth - botOffset, 200},
-	research = {0, -200},
-	score = {0, -200},
-	sea = {-250, 200},
-	bank = {-250, 200}
+	energy = {-botOffset, 100},
+	demand = {elWidth - botOffset, 100},
+	admin = {2*elWidth - botOffset, 100},
+	research = {0, -100},
+	score = {0, -100},
+	sea = {-100, 0},
+	bank = {-100, 0},
 }
 
 local posEnd = {
@@ -117,18 +117,18 @@ local posEnd = {
 	admin = {2*elWidth - botOffset, 0},
 	research = {0, 0},
 	score = {0, 200},
-	sea = {0, 200},
-	sea = {0, 200},
+	sea = {0, 0},
+	bank = {0, 0},
 }
 
 local textOffset = {
 	energy = {60, -45},
-	demand = {70, -45},
+	demand = {73, -45},
 	admin = {60, -45},
 	research = {370, 13},
 	score = {0, -200},
-	sea = {-200, 200},
-	bank = {-200, 200}
+	sea = {15, 13},
+	bank = {15, 13},
 }
 
 local barFunc = {
@@ -139,6 +139,20 @@ local barFunc = {
 		local pos, size = {58, 9}, {300, 40}
 		return col, prop, text, pos, size
 	end,
+	sea = function ()
+		local col = {0, 1, 1, 1}
+		local prop = GetNumber("sea")
+		local text = Round(GetNumber("sea")*100) .. "%"
+		local pos, size = {8, -125}, {40, 220}
+		return col, prop, text, pos, size
+	end,
+	bank = function ()
+		local col = {0, 1, 1, 1}
+		local prop = GetNumber("bank")
+		local text = Round(GetNumber("bank")*100) .. "%"
+		local pos, size = {8, -125}, {40, 220}
+		return col, prop, text, pos, size
+	end,
 }
 
 local background = {
@@ -147,8 +161,8 @@ local background = {
 	admin = "interface",
 	research = "interface_flip_big",
 	score = "interface",
-	sea = "interface_big",
-	bank = "interface_big",
+	sea = "interface_rot",
+	bank = "interface_rot",
 }
 
 local icon = {
@@ -157,18 +171,18 @@ local icon = {
 	admin = "admin_icon",
 	research = "science_icon",
 	score = "science_icon",
-	sea = "science_icon",
-	bank = "science_icon",
+	sea = "sea_icon",
+	bank = "bank_icon",
 }
 
 local iconOffset = {
 	energy = {28 + botOffset, -30},
-	demand = {40 + botOffset, -30},
+	demand = {44 + botOffset, -30},
 	admin = {40 + botOffset, -30},
 	research = {30, 30},
 	score = {30, 30},
-	sea = {30, 30},
-	bank = {30, 30},
+	sea = {28, 118},
+	bank = {28, 118},
 }
 
 local getItemValue = {
@@ -181,8 +195,10 @@ local getItemValue = {
 		return "+" .. (self.researchRate * DeckHandler.GetResearchCost()), self.researchRate > 0
 	end,
 	score = function () return false, false end,
-	sea = function () return false, false end,
-	bank = function () return false, false end,
+	sea = function ()
+		return "", self.seaDamage > 0
+	end,
+	bank = function () return "", self.bankDeath > 0 end,
 }
 
 local function GetItemPos(itemName, windowY)
@@ -191,7 +207,6 @@ local function GetItemPos(itemName, windowY)
 		return false
 	end
 	local prop = util.SmoothZeroToOne(shown, 6)
-	print(prop)
 	local origin = world.ScreenToInterface({0, itemOrigin[itemName][2]*windowY})
 	return util.Add(origin, util.Average(posStart[itemName], posEnd[itemName], prop))
 end
@@ -217,10 +232,11 @@ local function DrawItem(itemName, windowY)
 		return
 	end
 	local value = getItemValue[itemName]()
-	local textPos = util.Add(textOffset[itemName], pos)
 	
 	Resources.DrawImage(background[itemName], math.ceil(pos[1]), math.ceil(pos[2]))
 	love.graphics.setColor(1, 1, 1, 1)
+	
+	local textPos = util.Add(textOffset[itemName], pos)
 	Font.SetSize(0)
 	love.graphics.printf(value, textPos[1], textPos[2], 300, "left")
 	
@@ -229,18 +245,25 @@ local function DrawItem(itemName, windowY)
 	
 	if barFunc[itemName] then
 		local col, prop, text, barPos, barSize = barFunc[itemName]()
+		prop = math.max(0, math.min(1, prop))
 		barPos = util.Add(pos, barPos)
 		
 		love.graphics.setColor(barCol, barCol, barCol, 1)
 		love.graphics.rectangle("fill", barPos[1], barPos[2], barSize[1], barSize[2])
 		
 		love.graphics.setColor(col[1], col[2], col[3], 1)
-		love.graphics.rectangle("fill", barPos[1], barPos[2], barSize[1]*prop, barSize[2])
+		if barSize[1] > barSize[2] then
+			love.graphics.rectangle("fill", barPos[1], barPos[2], barSize[1]*prop, barSize[2])
+			Font.SetSize(0)
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.printf(text, barPos[1], textPos[2], barSize[1], "center")
+		else
+			love.graphics.rectangle("fill", barPos[1], barPos[2] + barSize[2]*(1 - prop), barSize[1], barSize[2]*prop)
+			Font.SetSize(0)
+			love.graphics.setColor(1, 1, 1, 1)
+			love.graphics.printf(text, textPos[1], barPos[2] + barSize[2], barSize[2], "center", -math.pi/2)
+		end
 		
-		local barMid = util.Add(barPos, util.Mult(0.5, barSize))
-		love.graphics.setColor(1, 1, 1, 1)
-		Font.SetSize(0)
-		love.graphics.printf(text, barPos[1], textPos[2], barSize[1], "center")
 	end
 	
 	love.graphics.setColor(1, 1, 1, 1)
@@ -249,6 +272,14 @@ end
 --------------------------------------------------
 -- API
 --------------------------------------------------
+
+local function UpdateBankHealth()
+
+end
+
+local function UpdateSeaHealth()
+
+end
 
 local function UpdateEnergyDemand()
 	if self.turn < 10 then
@@ -266,6 +297,7 @@ end
 
 function self.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
+	SetNumber("sea", self.seaDamage)
 end
 
 function self.UpdateRates(research, popCost, popRoom)
@@ -286,6 +318,9 @@ function self.DoTurn()
 		self.researchRate = ComponentHandler.GetResearchRate()/DeckHandler.GetResearchCost()
 	end
 	SetNumber("research", self.researchProgress)
+
+	UpdateBankHealth()
+	UpdateSeaHealth()
 	UpdateEnergyDemand()
 end
 
@@ -304,7 +339,6 @@ function self.GetTurn()
 end
 
 function self.GetPostPowerMult()
-	if true then return 10 end
 	if self.adminSupplied <= 1 then
 		return 1
 	end
@@ -335,36 +369,6 @@ function self.DrawInterface()
 		DrawItem(itemList[i], windowY)
 	end
 	
-	--Resources.DrawImage("interface", drawPos[1], math.ceil(drawPos[2]))
-	--
-	--local totalEnergy = math.floor(ComponentHandler.GetEnergy()*self.GetPostPowerMult())
-	--
-	--love.graphics.setColor(1, 1, 1, 1)
-	--Font.SetSize(0)
-	--love.graphics.printf(totalEnergy, drawPos[1] + 45, drawPos[2] - 45, 300, "left")
-	--love.graphics.setColor(1, 1, 1, 1)
-	--
-	--love.graphics.setColor(1, 1, 1, 1)
-	--Font.SetSize(0)
-	--love.graphics.printf(math.floor(self.seaDamage*100) .. "%", drawPos[1] + 345, drawPos[2] - 45, 300, "left")
-	--love.graphics.setColor(1, 1, 1, 1)
-	--
-	--love.graphics.setColor(1, 1, 1, 1)
-	--Font.SetSize(0)
-	--love.graphics.printf("Research Progress: " .. math.floor(self.researchProgress*100) .. "%", drawPos[1] + 45, drawPos[2] - 245, 500, "left")
-	--love.graphics.printf("Research Rate: " .. math.floor(self.researchRate*100) .. "%", drawPos[1] + 45, drawPos[2] - 200, 500, "left")
-	--love.graphics.setColor(1, 1, 1, 1)
-	--
-	--love.graphics.setColor(1, 1, 1, 1)
-	--Font.SetSize(0)
-	--love.graphics.printf("Admin bonus: " .. math.floor(100*(self.GetPostPowerMult() - 1)) .. "%", drawPos[1] + 45, drawPos[2] - 160, 500, "left")
-	--love.graphics.setColor(1, 1, 1, 1)
-	--
-	--love.graphics.setColor(1, 1, 1, 1)
-	--Font.SetSize(0)
-	--love.graphics.printf("Turn: " .. self.turn, drawPos[1] + 45, drawPos[2] - 800, 500, "left")
-	--love.graphics.setColor(1, 1, 1, 1)
-	--
 	--drawPos = world.ScreenToInterface({windowX, 0})
 	--Resources.DrawImage("menu_button", drawPos[1], math.ceil(drawPos[2]))
 end
@@ -377,7 +381,8 @@ function self.Initialize(parentWorld)
 	self.researchCost = 1
 	self.adminRequired = 0
 	self.adminSupplied = 0
-	self.energyDemand = 10
+	self.energyDemand = 0
+	self.bankDeath = 0
 	
 	self.itemShown = {
 		energy = 0,

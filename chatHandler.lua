@@ -71,7 +71,7 @@ function self.DrawConsole()
 		)
 		
 		Font.SetSize(1)
-		love.graphics.print(line.consoleText, 50, botPad - (i * 25))
+		love.graphics.print(line.consoleText, 80, botPad - (i * 25))
 		love.graphics.setColor(1,1,1)
 	end
 end
