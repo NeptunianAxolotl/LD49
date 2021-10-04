@@ -1,6 +1,6 @@
 
 local SoundHandler = require("soundHandler")
-MusicHandler = {require("musicHandler"), require("musicHandler2")}
+MusicHandler = {require("musicHandler"), require("musicHandler2"), require("musicHandler3")}
 local ModuleTest = require("moduleTest")
 EffectsHandler = require("effectsHandler")
 
@@ -125,6 +125,7 @@ function self.Update(dt)
 	EffectsHandler.Update(dt)
 	MusicHandler[1].Update(dt)
 	MusicHandler[2].Update(dt)
+	MusicHandler[3].Update(dt)
 	SoundHandler.Update(dt)
 	island.Update(dt)
 	GameHandler.Update(dt)
@@ -180,6 +181,7 @@ function self.Initialize()
 	EffectsHandler.Initialize()
 	MusicHandler[1].Initialize()
 	MusicHandler[2].Initialize()
+	MusicHandler[3].Initialize()
 	SoundHandler.Initialize()
 	ChatHandler.Initialize(self)
 	PhysicsHandler.Initialize(self)
