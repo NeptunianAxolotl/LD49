@@ -103,7 +103,6 @@ function api.Update(dt)
 				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, false, false, DELAY_TIME)
 			end
 		elseif trackRunning then
-			print("trackRunning", currentTrackRemaining, trackRunning, world.MusicEnabled())
 			for i = 1, #currentTrack do
 				SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false)
 			end

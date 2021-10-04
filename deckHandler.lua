@@ -51,7 +51,6 @@ function self.TechUp()
 	end
 	if tech.newCards then
 		for i = 1, #tech.newCards do
-			print("adding", tech.newCards[i])
 			self.deck[#self.deck + 1] = tech.newCards[i]
 		end
 	end

@@ -64,8 +64,6 @@ function api.AddTurnMessage(messageName)
 end
 
 function api.ReportOnRecord(name, value, oldValue)
-	print(chatProgression[name])
-	print("name", name)
 	if not chatProgression[name] then
 		return
 	end
