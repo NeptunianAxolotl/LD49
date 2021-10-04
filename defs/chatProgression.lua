@@ -21,7 +21,7 @@ local chatProgression = {
             delay = 1.5,
         },
         [Global.SCORE_DISPLAY_TURN + 1] = {
-            text = {"Ah - by the way, above is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
+            text = {"Ah - by the way, a readout of", "your total power generation", "is shown above. Have to keep", " track of your performance", "after all!", ""}, --score
             sound = "chat_good",
             delay = 1.5,
         },
