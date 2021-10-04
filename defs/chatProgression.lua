@@ -50,15 +50,15 @@ local chatProgression = {
             sound = "chat_bad",
             },
         [10] = {
-            text = {""},
+            text = {"Make sure your funds are going", "where they're needed. You millenials", "spend too much on coffee."},
             sound = "chat_bad",
             },
         [20] = {
-            text = {""},
+            text = {"I recall we selected you specifically", "because you don't have a house", "left to mortgage. If we have to", "mortgage this island, I will be", "very upset."},
             sound = "chat_bad",
             },
         [30] = {
-            text = {""},
+            text = {"Your utility bill is how much?", "Maybe you can save on heating", "by putting the science labs next", "to the reactors."},
             sound = "chat_bad",
             },
         [40] = {
