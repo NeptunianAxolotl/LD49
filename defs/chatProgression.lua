@@ -49,40 +49,36 @@ local chatProgression = {
             text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", ""},
             sound = "chat_bad",
             },
-        [10] = {
+        [11] = {
             text = {"Make sure your funds are going", "where they're needed. You millenials", "spend too much on coffee.", ""},
             sound = "chat_bad",
             },
-        [20] = {
+        [22] = {
             text = {"I recall we selected you specifically", "because you don't have a house", "left to mortgage. If we have to", "mortgage this island, I will be", "very upset.", ""},
             sound = "chat_bad",
             },
-        [30] = {
+        [33] = {
             text = {"Your utility bill is how much?", "Maybe you can save on heating", "by putting the science labs next", "to the reactors.", ""},
             sound = "chat_bad",
             },
-        [40] = {
+        [44] = {
             text = {"There's an inspection scheduled", "for next Monday.  Make sure to", "toss the nuclear fuel rods into", "the sea before anyone sees them.", ""},
             sound = "chat_bad",
             },
-        [50] = {
+        [55] = {
             text = {"Perhaps you could improve your", "output by attaching balloons to", "your wind turbines. What - what", "do you mean, we didn't budget for", "balloons?  What we didn't budget", "for is your incompetence!", ""},
             sound = "chat_bad",
             },
-        [60] = {
+        [66] = {
             text = {"Please make sure the company has", "your updated home address on file.", "This information is required for", "security purposes.", ""},
             sound = "chat_bad",
             },
-        [70] = {
+        [77] = {
             text = {"The only reason we trust you with", "a company car is because you're", "trapped on an island.  Don't get", "any big ideas.", ""},
             sound = "chat_bad",
             },
-        [80] = {
+        [88] = {
             text = {"Please be aware that all fish caught", "on-site are company property. Any", "poaching will be estimated at current", "market value and deducted from your", "pay.", ""},
-            sound = "chat_bad",
-            },
-        [90] = {
-            text = {""},
             sound = "chat_bad",
             },
         [100] = {
