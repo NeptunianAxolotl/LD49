@@ -20,20 +20,23 @@ local trackList = {
 	'01_solo_4',
 	'01_solo_5',
 	'01_solo_6',
+    '01_solo_fake',
 	'02_drums',
 	'02_rhythm',
 	'02_solo_7',
 	'02_solo_8',
+    '02_solo_fake',
 	'03_transition',
 	'03_drums_rhythm',
 	'03_solo_9',
 	'03_solo_10',
+    '03_solo_fake',
 }
 
 local fallbackTrack = {
-	'01_solo_1',
-	'02_drums',
-	'03_solo_9',
+	'01_rhythm',
+	'01_drums',
+	'01_solo_fake',
 }
 
 local fadeRate = 1
