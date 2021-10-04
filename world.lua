@@ -192,7 +192,9 @@ function self.Initialize()
 	GameHandler.Initialize(self)
 	island.Initialize(self)
 
-	MusicHandler[1].SwitchTrack("background_music")
+	MusicHandler[1].SwitchTrack("background_bass")
+	MusicHandler[2].SwitchTrack("background_drums")
+	MusicHandler[3].SwitchTrack("background_solo")
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({

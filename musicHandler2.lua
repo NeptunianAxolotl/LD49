@@ -6,9 +6,7 @@ local api = {}
 
 local font = love.graphics.newFont(70)
 
-local tracks = {
-	background_music = {id = 'background', sound = 'base_soundtrack', duration = 38.00, canLoop = true},
-}
+local tracks = require("resources/defs/track_list")
 
 local fadeRate = 1
 
