@@ -36,7 +36,7 @@ function externalFunc.GetFont()
 end
 
 --local FONT = "FreeSansBold"
-local FONT = "RBNo3.1-Book.otf"
+local FONT = "RBNo3.1-Book.otf" -- https://freefontsfamily.com/rbno3-font-free-download/
 
 function externalFunc.Load()
 	hugeFont  = love.graphics.newFont('include/fonts/' .. FONT, 36)
