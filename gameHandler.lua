@@ -17,7 +17,6 @@ local function Round(x)
 	return math.floor(x + 0.5)
 end
 
-
 local smoothNumberList = {
 	{
 		name = "research",
@@ -34,18 +33,17 @@ local smoothNumberList = {
 	},
 }
 
-
 local function UpdateSmoothNumber(dt, name)
 	local number = self.smoothNumbers[name]
 	if not number.diff or number.diff == 0 then
 		return
 	end
-	local rate = (0.04 + 0.05 * math.abs(number.want - number.has) / number.diff)
-	if math.abs(rate) <= 0.042 then
+	local rate = 0.1*(0.24 + 0.06 * math.abs(number.want - number.has) / number.diff)
+	if math.abs(rate) <= 0.008 then
 		number.has = number.want
 		number.diff = false
 	end
-	number.has = number.has + rate*(number.want - number.has)
+	number.has = number.has + rate*(number.want - number.has)*2
 end
 
 local function SetNumber(name, value)
@@ -64,6 +62,12 @@ local function GetNumber(name)
 	end
 	return number.has
 end
+
+local function IsNumberBehindWrap(name)
+	local number = self.smoothNumbers[name]
+	return math.floor(number.has) ~= math.floor(number.want)
+end
+
 
 local function GetBarProp(prop)
 	local period = math.max(0.25, 1 - 0.8*prop)
@@ -148,7 +152,11 @@ local barFunc = {
 	research = function ()
 		local col = {0, 1, 1, 1}
 		local prop = GetNumber("research")
-		local text = Round(GetNumber("research")*DeckHandler.GetResearchCost()) .. " / " .. Round(DeckHandler.GetResearchCost())
+		local divisor = DeckHandler.GetResearchCost()
+		if IsNumberBehindWrap("research") then
+			divisor = self.prevResearchCost
+		end
+		local text = Round(GetNumber("research")*divisor) .. " / " .. Round(divisor)
 		local pos, size = {58, 9}, {300, 40}
 		return col, prop, text, pos, size
 	end,
@@ -388,6 +396,7 @@ function self.DoTurn()
 	ChatHandler.ChatTurn(self.turn)
 	self.researchProgress = self.researchProgress + ComponentHandler.GetResearchRate()/DeckHandler.GetResearchCost()
 	if self.researchProgress >= 1 then
+		self.prevResearchCost = DeckHandler.GetResearchCost()
 		local leftOver = (self.researchProgress - 1)*DeckHandler.GetResearchCost()
 		DeckHandler.TechUp()
 		self.researchProgress = leftOver/DeckHandler.GetResearchCost()
@@ -442,6 +451,7 @@ function self.Initialize(parentWorld)
 	self.researchRate = 0
 	self.researchProgress = 0
 	self.researchCost = 1
+	self.prevResearchCost = 1
 	self.adminMult = 0
 	self.energyDemand = 0
 	self.seaHeal = 0
