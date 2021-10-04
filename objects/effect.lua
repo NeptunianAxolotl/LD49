@@ -44,7 +44,7 @@ local function NewEffect(self, def)
 	end
 	
 	function self.Draw(drawQueue)
-		drawQueue:push({y=self.pos[2] + self.inFront; f=function()
+		drawQueue:push({y=Global.EFFECT_DRAW_ORDER; f=function()
 			if def.fontSize and self.text then
 				local col = def.color
 				Font.SetSize(def.fontSize)

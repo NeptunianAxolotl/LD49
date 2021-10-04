@@ -65,18 +65,27 @@ function api.GetViewRestriction()
 	return pointsToView
 end
 
+function api.WantEffectsGraphics()
+	return self.showGraphics
+end
+
+function api.RecalcEffects(showGraphics)
+	self.showGraphics = showGraphics
+	self.energyTime = 0
+	self.energyByType = {}
+	IterableMap.ApplySelf(self.components, "ResetAggregators", api.AddEnergy)
+	IterableMap.ApplySelf(self.components, "CheckAdjacency", api.AddEnergy)
+	IterableMap.ApplySelf(self.components, "CheckAdjacency_Post", api.AddEnergy)
+	IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
+	GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("popCost"), api.GetEnergy("popRoom"))
+end
+
 function api.Update(dt)
 	IterableMap.ApplySelf(self.components, "Update", dt)
 	
 	self.energyTime = self.energyTime + dt
 	if self.energyTime > Global.ENERGY_TIME_PERIOD then
-		self.energyTime = 0
-		self.energyByType = {}
-		IterableMap.ApplySelf(self.components, "ResetAggregators", api.AddEnergy)
-		IterableMap.ApplySelf(self.components, "CheckAdjacency", api.AddEnergy)
-		IterableMap.ApplySelf(self.components, "CheckAdjacency_Post", api.AddEnergy)
-		IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
-		GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("popCost"), api.GetEnergy("popRoom"))
+		api.RecalcEffects(true)
 	end
 end
 

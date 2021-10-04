@@ -69,10 +69,6 @@ local function CheckRestock(dt)
 		if self.position < 1 then
 			self.position = self.position + dt*shopSpeed
 		end
-		if self.position > 0.2 and self.wantResearch then
-			GameHandler.DoTurn()
-			self.wantResearch = false
-		end
 		if self.position >= 1 then
 			self.position = 1
 			RestockItems()
@@ -112,7 +108,7 @@ function self.ItemSelected(item, index)
 		self.items[index] = false
 	end
 	self.wantRestock = true
-	self.wantResearch = true
+	GameHandler.DoTurn()
 end
 
 function self.MousePressed(x, y)
@@ -151,7 +147,6 @@ function self.Initialize(parentWorld)
 	
 	self.items = {}
 	self.wantRestock = true
-	self.wantResearch = true
 	self.position = 1
 end
 

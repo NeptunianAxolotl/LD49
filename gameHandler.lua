@@ -24,6 +24,7 @@ function self.UpdateRates(research, popCost, popRoom)
 end
 
 function self.DoTurn()
+	ComponentHandler.RecalcEffects()
 	self.turn = self.turn + 1
 	self.researchProgress = self.researchProgress + ComponentHandler.GetResearchRate()/DeckHandler.GetResearchCost()
 	if self.researchProgress >= 1 then

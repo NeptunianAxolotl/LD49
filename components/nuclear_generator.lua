@@ -19,10 +19,14 @@ local function GenerateEnergy(self, world, AggFunc)
 			text = text .. " + " .. marketBonus
 			power = power + marketBonus
 		end
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
+		if ComponentHandler.WantEffectsGraphics() then
+			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
+		end
 	else
 		power = math.ceil(power)
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = "No Fuel"})
+		if ComponentHandler.WantEffectsGraphics() then
+			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = "No Fuel"})
+		end
 	end
 	AggFunc("nuclear", power)
 end

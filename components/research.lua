@@ -9,12 +9,16 @@ local function GenerateEnergy(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
 	
 	if (self.hitByNuclear or 0) > 0 then
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+		if ComponentHandler.WantEffectsGraphics() then
+			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+		end
 		return
 	end
 	local work = GameHandler.GetWorkEfficiency()
 	
-	EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Science"})
+	if ComponentHandler.WantEffectsGraphics() then
+		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Science"})
+	end
 	AggFunc("research", self.def.researchPower*work)
 end
 

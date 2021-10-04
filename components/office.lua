@@ -31,7 +31,9 @@ local function CheckAdjacency_Post(self, world, AggFunc)
 	
 	print(self.hitByNuclear, (self.hitByNuclear or 0) > 0)
 	if (self.hitByNuclear or 0) > 0 then
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+		if ComponentHandler.WantEffectsGraphics() then
+			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+		end
 		return
 	end
 	

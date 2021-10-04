@@ -7,7 +7,9 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		return 1
 	end
 	fraction = (1 - fraction)*0.7 + 0.3
-	EffectsHandler.SpawnEffect("fireball_explode", {x, y}, {scale = 0.2*fraction})
+	if ComponentHandler.WantEffectsGraphics() then
+		EffectsHandler.SpawnEffect("fireball_explode", {x, y}, {scale = 0.2*fraction})
+	end
 	if not component then
 		return 1
 	end

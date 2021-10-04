@@ -204,6 +204,7 @@ local function ReleaseMouse(self)
 	end
 	--self.body:setLinearVelocity(0, 0.01)
 	self.body:setGravityScale(1)
+	self.overSpeed = true
 	self.mouseAnchor = false
 end
 
@@ -255,10 +256,12 @@ local function UpdateJoints(self)
 						minStress = data.stressRem[j]
 					end
 				end
-				if data.strength > data.strength then
-					data.joint:setMaxLength(data.joint:getMaxLength() + math.min(data.strength + 1, minStress - data.strength))
+				data.stressSadness = false
+				if minStress > data.strength then
+					data.stressSadness = math.min(data.maxStretch, minStress - data.strength)
+					data.joint:setMaxLength(data.joint:getMaxLength() + data.stressSadness)
 				elseif minStress < data.restore and data.joint:getMaxLength() > data.desiredLength then
-					data.joint:setMaxLength(data.joint:getMaxLength() - 0.15)
+					data.joint:setMaxLength(data.joint:getMaxLength() - (1 - minStress/data.restore))
 				end
 			end
 		end
@@ -514,12 +517,18 @@ local function NewComponent(self, world)
 					if not data.endComponent.dead then
 						local startPos = self.LocalToWorld(data.startPos)
 						local endPos = data.endComponent.LocalToWorld(data.endPos)
-						local x, y = data.joint:getReactionForce(0.033)
 						local linkVector = util.Subtract(endPos, startPos)
-						Resources.DrawImage(data.image, startPos[1], startPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
-						--love.graphics.setLineWidth(1 + util.AbsVal({x, y}))
-						--love.graphics.line(startPos[1], startPos[2], endPos[1], endPos[2])
-						--love.graphics.setLineWidth(1)
+						local length = data.joint:getMaxLength()
+						local thickness = math.min(1, data.desiredLength / (length and length > 0 and length) or 1)
+						Resources.DrawImage(data.image, startPos[1], startPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 0.3 + 0.7*thickness})
+						
+						if data.stressSadness then
+							local prop = data.stressSadness/data.maxStretch
+							love.graphics.setLineWidth(13*(0.5 + 0.5*data.stressSadness))
+							love.graphics.setColor(1,0,0,0.1 + 0.2*data.stressSadness)
+							love.graphics.line(startPos[1], startPos[2], endPos[1], endPos[2])
+							love.graphics.setLineWidth(1)
+						end
 					end
 				end
 			end

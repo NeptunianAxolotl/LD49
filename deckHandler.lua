@@ -13,6 +13,7 @@ local world
 local initialDeck = {
 	"nuclear_generator",
 	"fuelcell",
+	"rope",
 	"research",
 	"wind",
 }
@@ -71,12 +72,14 @@ function self.GetNextDraw()
 	local drawCount = GetDrawSize()
 	local toDraw = {}
 	local drawnType = {}
-	while #toDraw < drawCount do
+	local tries = 10
+	while #toDraw < drawCount and tries > 0 do
 		local card = DrawCard()
 		if not drawnType[card] then
 			toDraw[#toDraw + 1] = card
 			drawnType[card] = true
 		end
+		tries = tries - 1
 	end
 	
 	return toDraw
