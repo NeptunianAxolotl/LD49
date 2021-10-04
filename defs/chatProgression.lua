@@ -21,7 +21,7 @@ local chatProgression = {
             delay = 1.5,
         },
 	},
-    seaDamage = {
+    sea = {
         [1] = {
             text = {"You dropped pollutants in the", "ocean! ...nobody seems to have", "noticed.", ""},
             sound = "chat_bad",
@@ -41,53 +41,58 @@ local chatProgression = {
         [100] = {
             text = {"Small boats crewed by people", "holding golf clubs have been", "sighted in the distance.",  "Your accountants have taken the", "liberty of calling the company", "lawyers in your stead. You have", "been 'strongly encouraged' to", "take the next available flight", "off the island, in case things", "escalate.", "", "You have lost the game.", "Press Ctrl+R to restart.", ""},
             sound = "chat_very_bad",
-            color = {255/255, 220/255, 220/255}
+            color = {255/255, 220/255, 220/255},
+			last = true,
         },
-        
-    bankDamage = {
+	},
+    bank = {
         [1] = {
-            text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", "", "It's printed right there, in the", "bottom left corner!", ""},
+            text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", ""},
             sound = "chat_bad",
-            },
-        [11] = {
+		},
+		[10] = {
             text = {"Make sure your funds are going", "where they're needed. You millenials", "spend too much on coffee.", ""},
             sound = "chat_bad",
-            },
-        [22] = {
+		},
+		[20] = {
             text = {"I recall we selected you specifically", "because you don't have a house", "left to mortgage. If we have to", "mortgage this island, I will be", "very upset.", ""},
             sound = "chat_bad",
-            },
-        [33] = {
+		},
+		[30] = {
             text = {"Your utility bill is how much?", "Maybe you can save on heating", "by putting the science labs next", "to the reactors.", ""},
             sound = "chat_bad",
-            },
-        [44] = {
+		},
+		[40] = {
             text = {"There's an inspection scheduled", "for next Monday.  Make sure to", "toss the nuclear fuel rods into", "the sea before anyone sees them.", ""},
             sound = "chat_bad",
-            },
-        [55] = {
+		},
+		[50] = {
             text = {"Perhaps you could improve your", "output by attaching balloons to", "your wind turbines. What - what", "do you mean, we didn't budget for", "balloons?  What we didn't budget", "for is your incompetence!", ""},
             sound = "chat_bad",
-            },
-        [66] = {
+		},
+		[60] = {
             text = {"Please make sure the company has", "your updated home address on file.", "This information is required for", "security purposes.", ""},
             sound = "chat_bad",
-            },
-        [77] = {
+		},
+		[70] = {
             text = {"The only reason we trust you with", "a company car is because you're", "trapped on an island.  Don't get", "any big ideas.", ""},
             sound = "chat_bad",
-            },
-        [88] = {
+		},
+		[80] = {
             text = {"Please be aware that all fish caught", "on-site are company property. Any", "poaching will be estimated at current", "market value and deducted from your", "pay.", ""},
             sound = "chat_bad",
-            },
-        [100] = {
+		},
+		[90] = {
+            text = {""},
+            sound = "chat_bad",
+		},
+		[100] = {
             text = {"Your performance review has concluded,", "and we have decided to find a new", "candidate for your position. The", "budget will certainly not accommodate", "a helicopter following your poor performance.",  "I am afraid you will have to swim", "home.", "", "If your replacement finds you still", "present on the island, they have", "been authorized to evict you with","extreme prejudice.", "", "You have lost the game.", "Press Ctrl+R to restart.", ""},
             sound = "chat_very_bad",
-            color = {255/255, 220/255, 220/255}
-            },
-        },
-    },
+            color = {255/255, 220/255, 220/255},
+			last = true,
+		},
+	},
     unlock_slot_2 = {
         text = {"Negotiations with the locals have", "netted us access to local airspace.", "We can now import a greater variety", "of components!", ""},
         sound = "chat_good",
