@@ -406,7 +406,7 @@ local function NewComponent(self, world)
 	end
 	
 	function self.Update(dt)
-		self.animTime = self.animTime + dt*(self.animSpeed or 0)
+		self.animTime = self.animTime + dt*(self.animSpeed or self.def.animSpeed or 0)
 		if self.mouseAnchor then
 			MoveToMouse(self)
 		elseif self.inShop then

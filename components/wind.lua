@@ -1,6 +1,8 @@
 local util = require("include/util")
 
 local wasHitSum = false
+local wasHitBoost = false
+local alreadyHit = false
 local ignoreHitIndexUglyGlobal = false
 local function HitTest(fixture, x, y, xn, yn, fraction)
 	local component = fixture:getUserData()
@@ -11,7 +13,14 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		wasHitSum = wasHitSum + 1
 		return 1
 	end
-	if wasHitMultParam then
+	if alreadyHit[component.index] then
+		return 1
+	end
+	alreadyHit[component.index] = true
+	
+	if component.def.windBoost then
+		wasHitBoost = wasHitBoost + component.def.windBoost
+	elseif wasHitMultParam then
 		wasHitSum = wasHitSum + (component.def.wind_opacity or 0.5)
 	else
 		wasHitSum = wasHitSum + 1
@@ -20,12 +29,12 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 end
 
 local rayTests = {
-	{-160, 0},
-	{-180, -50},
-	{-200, 50},
-	{160, 0},
-	{180, -50},
-	{200, 50},
+	{-360, 0},
+	{-360, -50},
+	{-360, 50},
+	{360, 0},
+	{360, -50},
+	{360, 50},
 }
 local raySide = {
 	-25,
@@ -53,11 +62,11 @@ local function GenerateEnergy(self, world, AggFunc)
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx + raySide[i], by}, rayTests[i])
 		wasHitSum = 0
+		wasHitBoost = 0
+		alreadyHit = {}
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 5, rayPos[1], rayPos[2], HitTest)
-		if wasHitSum < 1 then
-			power = power + 15*math.max(0, 1 - wasHitSum)
-		end
+		power = power + 18*math.max(0, 1 - wasHitSum) + 18*wasHitBoost
 	end
 	power = (power*0.35 + power*0.65*heightMult)*work
 	

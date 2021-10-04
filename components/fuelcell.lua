@@ -1,6 +1,7 @@
 local util = require("include/util")
 
 local ignoreHitIndexUglyGlobal = false
+local alreadyHit = false
 local function HitTest(fixture, x, y, xn, yn, fraction)
 	local component = fixture:getUserData()
 	if component and (component.index == ignoreHitIndexUglyGlobal or component.inShop or component.isDead) then
@@ -13,6 +14,10 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 	if not component then
 		return 1
 	end
+	if alreadyHit[component.index] then
+		return 1
+	end
+	alreadyHit[component.index] = true
 	component.hitByNuclear = (component.hitByNuclear or 0) + fraction
 	return 1
 end
@@ -29,6 +34,7 @@ local function CheckAdjacency(self, world, AggFunc)
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		ignoreHitIndexUglyGlobal = self.index
+		alreadyHit = {}
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
 	end
 	

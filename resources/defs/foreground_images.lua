@@ -27,6 +27,9 @@ local defs = {
 	{
 		name = "fuelcell_icon2",
 	},
+	{
+		name = "wind2",
+	}
 }
 
 for i = 1, #defs do

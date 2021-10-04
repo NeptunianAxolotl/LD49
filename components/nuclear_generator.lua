@@ -9,7 +9,7 @@ end
 local function GenerateEnergy(self, world, AggFunc)
 	local bx, by = self.body:getWorldCenter()
 	local work = GameHandler.GetWorkEfficiency()
-	local power = math.pow(self.hitByNuclear or 0, 0.7)*120*work
+	local power = math.pow(self.hitByNuclear or 0, 0.7)*110*work
 	
 	if power > 0 then
 		power = util.Round(power, 5)
