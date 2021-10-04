@@ -301,6 +301,53 @@ end
 -- API
 --------------------------------------------------
 
+function api.ToggleMenu()
+	self.menuOpen = not self.menuOpen
+	world.SetMenuState(self.menuOpen)
+end
+
+local function OnMenuItem(drawPos, mousePos)
+	if math.abs(drawPos[1] - mousePos[1]) > 200 then
+		return false
+	end
+	if math.abs(drawPos[2] - mousePos[2]) > 200 then
+		return false
+	end
+	return math.floor((mousePos[2] - drawPos[2] + 150)/60) + 1
+end
+
+function api.MousePressed(x, y)
+	local windowX, windowY = love.window.getMode()
+	local drawPos = world.ScreenToInterface({windowX, 0})
+	Resources.DrawImage("interface_right", drawPos[1], math.ceil(drawPos[2]))
+
+	local mousePos = {x, y}
+	local mouseHover = util.PosInRectangle(mousePos, drawPos[1] - 170, drawPos[2], 170, 50)
+	if mouseHover then
+		api.ToggleMenu()
+	end
+	
+	if self.menuOpen then
+		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
+		local onItem = OnMenuItem(drawPos, mousePos)
+		if onItem == 1 then
+			self.menuOpen = false
+			world.SetMenuState(self.menuOpen)
+		elseif onItem == 2 then
+			world.ToggleMusic()
+		elseif onItem == 3 then
+			world.Restart()
+		elseif onItem == 4 then
+			world.TakeScreenshot()
+		elseif onItem == 5 then
+			love.event.quit() 
+		end
+	elseif gameOver then
+		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
+	
+	end
+end
+
 local function DrawMenu(windowX, windowY)
 	local drawPos = world.ScreenToInterface({windowX, 0})
 	Resources.DrawImage("interface_right", drawPos[1], math.ceil(drawPos[2]))
@@ -317,12 +364,28 @@ local function DrawMenu(windowX, windowY)
 	love.graphics.printf("Menu", drawPos[1] - 170, drawPos[2] + 11, 200, "center")
 	
 	local gameOver, gameWon, gameLost, reason = world.GetGameOver()
-	if gameOver then
+	if self.menuOpen then
+		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
+		Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
+		Font.SetSize(0)
+		
+		local menuItems = {"Return", "Sound " .. (world.MusicEnabled() and "(On)" or "(Off)"), "Restart", "Screenshot", "Quit"}
+		
+		local onItem = OnMenuItem(drawPos, mousePos)
+		for i = 1, #menuItems do
+			if onItem == i then
+				love.graphics.setColor(0.5, 0.5, 0.5, 1)
+			else
+				love.graphics.setColor(1, 1, 1, 1)
+			end
+			love.graphics.printf(menuItems[i], drawPos[1] - 150, drawPos[2] - 196 + 60*i, 300, "center")
+		end
+	elseif gameOver then
 		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
 		Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
 		Font.SetSize(0)
 		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.printf("Game Over " .. reason .. "<A restart button>", drawPos[1] - 100, drawPos[2], 200, "center")
+		love.graphics.printf("Game Over " .. reason .. "<A restart button>", drawPos[1] - 100, drawPos[2], 300, "center")
 	end
 end
 

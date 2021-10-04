@@ -48,6 +48,15 @@ function api.GetGameOver()
 	return self.gameWon or self.gameLost, self.gameWon, self.gameLost, self.overType
 end
 
+function api.Restart()
+	PhysicsHandler.Destroy()
+	api.Initialize()
+end
+
+function api.TakeScreenshot()
+
+end
+
 function api.SetGameOver(hasWon, overType)
 	if self.gameWon or self.gameLost then
 		return
@@ -62,12 +71,11 @@ end
 
 function api.KeyPressed(key, scancode, isRepeat)
 	if key == "escape" then
-		self.paused = not self.paused
+		GameHandler.ToggleMenu()
 		--SoundHandler.PlaySound("pause")
 	end
 	if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		PhysicsHandler.Destroy()
-		api.Initialize()
+		spi.Restart()
 	end
 	if api.GetPaused() then
 		if key == "return" or key == "kpenter" then
@@ -79,6 +87,8 @@ function api.KeyPressed(key, scancode, isRepeat)
 end
 
 function api.MousePressed(x, y)
+	local uiX, uiY = self.interfaceTransform:inverse():transformPoint(x, y)
+	GameHandler.MousePressed(uiX, uiY)
 	if api.GetPaused() or api.GetGameOver() then
 		return
 	end
@@ -181,9 +191,9 @@ function api.Draw()
 	
 	-- Draw interface
 	EffectsHandler.DrawInterface()
-	GameHandler.DrawInterface()
 	PowerupHandler.DrawInterface()
 	ChatHandler.DrawInterface()
+	GameHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end
@@ -194,6 +204,7 @@ function api.Initialize()
 	self.interfaceTransform = love.math.newTransform()
 	self.emptyTransform = love.math.newTransform()
 	self.paused = false
+	self.musicEnabled = true
 	
 	EffectsHandler.Initialize()
 	MusicHandler[1].Initialize()
