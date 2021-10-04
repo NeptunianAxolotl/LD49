@@ -25,7 +25,7 @@ local powerupDefs = {
 	chain = {
 		shopImage = "chain_powerup",
 		gameImage = "chain_strand",
-		strength = 4,
+		strength = 2.8,
 		restore = 0.04,
 		maxStretch = 1.5,
 	},

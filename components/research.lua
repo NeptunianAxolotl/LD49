@@ -19,7 +19,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	if ComponentHandler.WantEffectsGraphics() then
 		EffectsHandler.SpawnEffect("research_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = self.def.researchPower})
 	end
-	AggFunc("research", self.def.researchPower*work)
+	AggFunc("research", self.def.researchPower*work*Global.TECH_MULT)
 end
 
 return {

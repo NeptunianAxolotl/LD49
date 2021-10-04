@@ -397,7 +397,7 @@ local function UpdateEnergyAndDemand()
 	self.score = self.score + energy
 	
 	if energy < self.energyDemand then
-		local mult = (self.bankDeath == 0 and 0.5) or 1
+		local mult = ((self.bankDeath == 0 and 0.5) or 1)*Global.BANK_DAMAGE_MULT
 		self.bankDeath = self.bankDeath + (0.05 + math.min(0.15, 0.25*self.energyDemand / energy))*mult
 	elseif self.bankDeath > 0 then
 		self.bankDeath = math.max(0, self.bankDeath - 0.25)

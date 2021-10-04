@@ -37,8 +37,7 @@ local techProgression = {
 	{
 		cost = 200,
 		newCards = {
-			"solar",
-			"rope",
+			"research",
 			"office",
 			"office"
 		},
@@ -46,14 +45,19 @@ local techProgression = {
 		message = "unlock_office",
 	},
 	{
-		cost = 250,
+		cost = 260,
+		newCards = {
+			"solar",
+			"rope",
+		},
 		drawSize = 3,
 		message = "unlock_slot_3"
 	},
 	{
-		cost = 300,
+		cost = 320,
 		newCards = {
 			"nuclear_generator",
+			"fuelcell",
 			"marine",
 			"marine"
 		},
@@ -61,9 +65,8 @@ local techProgression = {
 		message = "unlock_marine",
 	},
 	{
-		cost = 360,
+		cost = 400,
 		newCards = {
-			"fuelcell",
 			"chain",
 			"chain",
 		},
@@ -71,25 +74,116 @@ local techProgression = {
 		message = "unlock_chain",
 	},
 	{
-		cost = 420,
+		cost = 450,
 		newCards = {
+			"office",
+			"research2",
 			"research2",
 			"research2",
 		},
 		removeCards = {
 			"research",
+			"research",
+			"research",
 		},
 		jumpToEnd = true,
 		message = "unlock_research2",
 	},
-
+	{
+		cost = 750,
+		newCards = {
+			"light",
+			"light",
+			"solar",
+		},
+		jumpToEnd = true,
+		message = "unlock_light",
+	},
+	{
+		cost = 1200,
+		newCards = {
+			"fuelcell2",
+			"fuelcell2",
+		},
+		removeCards = {
+			"fuelcell",
+		},
+		jumpToEnd = true,
+		message = "unlock_fuelcell2",
+	},
+	{
+		cost = 1600,
+		newCards = {
+			"chain",
+			"chain",
+			"chain",
+		},
+		removeCards = {
+			"rope",
+			"rope",
+			"rope",
+		},
+		jumpToEnd = true,
+		message = "unlock_no_rope",
+	},
+	{
+		cost = 2000,
+		drawSize = 4,
+		message = "unlock_slot_4",
+	},
+	{
+		cost = 2500,
+		newCards = {
+			"fan",
+			"fan",
+		},
+		jumpToEnd = true,
+		message = "unlock_fan",
+	},
+	{
+		cost = 3000,
+		newCards = {
+			"nano",
+			"nano",
+		},
+		removeCards = {
+			"chain",
+		},
+		jumpToEnd = true,
+		message = "unlock_nano",
+	},
+	{
+		cost = 3800,
+		newCards = {
+			"office2",
+			"office2",
+			"office2",
+		},
+		removeCards = {
+			"office",
+			"office",
+			"office",
+		},
+		jumpToEnd = true,
+		message = "unlock_office2",
+	},
+	{
+		cost = 5000,
+		newCards = {
+			"nano",
+		},
+		message = "unlock_more_nano",
+	},
+	{
+		cost = 10000,
+		message = "unlock_perpetual",
+	},
 }
 
-local costMult = 1.4
-local baseCost = 100
+local costMult = 2
 for i = 1, #techProgression do
 	if not techProgression[i].cost then
-		techProgression[i].cost = math.floor(baseCost*math.pow(costMult, i)/10)*10
+		techProgression[i].cost = techProgression[i - 1].cost * costMult
 	end
 end
 
