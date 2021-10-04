@@ -59,7 +59,7 @@ end
 function self.DrawConsole()
 	local windowX, windowY = love.window.getMode()
 	local drawPos = world.ScreenToInterface({0, windowY*0.25})
-	local botPad = drawPos[2] + #self.lines*25
+	local botPad = drawPos[2] + #self.lines*Global.LINE_SPACING
 
 	for i = 1, #self.lines do
 		local line = self.lines[i]
@@ -70,8 +70,8 @@ function self.DrawConsole()
 			math.min(1, line.consoleTimer)
 		)
 		
-		Font.SetSize(1)
-		love.graphics.print(line.consoleText, 80, botPad - (i * 25))
+		Font.SetSize(0)
+		love.graphics.print(line.consoleText, 80, botPad - (i * Global.LINE_SPACING))
 		love.graphics.setColor(1,1,1)
 	end
 end

@@ -18,6 +18,9 @@ local defs = {
 		name = "nuclear",
 	},
 	{
+		name = "nuclear_energy",
+	},
+	{
 		name = "office2",
 	},
 	{
