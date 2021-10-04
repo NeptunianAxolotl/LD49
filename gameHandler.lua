@@ -298,6 +298,15 @@ local function DrawMenu(windowX, windowY)
 	Font.SetSize(0)
 	love.graphics.setColor(1, 1, 1, 1)
 	love.graphics.printf("Menu", drawPos[1] - 170, drawPos[2] + 11, 200, "center")
+	
+	local gameOver, gameWon, gameLost, reason = world.GetGameOver()
+	if gameOver then
+		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
+		Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
+		Font.SetSize(0)
+		love.graphics.setColor(1, 1, 1, 1)
+		love.graphics.printf("Game Over " .. reason .. "<A restart button>", drawPos[1] - 100, drawPos[2], 200, "center")
+	end
 end
 
 --------------------------------------------------
@@ -309,8 +318,8 @@ local function UpdateEnergyAndDemand()
 	self.score = self.score + energy
 	
 	if energy < self.energyDemand then
-		local mult = (self.bankDeath == 0 and 1.5) or 1
-		self.bankDeath = self.bankDeath + (0.1 + math.min(0.15, 0.1*self.energyDemand / energy))*mult
+		local mult = (self.bankDeath == 0 and 0.5) or 1
+		self.bankDeath = self.bankDeath + (0.05 + math.min(0.15, 0.25*self.energyDemand / energy))*mult
 	elseif self.bankDeath > 0 then
 		self.bankDeath = math.max(0, self.bankDeath - 0.25)
 	end
@@ -319,7 +328,7 @@ local function UpdateEnergyAndDemand()
 	SetNumber("score", self.score)
 	
 	if self.bankDeath >= 1 then
-		wordld.SetGameOver(false, "bank_death")
+		world.SetGameOver(false, "bank_death")
 	end
 end
 
@@ -347,7 +356,7 @@ function self.AddSeaDamage(damage)
 	SetNumber("sea", self.seaDamage)
 	
 	if self.seaDamage >= 1 then
-		wordld.SetGameOver(false, "sea_death")
+		world.SetGameOver(false, "sea_death")
 	end
 end
 
