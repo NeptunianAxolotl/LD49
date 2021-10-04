@@ -39,7 +39,7 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [40] = {
-            text = {"a"},
+            text = {"You remember hearing about global", "currents that cause tornadoes every", "year, in some parts of the world.", "You hope you're not in one of those", "parts."},
             sound = "chat_bad",
             },
         [50] = {
@@ -47,11 +47,11 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [60] = {
-            text = {"m"},
+            text = {"You swear that dolphin you saw", "yesterday looked at you funny.",  "You're having trouble sleeping."},
             sound = "chat_bad",
         },
         [70] = {
-            text = {"i"},
+            text = {"You hear a whale moaning in the", "distance.  It sounds like it's in", "pain."},
             sound = "chat_bad",
         },
         [80] = {
