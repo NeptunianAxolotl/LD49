@@ -201,7 +201,7 @@ local iconOffset = {
 }
 
 local getItemValue = {
-	energy = function () return Round(ComponentHandler.GetEnergy()*self.GetPostPowerMult()), ComponentHandler.GetEnergy() > 0 end,
+	energy = function () return Round(ComponentHandler.GetEnergy()), ComponentHandler.GetEnergy() > 0 end,
 	demand = function () return self.energyDemand, self.energyDemand > 0 end,
 	admin = function ()
 		return "+" .. Round(100*(self.GetPostPowerMult() - 1)) .. "%", self.GetPostPowerMult() > 1
@@ -314,7 +314,7 @@ end
 --------------------------------------------------
 
 local function UpdateEnergyAndDemand()
-	local energy = Round(ComponentHandler.GetEnergy()*self.GetPostPowerMult())
+	local energy = Round(ComponentHandler.GetEnergy())
 	self.score = self.score + energy
 	
 	if energy < self.energyDemand then
@@ -364,10 +364,9 @@ function self.AddSeaDamage(damage)
 	end
 end
 
-function self.UpdateRates(research, popCost, popRoom)
+function self.UpdateRates(research, adminMult)
 	self.researchRate = research/DeckHandler.GetResearchCost()
-	self.adminRequired = popCost
-	self.adminSupplied = popRoom
+	self.adminMult = adminMult
 end
 
 function self.DoTurn()
@@ -389,12 +388,6 @@ function self.DoTurn()
 end
 
 function self.GetWorkEfficiency()
-	if self.adminSupplied <= 1 then
-		return 1
-	end
-	if self.adminRequired <= 1 then
-		return 1
-	end
 	return 1
 end
 
@@ -403,13 +396,7 @@ function self.GetTurn()
 end
 
 function self.GetPostPowerMult()
-	if self.adminSupplied <= 1 then
-		return 1
-	end
-	if self.adminRequired <= 1 then
-		return 1
-	end
-	return 1 + self.adminSupplied*0.0025
+	return 1 + self.adminMult
 end
 
 
@@ -442,8 +429,7 @@ function self.Initialize(parentWorld)
 	self.researchRate = 0
 	self.researchProgress = 0
 	self.researchCost = 1
-	self.adminRequired = 0
-	self.adminSupplied = 0
+	self.adminMult = 0
 	self.energyDemand = 0
 	self.bankDeath = 0
 	self.score = 0

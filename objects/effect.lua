@@ -28,6 +28,13 @@ local function NewEffect(self, def)
 			end
 			return (self.life / maxLife) / (1 - def.alphaBuffer)
 		end
+		if def.alphaTriangle then
+			if self.life/maxLife < def.alphaTriangle then
+				return (self.life/maxLife)/def.alphaTriangle
+			else
+				return (1 - self.life/maxLife)/(1 - def.alphaTriangle)
+			end
+		end
 		return self.life/maxLife
 	end
 	

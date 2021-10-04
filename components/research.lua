@@ -10,7 +10,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	
 	if (self.hitByNuclear or 0) > 0 then
 		if ComponentHandler.WantEffectsGraphics() then
-			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "Irradiated!!!"})
+			EffectsHandler.SpawnEffect("irradiate", {bx, by}, {scale = self.imageRadius/50})
 		end
 		return
 	end
@@ -36,4 +36,5 @@ return {
 	ResetAggregators = ResetAggregators,
 	seaDamage = 0.06,
 	popCost = 2,
+	nuclearDisables = true,
 }

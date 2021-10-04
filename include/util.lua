@@ -476,6 +476,11 @@ function util.Round(x, near)
 	return math.floor((x + near*0.5)/near)*near
 end
 
+function util.RoundDown(x, near)
+	near = near or 1
+	return math.floor(x/near)*near
+end
+
 --------------------------------------------------
 --------------------------------------------------
 -- Time

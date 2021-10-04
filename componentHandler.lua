@@ -48,15 +48,15 @@ function api.GetEnergy(eType)
 	if eType then
 		return ((self.energyByType and self.energyByType[eType]) or 0)
 	end
-	return api.GetEnergy("solar") + api.GetEnergy("wind") + api.GetEnergy("nuclear")
+	return api.GetEnergy("solar") + api.GetEnergy("wind") + api.GetEnergy("nuclear") + api.GetEnergy("officeEnergy")
 end
 
 function api.GetResearchRate()
 	return api.GetEnergy("research")
 end
 
-function api.GetWorkforce()
-	return api.GetEnergy("popCost"), api.GetEnergy("popRoom")
+function api.GetOfficeMult()
+	return api.GetEnergy("officeMult")
 end
 
 function api.GetViewRestriction()
@@ -76,7 +76,8 @@ function api.RecalcEffects(showGraphics)
 	IterableMap.ApplySelf(self.components, "CheckAdjacency", api.AddEnergy)
 	IterableMap.ApplySelf(self.components, "CheckAdjacency_Post", api.AddEnergy)
 	IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
-	GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("popCost"), api.GetEnergy("popRoom"))
+	IterableMap.ApplySelf(self.components, "GenerateEnergy_Post", api.AddEnergy)
+	GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("adminMult"))
 end
 
 function api.Update(dt)

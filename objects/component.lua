@@ -368,6 +368,12 @@ local function NewComponent(self, world)
 		end
 	end
 	
+	function self.GenerateEnergy_Post(AggFunc)
+		if self.def.GenerateEnergy_Post and not self.inShop and not IsOverspeed(self) then
+			self.def.GenerateEnergy_Post(self, world, AggFunc)
+		end
+	end
+	
 	function self.ResetAggregators(AggFunc)
 		if self.def.ResetAggregators and not self.inShop then
 			self.def.ResetAggregators(self, world, AggFunc)
@@ -478,9 +484,14 @@ local function NewComponent(self, world)
 				local angle = self.body:getAngle()
 				love.graphics.translate(x, y)
 				love.graphics.rotate(angle)
-
-				love.graphics.setColor(1,1,1)
+				
+				if self.def.nuclearDisables and (self.hitByNuclear or 0) > 0 then
+					love.graphics.setColor(0.78,0.78,0.78)
+				else
+					love.graphics.setColor(1,1,1)
+				end
 				love.graphics.draw(self.mesh)
+					love.graphics.setColor(1,1,1)
 				--love.graphics.draw(self.borderMesh)
 
 				love.graphics.setLineWidth(3)
