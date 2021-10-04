@@ -22,7 +22,7 @@ local powerupDefs = {
 		restore = 0.02,
 		maxStretch = 2,
 		soundFirst = "rope_grab",
-		soundSecond = "rope_release",
+		soundSecond = "rope_letgo",
 	},
 	chain = {
 		shopImage = "chain_powerup",
@@ -31,7 +31,7 @@ local powerupDefs = {
 		restore = 0.04,
 		maxStretch = 1.5,
 		soundFirst = "chain_grab",
-		soundSecond = "chain_release",
+		soundSecond = "chain_letgo",
 	},
 	nano = {
 		shopImage = "nano_powerup",
@@ -41,7 +41,7 @@ local powerupDefs = {
 		maxStretch = 0.8,
 		setDistance = true,
 		soundFirst = "nano_grab",
-		soundSecond = "nano_release",
+		soundSecond = "nano_letgo",
 	},
 }
 

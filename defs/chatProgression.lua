@@ -21,7 +21,7 @@ local chatProgression = {
             delay = 1.5,
         },
         [Global.SCORE_DISPLAY_TURN + 1] = {
-            text = {"Ah - by the way, a readout of", "your total power generation", "is shown above. Have to keep", " track of your performance", "after all!", ""}, --score
+            text = {"Ah - by the way, a readout of", "your total power generation", "is shown above. Have to keep", "track of your performance", "after all!", ""}, --score
             sound = "chat_good",
             delay = 1.5,
         },
@@ -70,7 +70,6 @@ local chatProgression = {
         [100] = {
             text = {"Small boats crewed by people", "holding golf clubs have been", "sighted in the distance.",  "Your accountants have taken the", "liberty of calling the company", "lawyers in your stead. You have", "been 'strongly encouraged' to", "take the next available flight", "off the island, in case things", "escalate.", "", "You have lost the game.", "Press Ctrl+R to restart.", ""},
             sound = "chat_very_bad",
-            color = {255/255, 220/255, 220/255},
 			last = true,
         },
 	},
@@ -110,7 +109,6 @@ local chatProgression = {
 		[100] = {
             text = {"Your performance review has concluded,", "and we have decided to find a new", "candidate for your position. The", "budget will certainly not accommodate", "a helicopter following your poor performance.",  "I am afraid you will have to swim", "home.", "", "If your replacement finds you still", "present on the island, they have", "been authorized to evict you with","extreme prejudice.", "", "You have lost the game.", "Press Ctrl+R to restart.", ""},
             sound = "chat_very_bad",
-            color = {255/255, 220/255, 220/255},
 			last = true,
 		},
 	},
@@ -123,7 +121,7 @@ local chatProgression = {
         sound = "chat_good",
 	},
 	unlock_solar = {
-		text = {"The scientists have invented solar", "panels! Time for the sun to earn,", "its keep.", ""},
+		text = {"The scientists have invented solar", "panels! Time for the sun to earn", "its keep.", ""},
         sound = "chat_good",
 	},
     unlock_wsad = {

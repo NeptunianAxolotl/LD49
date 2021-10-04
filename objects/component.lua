@@ -208,7 +208,7 @@ local function ReleaseMouse(self)
 		self.mouseJoint:destroy()
 		self.mouseJoint = nil
 		if PowerupHandler.AllowSelectSound() then
-			SoundHandler.PlaySound("obj_release")
+			SoundHandler.PlaySound("obj_letgo")
 		end
 	end
 	self.body:setAngularDamping(0.02)
