@@ -132,6 +132,8 @@ function api.GetPhysicsWorld()
 end
 
 function api.Update(dt)
+	MusicHandler.Update(dt)
+	SoundHandler.Update(dt)
 	if api.GetPaused() then
 		return
 	end
@@ -146,8 +148,6 @@ function api.Update(dt)
 
 	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
-	MusicHandler.Update(dt)
-	SoundHandler.Update(dt)
 	island.Update(dt)
 	GameHandler.Update(dt)
 	
