@@ -40,12 +40,18 @@ function api.AddMessage(text, timer, turns, color, sound)
 end
 
 function api.AddTurnMessageRaw(message)
+	if self.hadLastChat then
+		return
+	end
 	local function AddFunc()
 		for i = #message.text, 1, -1 do
 			api.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
 		end
 	end
 	Delay.Add(message.delay or 0.7, AddFunc)
+	if message.last then
+		self.hadLastChat = true
+	end
 end
 
 function api.AddTurnMessage(messageName)
