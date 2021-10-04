@@ -12,6 +12,8 @@ local globals = {
 	SEA_HEAL_DECAY = 0.98,
 	SEA_DAMAGE_MULT = 0.6,
 	
+	INC_OFFSET = -15,
+	
 	SCORE_DISPLAY_TURN = 4,
 	
 	CONSOLE_BOTTOM = 700,

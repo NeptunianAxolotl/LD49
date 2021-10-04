@@ -15,7 +15,7 @@ local function GenerateEnergy_Post(self, world, AggFunc)
 	
 	local generated = GameHandler.GetSeaHealMult()*self.def.seaHealPower
 	if ComponentHandler.WantEffectsGraphics() and GameHandler.GetRealSeaDamage() > 0 then
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "-" .. ("%.2g"):format(generated*100) .. "%"})
+		EffectsHandler.SpawnEffect("heal_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = "-" .. ("%.2g"):format(generated*100) .. "%"})
 	end
 	AggFunc("heal", generated)
 end

@@ -56,7 +56,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	end
 	
 	if ComponentHandler.WantEffectsGraphics() then
-		EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
+		EffectsHandler.SpawnEffect("mult_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
 	end
 	AggFunc("solar", power)
 end

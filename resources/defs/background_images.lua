@@ -23,6 +23,12 @@ local defs = {
 	{
 		name = "nuclear",
 	},
+	{
+		name = "office2",
+	},
+	{
+		name = "research2",
+	},
 }
 
 for i = 1, #defs do

@@ -17,24 +17,24 @@ local function GenerateEnergy(self, world, AggFunc)
 	local work = GameHandler.GetWorkEfficiency()
 	
 	if ComponentHandler.WantEffectsGraphics() then
-		EffectsHandler.SpawnEffect("research_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = self.def.researchPower})
+		EffectsHandler.SpawnEffect("research_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = self.def.researchPower})
 	end
 	AggFunc("research", self.def.researchPower*work)
 end
 
 return {
-	density = 1.2 * Global.DENSITY_MULT,
+	density = 1.5 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
 	foregroundImage = "research_icon",
-	backgroundImage = "research",
-	borderImage = "research",
+	backgroundImage = "research2",
+	borderImage = "research2",
 	borderThickness = 40,
-	researchPower = 10,
+	researchPower = 25,
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
-	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
+	seaDamage = 0.1 * Global.SEA_DAMAGE_MULT,
 	popCost = 2,
 	nuclearDisables = true,
 }

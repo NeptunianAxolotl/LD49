@@ -22,17 +22,17 @@ local function GenerateEnergy_Post(self, world, AggFunc)
 end
 
 return {
-	density = 1.2 * Global.DENSITY_MULT,
+	density = 1.5 * Global.DENSITY_MULT,
 	maxNumberOfVertices = 8,
 	minSize = 80,
 	maxSize = 100,
 	foregroundImage = "office_icon",
-	backgroundImage = "office",
-	borderImage = "office",
+	backgroundImage = "office2",
+	borderImage = "office2",
 	borderThickness = 40,
 	ResetAggregators = ResetAggregators,
 	GenerateEnergy_Post = GenerateEnergy_Post,
-	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
-	marketingValue = 0.05,
+	seaDamage = 0.1 * Global.SEA_DAMAGE_MULT,
+	marketingValue = 0.1,
 	nuclearDisables = true,
 }
