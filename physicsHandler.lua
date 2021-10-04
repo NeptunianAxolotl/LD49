@@ -42,6 +42,13 @@ function self.Update(dt)
 	physicsWorld:update(dt)
 end
 
+function self.Destroy(dt)
+	if physicsWorld then
+		physicsWorld:destroy()
+		physicsWorld = nil
+	end
+end
+
 function self.Initialize(parentWorld)
 	world = parentWorld
 	physicsWorld = love.physics.newWorld(0, 0, true) -- Last argument is whether sleep is allowed.

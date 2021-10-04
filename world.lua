@@ -20,20 +20,21 @@ local island = require("objects/island")
 local PriorityQueue = require("include/PriorityQueue")
 
 local self = {}
+local api = {}
 
-function self.GetPaused()
+function api.GetPaused()
 	return self.paused
 end
 
-function self.MusicEnabled()
+function api.MusicEnabled()
 	return self.musicEnabled
 end
 
-function self.GetGameOver()
+function api.GetGameOver()
 	return self.gameWon or self.gameLost, self.gameWon, self.gameLost, self.overType
 end
 
-function self.SetGameOver(hasWon, overType)
+function api.SetGameOver(hasWon, overType)
 	if self.gameWon or self.gameLost then
 		return
 	end
@@ -45,15 +46,16 @@ function self.SetGameOver(hasWon, overType)
 	end
 end
 
-function self.KeyPressed(key, scancode, isRepeat)
+function api.KeyPressed(key, scancode, isRepeat)
 	if key == "escape" then
 		self.paused = not self.paused
 		--SoundHandler.PlaySound("pause")
 	end
 	if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		self.Initialize()
+		PhysicsHandler.Destroy()
+		api.Initialize()
 	end
-	if self.GetPaused() then
+	if api.GetPaused() then
 		if key == "return" or key == "kpenter" then
 			self.paused = false
 			--SoundHandler.PlaySound("pause")
@@ -62,8 +64,8 @@ function self.KeyPressed(key, scancode, isRepeat)
 	end
 end
 
-function self.MousePressed(x, y)
-	if self.GetPaused() or self.GetGameOver() then
+function api.MousePressed(x, y)
+	if api.GetPaused() or api.GetGameOver() then
 		return
 	end
 	x, y = self.cameraTransform:inverse():transformPoint(x, y)
@@ -72,44 +74,44 @@ function self.MousePressed(x, y)
 	ComponentHandler.MousePressed(x, y)
 end
 
-function self.MouseReleased(x, y)
+function api.MouseReleased(x, y)
 	x, y = self.cameraTransform:inverse():transformPoint(x, y)
 	PowerupHandler.MouseReleased(x, y)
 	ComponentHandler.MouseReleased(x, y)
 end
 
-function self.WorldToScreen(pos)
+function api.WorldToScreen(pos)
 	local x, y = self.cameraTransform:transformPoint(pos[1], pos[2])
 	return {x, y}
 end
 
-function self.ScreenToWorld(pos)
+function api.ScreenToWorld(pos)
 	local x, y = self.cameraTransform:inverse():transformPoint(pos[1], pos[2])
 	return {x, y}
 end
 
-function self.ScreenToInterface(pos)
+function api.ScreenToInterface(pos)
 	local x, y = self.interfaceTransform:inverse():transformPoint(pos[1], pos[2])
 	return {x, y}
 end
 
-function self.GetMousePositionInterface()
+function api.GetMousePositionInterface()
 	local x, y = love.mouse.getPosition()
-	return self.ScreenToInterface({x, y})
+	return api.ScreenToInterface({x, y})
 end
 
-function self.GetMousePosition()
+function api.GetMousePosition()
 	local x, y = love.mouse.getPosition()
-	return self.ScreenToWorld({x, y})
+	return api.ScreenToWorld({x, y})
 end
 
 
-function self.GetPhysicsWorld()
+function api.GetPhysicsWorld()
 	return PhysicsHandler.GetPhysicsWorld()
 end
 
-function self.Update(dt)
-	if self.GetPaused() then
+function api.Update(dt)
+	if api.GetPaused() then
 		return
 	end
 	
@@ -134,7 +136,7 @@ function self.Update(dt)
 	Camera.UpdateTransform(self.cameraTransform, cameraX, cameraY, cameraScale)
 end
 
-function self.Draw()
+function api.Draw()
 	love.graphics.replaceTransform(self.cameraTransform)
 
 	local drawQueue = PriorityQueue.new(function(l, r) return l.y < r.y end)
@@ -172,7 +174,8 @@ function self.Draw()
 	love.graphics.replaceTransform(self.emptyTransform)
 end
 
-function self.Initialize()
+function api.Initialize()
+	self = {}
 	self.cameraTransform = love.math.newTransform()
 	self.interfaceTransform = love.math.newTransform()
 	self.emptyTransform = love.math.newTransform()
@@ -183,14 +186,14 @@ function self.Initialize()
 	MusicHandler[2].Initialize()
 	MusicHandler[3].Initialize()
 	SoundHandler.Initialize()
-	ChatHandler.Initialize(self)
-	PhysicsHandler.Initialize(self)
-	DeckHandler.Initialize(self)
-	ComponentHandler.Initialize(self)
-	PowerupHandler.Initialize(self)
-	ShopHandler.Initialize(self)
-	GameHandler.Initialize(self)
-	island.Initialize(self)
+	ChatHandler.Initialize(api)
+	PhysicsHandler.Initialize(api)
+	DeckHandler.Initialize(api)
+	ComponentHandler.Initialize(api)
+	PowerupHandler.Initialize(api)
+	ShopHandler.Initialize(api)
+	GameHandler.Initialize(api)
+	island.Initialize(api)
 
 	MusicHandler[1].SwitchTrack("background_bass")
 	MusicHandler[2].SwitchTrack("background_drums")
@@ -205,4 +208,4 @@ function self.Initialize()
 	})
 end
 
-return self
+return api

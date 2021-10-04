@@ -5,6 +5,7 @@ local EffectsHandler = require("effectsHandler")
 local ComponentHandler = require("componentHandler")
 local Resources = require("resourceHandler")
 
+local api = {}
 local self = {}
 local world
 
@@ -30,45 +31,41 @@ local powerupDefs = {
 	},
 }
 
-local currentPowerup = false
-local firstClicked = false
-local firstClickedPos = false
-
 --------------------------------------------------
 -- API
 --------------------------------------------------
 
 local function DoPowerupMouseAction(x, y)
-	if not currentPowerup then
+	if not self.currentPowerup then
 		return
 	end
 	local component = ComponentHandler.GetComponentAt(x, y, true)
 	if not component then
 		return
 	end
-	if firstClicked and firstClicked.dead then
+	if self.firstClicked and self.firstClicked.dead then
 		firstClicked = false
 	end
-	if not firstClicked then
-		firstClicked = component
-		firstClickedPos = component.WorldToLocal({x, y})
+	if not self.firstClicked then
+		self.firstClicked = component
+		self.firstClickedPos = component.WorldToLocal({x, y})
 		return
 	end
-	if firstClicked.index == component.index then
+	if self.firstClicked.index == component.index then
 		return
 	end
 	
-	local powerupData = powerupDefs[currentPowerup]
+	local powerupData = powerupDefs[self.currentPowerup]
 	
-	local firstPos = firstClicked.LocalToWorld(firstClickedPos)
+	local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
-	local joint = love.physics.newRopeJoint(firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)
+	local joint = love.physics.newRopeJoint(self.firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)
 	
-	firstClicked.jointData = firstClicked.jointData or {}
-	firstClicked.jointData[#firstClicked.jointData + 1] = {
+	self.firstClicked.jointData = self.firstClicked.jointData or {}
+	self.firstClicked.jointData[#self.firstClicked.jointData + 1] = {
 		joint = joint,
 		desiredLength = ropeLength,
-		startPos = firstClickedPos,
+		startPos = self.firstClickedPos,
 		endComponent = component,
 		endPos = component.WorldToLocal({x, y}),
 		strength = powerupData.strength,
@@ -77,36 +74,36 @@ local function DoPowerupMouseAction(x, y)
 		image = powerupData.gameImage,
 	}
 	
-	currentPowerup = false
-	firstClicked = false
-	firstClickedPos = false
+	self.currentPowerup = false
+	self.firstClicked = false
+	self.firstClickedPos = false
 end
 
 --------------------------------------------------
 -- API
 --------------------------------------------------
 
-function self.GetRandomPowerup()
+function api.GetRandomPowerup()
 	return util.SampleList(powerupList)
 end
 
-function self.SelectPowerup(powerupType)
-	currentPowerup = powerupType
+function api.SelectPowerup(powerupType)
+	self.currentPowerup = powerupType
 end
 
-function self.IsPowerup(powerupType)
+function api.IsPowerup(powerupType)
 	return powerupDefs[powerupType]
 end
 
-function self.MousePressed(x, y)
+function api.MousePressed(x, y)
 	DoPowerupMouseAction(x, y)
 end
 
-function self.MouseReleased(x, y)
+function api.MouseReleased(x, y)
 	DoPowerupMouseAction(x, y)
 end
 
-function self.DrawPowerup(drawQueue, powerupType, pos)
+function api.DrawPowerup(drawQueue, powerupType, pos)
 	drawQueue:push({y=0; f=function()
 		Resources.DrawImage(powerupDefs[powerupType].shopImage, pos[1], pos[2], self.animDt)
 	end})
@@ -116,35 +113,36 @@ end
 -- Updating
 --------------------------------------------------
 
-function self.Update(dt)
+function api.Update(dt)
 	self.animDt = self.animDt + dt
 end
 
-function self.Draw(drawQueue)
-	if firstClicked and not firstClicked.dead then
+function api.Draw(drawQueue)
+	if self.firstClicked and not self.firstClicked.dead then
 		drawQueue:push({y=Global.WORLD_MOUSE_DRAW_ORDER; 
 		f=function()
-			local firstPos = firstClicked.LocalToWorld(firstClickedPos)
+			local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 			local mousePos = world.GetMousePosition()
 			local linkVector = util.Subtract(mousePos, firstPos)
 			
-			Resources.DrawImage(powerupDefs[currentPowerup].gameImage, firstPos[1], firstPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
+			Resources.DrawImage(powerupDefs[self.currentPowerup].gameImage, firstPos[1], firstPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
 		end})
 	end
 end
 
-function self.DrawInterface()
-	if currentPowerup then
+function api.DrawInterface()
+	if self.currentPowerup then
 		local pos = world.GetMousePositionInterface()
 		local angle = math.sin(self.animDt*15)*0.2
-		Resources.DrawImage(powerupDefs[currentPowerup].shopImage, pos[1], pos[2], angle, 1, 0.5)
+		Resources.DrawImage(powerupDefs[self.currentPowerup].shopImage, pos[1], pos[2], angle, 1, 0.5)
 	end
 end
 
 
-function self.Initialize(parentWorld)
+function api.Initialize(parentWorld)
+	self = {}
 	world = parentWorld
 	self.animDt = 0
 end
 
-return self
+return api

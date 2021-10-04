@@ -7,6 +7,7 @@ local ComponentHandler = require("componentHandler")
 local Resources = require("resourceHandler")
 
 local self = {}
+local api = {}
 local world
 
 --------------------------------------------------
@@ -212,7 +213,7 @@ local getItemValue = {
 	energy = function () return Round(ComponentHandler.GetEnergy()), ComponentHandler.GetEnergy() > 0 end,
 	demand = function () return self.energyDemand, self.energyDemand > 0 end,
 	admin = function ()
-		return "+" .. Round(100*(self.GetPostPowerMult() - 1)) .. "%", self.GetPostPowerMult() > 1
+		return "+" .. Round(100*(api.GetPostPowerMult() - 1)) .. "%", api.GetPostPowerMult() > 1
 	end,
 	research = function ()
 		return "+" .. (self.researchRate * DeckHandler.GetResearchCost()), self.researchRate > 0
@@ -363,19 +364,19 @@ end
 -- API
 --------------------------------------------------
 
-function self.GetSeaHealMult()
+function api.GetSeaHealMult()
 	return self.seaHealMult
 end
 
-function self.GetSeaDamage()
+function api.GetSeaDamage()
 	return GetNumber("sea")
 end
 
-function self.GetRealSeaDamage()
+function api.GetRealSeaDamage()
 	return self.seaDamage
 end
 
-function self.AddSeaDamage(damage)
+function api.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
 	SetNumber("sea", self.seaDamage)
 	
@@ -384,13 +385,13 @@ function self.AddSeaDamage(damage)
 	end
 end
 
-function self.UpdateRates(research, adminMult, seaHeal)
+function api.UpdateRates(research, adminMult, seaHeal)
 	self.researchRate = research/DeckHandler.GetResearchCost()
 	self.adminMult = adminMult
 	self.seaHeal = seaHeal
 end
 
-function self.DoTurn()
+function api.DoTurn()
 	ComponentHandler.RecalcEffects()
 	self.turn = self.turn + 1
 	ChatHandler.ChatTurn(self.turn)
@@ -409,15 +410,15 @@ function self.DoTurn()
 	UpdateEnergyDemand()
 end
 
-function self.GetWorkEfficiency()
+function api.GetWorkEfficiency()
 	return 1
 end
 
-function self.GetTurn()
+function api.GetTurn()
 	return self.turn
 end
 
-function self.GetPostPowerMult()
+function api.GetPostPowerMult()
 	return 1 + self.adminMult
 end
 
@@ -426,7 +427,7 @@ end
 -- Updating
 --------------------------------------------------
 
-function self.Update(dt)
+function api.Update(dt)
 	for i = 1, #itemList do
 		UpdateItemShow(dt, itemList[i])
 	end
@@ -436,7 +437,7 @@ function self.Update(dt)
 	self.barDt = self.barDt + dt
 end
 
-function self.DrawInterface()
+function api.DrawInterface()
 	local windowX, windowY = love.window.getMode()
 	
 	for i = 1, #itemList do
@@ -445,7 +446,8 @@ function self.DrawInterface()
 	DrawMenu(windowX, windowY)
 end
 
-function self.Initialize(parentWorld)
+function api.Initialize(parentWorld)
+	self = {}
 	world = parentWorld
 	self.seaDamage = 0
 	self.researchRate = 0
@@ -484,4 +486,4 @@ function self.Initialize(parentWorld)
 	ChatHandler.ChatTurn(self.turn)
 end
 
-return self
+return api

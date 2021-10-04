@@ -13,7 +13,7 @@ local techProgression = {
 		drawSize = 2,
 	},
 	{
-		cost = 80,
+		cost = 70,
 		newCards = {
 			"rope",
 		},
@@ -32,6 +32,10 @@ local techProgression = {
 	},
 	{
 		cost = 160,
+		message = "unlock_wsad"
+	},
+	{
+		cost = 200,
 		newCards = {
 			"solar",
 			"rope",
@@ -42,30 +46,38 @@ local techProgression = {
 		message = "unlock_office",
 	},
 	{
-		cost = 200,
+		cost = 250,
 		drawSize = 3,
 		message = "unlock_slot_3"
 	},
 	{
-		cost = 160,
+		cost = 300,
 		newCards = {
+			"nuclear_generator",
+			"marine",
+			"marine"
+		},
+		jumpToEnd = true,
+		message = "unlock_marine",
+	},
+	{
+		cost = 360,
+		newCards = {
+			"fuelcell",
 			"chain",
-			"rope",
-			"chain"
+			"chain",
 		},
 		jumpToEnd = true,
 		message = "unlock_chain",
 	},
 	{
-		cost = 160,
+		cost = 420,
 		newCards = {
-			"solar",
-			"rope",
-			"office",
-			"office"
+			"research2",
+			"research2",
 		},
 		jumpToEnd = true,
-		message = "unlock_marine",
+		message = "unlock_research2",
 	},
 
 }

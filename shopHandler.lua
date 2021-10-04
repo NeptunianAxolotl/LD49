@@ -5,6 +5,7 @@ local EffectsHandler = require("effectsHandler")
 local ComponentHandler = require("componentHandler")
 local PowerupHandler = require("powerupHandler")
 
+local api = {}
 local self = {}
 local world
 
@@ -96,11 +97,11 @@ end
 -- API
 --------------------------------------------------
 
-function self.ShopSelectAllowed()
+function api.ShopSelectAllowed()
 	return not self.wantRestock
 end
 
-function self.ItemSelected(item, index)
+function api.ItemSelected(item, index)
 	GameHandler.DoTurn()
 	if item then
 		item.inShop = false
@@ -111,7 +112,7 @@ function self.ItemSelected(item, index)
 	self.wantRestock = true
 end
 
-function self.MousePressed(x, y)
+function api.MousePressed(x, y)
 	if self.wantRestock then
 		return
 	end
@@ -119,7 +120,7 @@ function self.MousePressed(x, y)
 		if self.items[i] and self.items[i].isPowerup then
 			if util.PosInCircle({x, y}, GetShopPos(i), powerupRadius) then
 				PowerupHandler.SelectPowerup(self.items[i].powerupType)
-				self.ItemSelected(false, i)
+				api.ItemSelected(false, i)
 			end
 		end
 	end
@@ -129,12 +130,12 @@ end
 -- Updating
 --------------------------------------------------
 
-function self.Update(dt)
+function api.Update(dt)
 	CheckRestock(dt)
 	SetItemPositions(dt)
 end
 
-function self.Draw(drawQueue)
+function api.Draw(drawQueue)
 	for i = 1, #self.items do
 		if self.items[i] and self.items[i].isPowerup then
 			PowerupHandler.DrawPowerup(drawQueue, self.items[i].powerupType, GetShopPos(i))
@@ -142,7 +143,8 @@ function self.Draw(drawQueue)
 	end
 end
 
-function self.Initialize(parentWorld)
+function api.Initialize(parentWorld)
+	self = {}
 	world = parentWorld
 	
 	self.items = {}
@@ -150,4 +152,4 @@ function self.Initialize(parentWorld)
 	self.position = 1
 end
 
-return self
+return api
