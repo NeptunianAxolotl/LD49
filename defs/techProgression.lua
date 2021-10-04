@@ -146,6 +146,9 @@ local techProgression = {
 		cost = 3000,
 		newCards = {
 			"solar",
+			"wind",
+			"nuclear_generator",
+			"solar",
 			"nano",
 			"nano",
 		},
@@ -158,6 +161,9 @@ local techProgression = {
 	{
 		cost = 3800,
 		newCards = {
+			"solar",
+			"wind",
+			"nuclear_generator",
 			"office2",
 			"office2",
 			"office2",
