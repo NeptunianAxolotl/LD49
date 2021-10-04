@@ -86,6 +86,6 @@ return {
 	backgroundImage = "solar",
 	borderImage = "wind",
 	borderThickness = 40,
-	seaDamage = 0.04,
+	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
 	popCost = 1,
 }

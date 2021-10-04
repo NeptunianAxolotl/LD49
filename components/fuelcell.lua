@@ -45,6 +45,6 @@ return {
 	borderImage = "nuclear",
 	borderThickness = 40,
 	CheckAdjacency = CheckAdjacency,
-	seaDamage = 0.15,
+	seaDamage = 0.20 * Global.SEA_DAMAGE_MULT,
 	popCost = 1,
 }

@@ -73,6 +73,6 @@ return {
 	borderImage = "solar",
 	borderThickness = 40,
 	opacity = 0.5,
-	seaDamage = 0.04,
+	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
 	popCost = 1,
 }

@@ -41,6 +41,6 @@ return {
 	borderThickness = 40,
 	ResetAggregators = ResetAggregators,
 	GenerateEnergy = GenerateEnergy,
-	seaDamage = 0.07,
+	seaDamage = 0.10 * Global.SEA_DAMAGE_MULT,
 	popCost = 3,
 }

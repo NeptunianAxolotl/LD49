@@ -34,7 +34,7 @@ return {
 	researchPower = 10,
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
-	seaDamage = 0.06,
+	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
 	popCost = 2,
 	nuclearDisables = true,
 }

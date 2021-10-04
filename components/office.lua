@@ -32,7 +32,7 @@ return {
 	borderThickness = 40,
 	ResetAggregators = ResetAggregators,
 	GenerateEnergy_Post = GenerateEnergy_Post,
-	seaDamage = 0.05,
+	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
 	marketingValue = 0.05,
 	nuclearDisables = true,
 }

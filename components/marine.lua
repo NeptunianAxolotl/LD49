@@ -32,6 +32,6 @@ return {
 	ResetAggregators = ResetAggregators,
 	GenerateEnergy_Post = GenerateEnergy_Post,
 	seaHealPower = 1,
-	seaDamage = 0.03,
+	seaDamage = 0.05 * Global.SEA_DAMAGE_MULT,
 	nuclearDisables = true,
 }
