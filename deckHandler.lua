@@ -70,6 +70,7 @@ function self.TechUp()
 	if tech.message then
 		ChatHandler.AddTurnMessage(tech.message)
 	end
+	--util.PrintTable(self.deck)
 end
 
 function self.GetResearchCost()

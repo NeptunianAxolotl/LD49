@@ -144,6 +144,7 @@ local techProgression = {
 	{
 		cost = 3000,
 		newCards = {
+			"wind",
 			"nano",
 			"nano",
 		},
@@ -173,13 +174,19 @@ local techProgression = {
 		newCards = {
 			"light",
 			"fan",
-			"nuclear_generator",
+			"solar",
+			"solar",
+			"wind",",
+			"fuelcell",
+			"fuelcell2",
+			"nano",
 			"nano",
 		},
 		message = "unlock_more_nano",
 	},
 	{
 		cost = 10000,
+		drawSize = 5,
 		message = "unlock_perpetual",
 	},
 }

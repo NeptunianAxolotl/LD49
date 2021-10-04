@@ -8,7 +8,7 @@ Camera = require("utilities/cameraUtilities")
 Delay = require("utilities/delay")
 
 local PhysicsHandler = require("physicsHandler")
-local PowerupHandler = require("powerupHandler")
+PowerupHandler = require("powerupHandler")
 ChatHandler = require("chatHandler")
 DeckHandler = require("deckHandler")
 ComponentHandler = require("componentHandler")

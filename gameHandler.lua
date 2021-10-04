@@ -422,7 +422,7 @@ local function UpdateSeaHealth()
 end
 
 local function UpdateEnergyDemand()
-	if self.turn < 15 then
+	if self.turn <= Global.DEMAND_ADD_TURN then
 		return
 	end
 	if self.energyDemand == 0 then

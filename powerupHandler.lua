@@ -21,8 +21,8 @@ local powerupDefs = {
 		strength = 1.5,
 		restore = 0.02,
 		maxStretch = 2,
-		sounndFirst = "rope_grab",
-		sounndSecond = "rope_release",
+		soundFirst = "rope_grab",
+		soundSecond = "rope_release",
 	},
 	chain = {
 		shopImage = "chain_powerup",
@@ -30,8 +30,8 @@ local powerupDefs = {
 		strength = 2.8,
 		restore = 0.04,
 		maxStretch = 1.5,
-		sounndFirst = "chain_grab",
-		sounndSecond = "chain_release",
+		soundFirst = "chain_grab",
+		soundSecond = "chain_release",
 	},
 	nano = {
 		shopImage = "nano_powerup",
@@ -40,8 +40,8 @@ local powerupDefs = {
 		restore = 0.04,
 		maxStretch = 0.8,
 		setDistance = true,
-		sounndFirst = "nano_grab",
-		sounndSecond = "nano_release",
+		soundFirst = "nano_grab",
+		soundSecond = "nano_release",
 	},
 }
 
@@ -64,13 +64,15 @@ local function DoPowerupMouseAction(x, y)
 	if not self.firstClicked then
 		self.firstClicked = component
 		self.firstClickedPos = component.WorldToLocal({x, y})
-		SoundHandler.PlaySound(powerupData.sounndFirst)
+		SoundHandler.PlaySound(powerupData.soundFirst)
+		self.selectSoundBlocked = 0.4
 		return
 	end
 	if self.firstClicked.index == component.index then
 		return
 	end
-	SoundHandler.PlaySound(powerupData.sounndSecond)
+	SoundHandler.PlaySound(powerupData.soundSecond)
+	self.selectSoundBlocked = 0.4
 	
 	local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
@@ -125,12 +127,22 @@ function api.DrawPowerup(drawQueue, powerupType, pos)
 	end})
 end
 
+function api.AllowSelectSound()
+	return not self.selectSoundBlocked
+end
+
 --------------------------------------------------
 -- Updating
 --------------------------------------------------
 
 function api.Update(dt)
 	self.animDt = self.animDt + dt
+	if self.selectSoundBlocked then
+		self.selectSoundBlocked = self.selectSoundBlocked - dt
+		if self.selectSoundBlocked < 0 then
+			self.selectSoundBlocked = false
+		end
+	end
 end
 
 function api.Draw(drawQueue)
@@ -140,7 +152,6 @@ function api.Draw(drawQueue)
 			local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 			local mousePos = world.GetMousePosition()
 			local linkVector = util.Subtract(mousePos, firstPos)
-			print(powerupDefs[self.currentPowerup].gameImage)
 			Resources.DrawImage(powerupDefs[self.currentPowerup].gameImage, firstPos[1], firstPos[2], util.Angle(linkVector), 1, {util.AbsVal(linkVector)/300, 1})
 		end})
 	end
