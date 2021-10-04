@@ -9,11 +9,6 @@ local Resources = require("resourceHandler")
 local self = {}
 local world
 
-local elWidth = 200
-local showSpeed = 0.5
-
-local barCol = 0.4
-
 --------------------------------------------------
 -- Updating
 --------------------------------------------------
@@ -55,6 +50,10 @@ end
 -- Updating
 --------------------------------------------------
 
+local botOffset = 0
+local elWidth = 196
+local showSpeed = 0.5
+local barCol = 0.4
 
 local itemList = {
 	"score",
@@ -87,9 +86,9 @@ local itemOrigin = {
 }
 
 local posStart = {
-	energy = {-250, 0},
-	demand = {elWidth, 200},
-	admin = {2*elWidth, 200},
+	energy = {-botOffset, 200},
+	demand = {elWidth - botOffset, 200},
+	admin = {2*elWidth - botOffset, 200},
 	research = {0, -200},
 	score = {0, -200},
 	sea = {-250, 200},
@@ -97,9 +96,9 @@ local posStart = {
 }
 
 local posEnd = {
-	energy = {0, 0},
-	demand = {elWidth, 0},
-	admin = {2*elWidth, 0},
+	energy = {-botOffset, 0},
+	demand = {elWidth - botOffset, 0},
+	admin = {2*elWidth - botOffset, 0},
 	research = {0, 0},
 	score = {0, 200},
 	sea = {0, 200},
@@ -107,10 +106,10 @@ local posEnd = {
 }
 
 local textOffset = {
-	energy = {55, -43},
-	demand = {55, -43},
-	admin = {55, -43},
-	research = {360, 20},
+	energy = {60, -45},
+	demand = {70, -45},
+	admin = {60, -45},
+	research = {370, 13},
 	score = {0, -200},
 	sea = {-200, 200},
 	bank = {-200, 200}
@@ -121,7 +120,7 @@ local barFunc = {
 		local col = {0, 1, 1, 1}
 		local prop = GetNumber("research")
 		local text = Round(GetNumber("research")*DeckHandler.GetResearchCost()) .. " / " .. Round(DeckHandler.GetResearchCost())
-		local pos, size = {58, 18}, {300, 40}
+		local pos, size = {58, 9}, {300, 40}
 		return col, prop, text, pos, size
 	end,
 }
@@ -136,13 +135,31 @@ local background = {
 	bank = "interface_big",
 }
 
+local icon = {
+	energy = "energy_icon",
+	demand = "demand_icon",
+	admin = "admin_icon",
+	research = "science_icon",
+	score = "science_icon",
+	sea = "science_icon",
+	bank = "science_icon",
+}
+
+local iconOffset = {
+	energy = {28 + botOffset, -30},
+	demand = {40 + botOffset, -30},
+	admin = {40 + botOffset, -30},
+	research = {30, 30},
+	score = {30, 30},
+	sea = {30, 30},
+	bank = {30, 30},
+}
+
 local getItemValue = {
 	energy = function () return math.floor(ComponentHandler.GetEnergy()*self.GetPostPowerMult()), ComponentHandler.GetEnergy() > 0 end,
 	demand = function () return self.energyDemand, self.energyDemand > 0 end,
 	admin = function ()
-		if self.GetPostPowerMult() > 1 then
-			return math.floor(100*(1 - self.GetPostPowerMult())) .. "%"
-		end
+		return "+" .. Round(100*(self.GetPostPowerMult() - 1)) .. "%", self.GetPostPowerMult() > 1
 	end,
 	research = function ()
 		return "+" .. (self.researchRate * DeckHandler.GetResearchCost()), self.researchRate > 0
@@ -191,6 +208,9 @@ local function DrawItem(itemName, windowY)
 	Font.SetSize(0)
 	love.graphics.printf(value, textPos[1], textPos[2], 300, "left")
 	
+	local iconPos = util.Add(iconOffset[itemName], pos)
+	Resources.DrawImage(icon[itemName], math.ceil(iconPos[1]), math.ceil(iconPos[2]))
+	
 	if barFunc[itemName] then
 		local col, prop, text, barPos, barSize = barFunc[itemName]()
 		barPos = util.Add(pos, barPos)
@@ -219,9 +239,9 @@ local function UpdateEnergyDemand()
 		return
 	end
 	if self.energyDemand == 0 then
-		self.energyDemand = 500
+		self.energyDemand = 300
 	end
-	self.energyDemand = self.energyDemand + 50 + math.floor(self.turn/10)*10
+	self.energyDemand = self.energyDemand + 30 + math.floor(self.turn/10)*10
 end
 
 --------------------------------------------------
@@ -268,6 +288,7 @@ function self.GetTurn()
 end
 
 function self.GetPostPowerMult()
+	if true then return 10 end
 	if self.adminSupplied <= 1 then
 		return 1
 	end

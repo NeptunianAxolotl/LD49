@@ -23,7 +23,7 @@ return {
 		form = "image",
 		xScale = 0.21,
 		yScale = 0.21,
-		xOffset = 1100/3200,
+		xOffset = 720/3200,
 		yOffset = 74/400,
 	},
 }
