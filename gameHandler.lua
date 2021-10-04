@@ -412,7 +412,8 @@ local function UpdateEnergyAndDemand()
 	SetNumber("score", self.score)
 	
 	if Round(self.bankDeath*100) >= 100 then
-		world.SetGameOver(false, "bank_death")
+		world.SetGameOver(false, "bank")
+		ChatHandler.AddGameOverMessage("bank")
 	end
 end
 
@@ -456,7 +457,8 @@ function api.AddSeaDamage(damage)
 	SetNumber("sea", self.seaDamage)
 	
 	if Round(self.seaDamage*100) >= 100 then
-		world.SetGameOver(false, "sea_death")
+		world.SetGameOver(false, "sea")
+		ChatHandler.AddGameOverMessage("sea")
 	end
 end
 

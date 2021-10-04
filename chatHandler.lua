@@ -44,8 +44,10 @@ function api.AddTurnMessageRaw(message)
 		return
 	end
 	local function AddFunc()
-		for i = #message.text, 1, -1 do
-			api.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
+		if message.text then
+			for i = #message.text, 1, -1 do
+				api.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
+			end
 		end
 	end
 	Delay.Add(message.delay or 0.7, AddFunc)
@@ -76,6 +78,13 @@ function api.ReportOnRecord(name, value, oldValue)
 			return
 		end
 	end
+end
+
+function api.AddGameOverMessage(name)
+	if not (chatProgression[name] and chatProgression[name][100]) then
+		return
+	end
+	api.AddTurnMessageRaw(chatProgression[name][100])
 end
 
 function api.DrawConsole()
