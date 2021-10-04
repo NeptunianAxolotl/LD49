@@ -15,4 +15,7 @@ return {
 	LD49_03_drums_rhythm = {id = 'LD49_03_drums_rhythm', sound = 'LD49_03_drums_rhythm', duration = 38.4, canLoop = true},
 	LD49_03_solo9 = {id = 'LD49_03_solo9', sound = 'LD49_03_solo_9', duration = 38.4, canLoop = true},
 	LD49_03_solo10 = {id = 'LD49_03_solo10', sound = 'LD49_03_solo_10', duration = 38.4, canLoop = true},
+    LD49_01_solo_fake = {id = 'LD49_01_solo_fake', sound = 'LD49_01_solo_fake', duration = 38.4, canLoop = true},
+    LD49_02_solo_fake = {id = 'LD49_02_solo_fake', sound = 'LD49_02_solo_fake', duration = 38.4, canLoop = true},
+    LD49_03_solo_fake = {id = 'LD49_03_solo_fake', sound = 'LD49_03_solo_fake', duration = 38.4, canLoop = true},
 }
