@@ -111,7 +111,7 @@ function api.MouseReleased(x, y)
 end
 
 function api.DrawPowerup(drawQueue, powerupType, pos)
-	drawQueue:push({y=0; f=function()
+	drawQueue:push({y=Global.PIECE_DRAW_ORDER_SHOP; f=function()
 		Resources.DrawImage(powerupDefs[powerupType].shopImage, pos[1], pos[2], self.animDt)
 	end})
 end
@@ -144,7 +144,6 @@ function api.DrawInterface()
 		Resources.DrawImage(powerupDefs[self.currentPowerup].shopImage, pos[1], pos[2], angle, 1, 0.5)
 	end
 end
-
 
 function api.Initialize(parentWorld)
 	self = {}

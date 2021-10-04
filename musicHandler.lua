@@ -50,9 +50,11 @@ end
 local function GetTracks()
 	local foundTrack = {}
 	local seaDamage = math.max(0, math.min(1, GameHandler.GetSeaDamage()))
+	print("seaDamage", seaDamage)
 	
 	for i = 1, #trackList do
 		local track = soundFiles[trackList[i]]
+		print(track.minHealth)
 		if track.handler and not foundTrack[track.handler] then
 			if seaDamage >= track.minHealth and (seaDamage < track.maxHealth or (seaDamage == 1 and track.maxHealth == 1)) then
 				foundTrack[track.handler] = {sound = trackList[i]}
