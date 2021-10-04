@@ -77,7 +77,7 @@ function api.RecalcEffects(showGraphics)
 	IterableMap.ApplySelf(self.components, "CheckAdjacency_Post", api.AddEnergy)
 	IterableMap.ApplySelf(self.components, "GenerateEnergy", api.AddEnergy)
 	IterableMap.ApplySelf(self.components, "GenerateEnergy_Post", api.AddEnergy)
-	GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("adminMult"), api.GetEnergy("heal"))
+	GameHandler.UpdateRates(api.GetResearchRate(), api.GetEnergy("officeMult"), api.GetEnergy("heal"))
 end
 
 function api.Update(dt)

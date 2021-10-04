@@ -8,7 +8,7 @@ local soundFiles = util.LoadDefDirectory("sounds/defs")
 local api = {}
 local world
 
-local DELAY_TIME = 2
+local DELAY_TIME = 0.2 -- Skip the first bar for the delay hax.
 
 local font = love.graphics.newFont(70)
 
@@ -43,7 +43,7 @@ local fallbackTrack = {
 
 local currentTrack = {}
 local trackRunning = false
-local fadeRate = 1
+local initialDelay = true
 local idCycle = 1
 local currentTrackRemaining = 0
 
@@ -77,6 +77,13 @@ local function GetTracks()
 end
 
 function api.Update(dt)
+	if initialDelay then
+		initialDelay = initialDelay - dt
+		if initialDelay < 0 then
+			initialDelay = false
+		end
+		return
+	end
 	currentTrackRemaining = (currentTrackRemaining or 0) - dt
 	if currentTrackRemaining < 0 then
 		if world.MusicEnabled() then
@@ -93,7 +100,7 @@ function api.Update(dt)
 			currentTrackRemaining = currentTrackRemaining - DELAY_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, DELAY_TIME)
+				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, false, false, DELAY_TIME)
 			end
 		elseif trackRunning then
 			print("trackRunning", currentTrackRemaining, trackRunning, world.MusicEnabled())
@@ -108,6 +115,7 @@ end
 function api.Initialize(newWorld)
 	world = newWorld
 	api.StopCurrentTrack()
+	initialDelay = 2
 end
 
 return api

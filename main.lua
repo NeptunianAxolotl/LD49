@@ -36,10 +36,11 @@ end
 --------------------------------------------------
 
 function love.update(dt)
+	local realDt = dt
 	if dt > 0.1 then
 		dt = 0.1
 	end
-	World.Update(dt)
+	World.Update(dt, realDt)
 end
 
 local util = require("include/util")

@@ -131,9 +131,9 @@ function api.GetPhysicsWorld()
 	return PhysicsHandler.GetPhysicsWorld()
 end
 
-function api.Update(dt)
-	MusicHandler.Update(dt)
-	SoundHandler.Update(dt)
+function api.Update(dt, realDt)
+	MusicHandler.Update(realDt)
+	SoundHandler.Update(realDt)
 	if api.GetPaused() then
 		return
 	end
