@@ -70,34 +70,61 @@ local chatProgression = {
             },
         },
     },
+    unlock_slot_2 = {
+        text = {"Negotiations with the locals have netted us access to local airspace.", "We can now import a greater variety of components!"},
+        },
+    unlock_rope = {
+		text = {"The scientists have invented rope, to hold things together.", "They say they plan to invent the bicycle next."},
+	},
 	unlock_solar = {
 		text = {"The scientists have invented solar panels!  They’re", "not very efficient, but it’s not like that sunlight", "was doing anything else anyway."},
 	},
     unlock_wsad = {
         text = {"The scientists have discovered an instruction manual!", "It is very dusty.  It says:", "You can rotate the blocks with", "A/D, Z/X, space, or the arrow keys.'"},
     },
-    
-	unlock_rope = {
-		text = {"The scientists have invented rope!", "They say they plan to invent the bicycle next."},
+    unlock_office = {
+		text = {"The scientists have invented non-science offices,", "perhaps in the hope that this will make all the", "non-science people stop bothering them.", "The non-science people can help the non-science", "things around here run smoother."},
 	},
+    unlock_slot_3 = {
+		text = {"Quantum storage allows us to ship multiple conflicting", "components that don’t resolve until you choose one.", "Any cats you see should be ignored."},
+	},
+    unlock_marine = {
+        text = {"The scientists have invented marine conservation.", "The process consists of putting fish in a box that does not", "contain nuclear reactors.  Might net you some brownie points."},
+    },
     unlock_chain = {
         text = {"The scientists have invented chain!", "Unlike rope, chain does not stretch under tension.", "It can also be repurposed into ad-hoc medieval armor,", "in case the locals attack.", "", "If the locals attack, please inform management immediately."},
         },
-	unlock_office = {
-		text = {"Scientists have unlocked the power of accounting", "to boost efficiency."},
-	},
-    unlock_marine = {
-        text = {""},
-    },
-    unlock_slot_2 = {
-        text = {""},
-        },
-	unlock_slot_3 = {
-		text = {"Recent advances quantum gravity unlock 50%", "more free will."},
-	},
     unlock_research2 = {
-        text = {""},
+        text = {"The scientists have invented 75-hour work weeks!", "Management has mandated the immediate implementation", "of this new technology."},
+    },
+    unlock_light = {
+        text = {"Scientists have condensed the power of two suns into", "one light bulb.  Place the light bulb next to", "a solar panel to power other light bulbs.", "Our perpetual motion device is patent pending."},
         },
+    unlock_fuelcell2 = {
+        text = {"The scientists have invented improved reactor fuel!", "This substance is even less compatible with humans", "than the usual stuff."},
+        },
+    unlock_no_rope = {
+        text = {"Management has noticed chain exists, and have", "decreed that all remaining rope be disposed of", "immediately."},
+        },
+    unlock_slot4 = {
+        text = {"The quantum storage technology has been improved!", "Performance has been boosted by 33% and the", "storage medium remains cat-free. A Cat Sighting Report", "Form can be found on the back of this pamphlet."},
+        },
+    unlock_fan = {
+        text = {"Wind turbine efficiency can now be improved by positioning", "fans next to the turbines.  The scientists suggest that", "efficiency might be improved even further by placing turbines", "in the open air, instead of under twelve reactors."},
+    },
+    unlock_nano = {
+        text = {"The scientists have improved our chains by putting more", "carbon in them, calling the new product ‘carbon nanotubes’.", "Dissenters calling the new product ‘but it’s", "just steel’ have been fired."},
+    },
+    unlock_office2 = {
+        text = {"Our social scientists have improved the productivity of", "our offices by using a new cubicle structure, boosting output 300%", "Each cubicle contains heat packs for muscle pains", "caused by maintaining uncomfortable positions for long", "periods."},
+    },
+    unlock_more_nano = { --one additional nano
+        text = {"The scientists have optimised nanotube production.",  "There are now more nanotubes available."},
+        },
+    
+    unlock_perpetual = {
+        text = {"The scientists are working on a method to", "transport their new perpetual motion machine", "to somewhere...safer."},
+    },
 }
 
 
