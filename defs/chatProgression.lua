@@ -6,7 +6,7 @@ local chatProgression = {
 			delay = 0,
 		},
 		[3] = {
-			text = {"Put the fuel cell near the rector to give it energy."},
+			text = {"Put the fuel cell near the reactor to give it energy."},
 			delay = 1.5,
 		},
 		[5] = {
