@@ -29,6 +29,9 @@ local defs = {
 	},
 	{
 		name = "wind2",
+	},
+	{
+		name = "light_icon",
 	}
 }
 

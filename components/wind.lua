@@ -19,7 +19,7 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 	alreadyHit[component.index] = true
 	
 	if component.def.windBoost then
-		wasHitBoost = wasHitBoost + component.def.windBoost
+		wasHitBoost = wasHitBoost + component.def.windBoost(0.25 + 0.75*(1 - fraction))
 	elseif wasHitMultParam then
 		wasHitSum = wasHitSum + (component.def.wind_opacity or 0.5)
 	else

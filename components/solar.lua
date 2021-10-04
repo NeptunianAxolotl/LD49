@@ -1,6 +1,7 @@
 local util = require("include/util")
 
 local wasHitSum = false
+local wasHitBoost = false
 local ignoreHitIndexUglyGlobal = false
 local alreadyHit = false
 local function HitTest(fixture, x, y, xn, yn, fraction)
@@ -16,18 +17,21 @@ local function HitTest(fixture, x, y, xn, yn, fraction)
 		return 1
 	end
 	alreadyHit[component.index] = true
-	wasHitSum = wasHitSum + (component.def.opacity or 1)
+	if component.def.solarBoost then
+		wasHitBoost = wasHitBoost + component.def.solarBoost*(0.25 + 0.75*(1 - fraction))
+	else
+		wasHitSum = wasHitSum + (component.def.opacity or 1)
+	end
 	return 1
 end
 
 local rayTests = {
-	{-600, -1000},
-	{-400, -1000},
+	{-500, -1000},
 	{-200, -1000},
-	{0, -1000},
+	{-50, -1000},
+	{50, -1000},
 	{200, -1000},
-	{400, -1000},
-	{600, -1000},
+	{500, -1000},
 }
 
 local function ResetAggregators(self, world, AggFunc)
@@ -44,16 +48,15 @@ local function GenerateEnergy(self, world, AggFunc)
 	for i = 1, #rayTests do
 		local rayPos = util.Add({bx, by}, rayTests[i])
 		wasHitSum = 0
+		wasHitBoost = 0
 		alreadyHit = {}
 		ignoreHitIndexUglyGlobal = self.index
 		physicsWorld:rayCast(bx, by - 15, rayPos[1], rayPos[2], HitTest)
-		if wasHitSum < 1 then
-			power = power + 25*math.max(0, 1 - wasHitSum)
-		end
+		power = power + 25*math.max(0, 1 - wasHitSum) + 25*wasHitBoost
 	end
 
 	power = power*work
-	power = math.ceil(power)
+	power = util.Round(power, 5)
 	local text = power
 	if self.hitByMarketing > 0 then
 		local marketBonus = math.ceil(power*self.hitByMarketing*work)
