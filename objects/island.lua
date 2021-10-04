@@ -12,6 +12,7 @@ local dTotal = 0
 local iQR = 3
 
 local function GetSeaColor(prop)
+	prop = prop*prop
 	baseSeaRed = self.baseSeaColor[1] * 255;
 	baseSeaGreenBlueDiff = math.abs(self.baseSeaColor[2] - self.baseSeaColor[3]) * 255
 	
