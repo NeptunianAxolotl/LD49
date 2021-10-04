@@ -262,7 +262,7 @@ local function UpdateJoints(self)
 					data.stressSadness = math.min(data.maxStretch, minStress - data.strength)
 					data.joint:setMaxLength(data.joint:getMaxLength() + data.stressSadness)
 				elseif minStress < data.restore and data.joint:getMaxLength() > data.desiredLength then
-					data.joint:setMaxLength(data.joint:getMaxLength() - (1 - minStress/data.restore))
+					data.joint:setMaxLength(data.joint:getMaxLength() - 0.05(1 - minStress/data.restore))
 				end
 			end
 		end
