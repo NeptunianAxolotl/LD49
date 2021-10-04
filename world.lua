@@ -22,8 +22,22 @@ local PriorityQueue = require("include/PriorityQueue")
 local self = {}
 local api = {}
 
+function api.SetMenuState(newState)
+	self.menuState = newState
+end
+
+function api.ToggleMusic()
+	self.musicEnabled = not self.musicEnabled
+	if self.musicEnabled then
+		MusicHandler.SwitchTrack("music")
+	else
+		MusicHandler.SwitchTrack("none")
+		MusicHandler.StopCurrentTrack()
+	end
+end
+
 function api.GetPaused()
-	return self.paused
+	return self.paused or self.menuState
 end
 
 function api.MusicEnabled()

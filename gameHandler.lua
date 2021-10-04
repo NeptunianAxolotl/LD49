@@ -304,8 +304,16 @@ end
 local function DrawMenu(windowX, windowY)
 	local drawPos = world.ScreenToInterface({windowX, 0})
 	Resources.DrawImage("interface_right", drawPos[1], math.ceil(drawPos[2]))
+	
+	local mousePos = world.GetMousePositionInterface()
+	local mouseHover = util.PosInRectangle(mousePos, drawPos[1] - 170, drawPos[2], 170, 50)
+	
 	Font.SetSize(0)
-	love.graphics.setColor(1, 1, 1, 1)
+	if mouseHover then
+		love.graphics.setColor(0.5, 0.5, 0.5, 1)
+	else
+		love.graphics.setColor(1, 1, 1, 1)
+	end
 	love.graphics.printf("Menu", drawPos[1] - 170, drawPos[2] + 11, 200, "center")
 	
 	local gameOver, gameWon, gameLost, reason = world.GetGameOver()
