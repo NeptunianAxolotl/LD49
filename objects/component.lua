@@ -223,18 +223,18 @@ local function SetupMeshes(self)
 	Resources.SetTexture(self.mesh, self.def.backgroundImage)
 	
 	-- Border
-	meshCoords = {}
-	vertex = 1
-	for i = 1, #self.coords + 1 do
-		i = (i-1)%(#self.coords) + 1
-		local inPoint = util.Subtract(self.coords[i], util.SetLength(self.def.borderThickness, self.coords[i]))
-		meshCoords[#meshCoords + 1] = {inPoint[1], inPoint[2], vertex, 0}
-		meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
-		vertex = 1 - vertex
-	end
-	
-	self.borderMesh = love.graphics.newMesh(meshCoords, "strip")
-	Resources.SetTexture(self.borderMesh, self.def.borderImage)
+	--meshCoords = {}
+	--vertex = 1
+	--for i = 1, #self.coords + 1 do
+	--	i = (i-1)%(#self.coords) + 1
+	--	local inPoint = util.Subtract(self.coords[i], util.SetLength(self.def.borderThickness, self.coords[i]))
+	--	meshCoords[#meshCoords + 1] = {inPoint[1], inPoint[2], vertex, 0}
+	--	meshCoords[#meshCoords + 1] = {self.coords[i][1], self.coords[i][2], vertex, 1}
+	--	vertex = 1 - vertex
+	--end
+	--
+	--self.borderMesh = love.graphics.newMesh(meshCoords, "strip")
+	--Resources.SetTexture(self.borderMesh, self.def.borderImage)
 end
 
 local function UpdateJoints(self)
