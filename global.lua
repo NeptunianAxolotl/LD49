@@ -6,7 +6,9 @@ local globals = {
 	CONTACT_FORCE = 0,
 	FORCE_STORE = 1,
 	
-	SEA_DEATH = 1000,
+	SEA_DEATH = 950,
+	
+	SCORE_DISPLAY_TURN = 4,
 	
 	CONSOLE_BOTTOM = 700,
 	

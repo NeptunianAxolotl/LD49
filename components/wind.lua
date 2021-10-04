@@ -60,7 +60,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	end
 	power = (power*0.35 + power*0.65*heightMult)*work
 	
-	power = math.ceil(power)
+	power = util.Round(power, 5)
 	local text = power
 	if self.hitByMarketing > 0 then
 		local marketBonus = math.ceil(power*self.hitByMarketing*work)
@@ -83,7 +83,7 @@ return {
 	GenerateEnergy = GenerateEnergy,
 	ResetAggregators = ResetAggregators,
 	foregroundImage = "wind_icon",
-	backgroundImage = "wind",
+	backgroundImage = "solar",
 	borderImage = "wind",
 	borderThickness = 40,
 	seaDamage = 0.04,

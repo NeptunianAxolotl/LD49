@@ -2,8 +2,8 @@ return {
 	image = "fireball_explode",
 	interface = false,
 	alphaScale = true,
-	color = {0.8, 0.4, 0.1},
+	color = {0.1, 095, 0.3},
 	inFront = 50,
 	spawnOffset = {0, 0},
-	duration = "inherit",
+	duration = 1,
 }

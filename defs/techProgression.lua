@@ -3,10 +3,20 @@ local util = require("include/util")
 
 local techProgression = {
 	{
-		cost = 50,
+		cost = 20,
+		newCards = {
+			"nuclear_generator",
+			"fuelcell",
+		},
+		shuffleDeck = true,
+		message = "unlock_slot_2",
+		drawSize = 2,
+	},
+	{
+		cost = 80,
 		newCards = {
 			"solar",
-			"wind",
+			"rope",
 			"solar",
 		},
 		jumpToEnd = true,
@@ -15,21 +25,8 @@ local techProgression = {
 	{
 		cost = 100,
 		newCards = {
-			"fuelcell",
-			"wind",
-			"rope",
-		},
-		jumpToEnd = true,
-		message = "unlock_rope",
-	},
-	{
-		cost = 120,
-		newCards = {
 			"solar",
 			"research",
-			"fuelcell",
-			"wind",
-			"nuclear_generator",
 			"rope",
 			"office"
 		},

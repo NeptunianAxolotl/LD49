@@ -12,7 +12,7 @@ local function GenerateEnergy(self, world, AggFunc)
 	local power = math.pow(self.hitByNuclear or 0, 0.7)*120*work
 	
 	if power > 0 then
-		power = math.ceil(power)
+		power = util.Round(power, 5)
 		local text = power
 		if self.hitByMarketing > 0 then
 			local marketBonus = math.ceil(power*self.hitByMarketing*work)
@@ -23,7 +23,6 @@ local function GenerateEnergy(self, world, AggFunc)
 			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = text})
 		end
 	else
-		power = math.ceil(power)
 		if ComponentHandler.WantEffectsGraphics() then
 			EffectsHandler.SpawnEffect("mult_popup", {bx, by}, {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6*(50 / math.max(50, power)))}, text = "No Fuel"})
 		end

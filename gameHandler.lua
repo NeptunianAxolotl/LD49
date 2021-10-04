@@ -29,6 +29,9 @@ local smoothNumberList = {
 	{
 		name = "bank",
 	},
+	{
+		name = "score",
+	},
 }
 
 
@@ -60,6 +63,16 @@ local function GetNumber(name)
 		return number.has%number.wrap
 	end
 	return number.has
+end
+
+local function GetBarProp(prop)
+	local period = math.max(0.25, 1 - 0.8*prop)
+	local amount = self.barDt%period
+	if amount > period*0.5 then
+		return util.SmoothZeroToOne(2*(1 - amount/period), 3)
+	else
+		return util.SmoothZeroToOne(2*amount/period, 3)
+	end
 end
 
 --------------------------------------------------
@@ -116,7 +129,7 @@ local posEnd = {
 	demand = {elWidth - botOffset, 0},
 	admin = {2*elWidth - botOffset, 0},
 	research = {0, 0},
-	score = {0, 200},
+	score = {0, 56},
 	sea = {0, 0},
 	bank = {0, 0},
 }
@@ -126,7 +139,7 @@ local textOffset = {
 	demand = {73, -45},
 	admin = {60, -45},
 	research = {370, 13},
-	score = {0, -200},
+	score = {20, 13},
 	sea = {15, 13},
 	bank = {15, 13},
 }
@@ -140,15 +153,17 @@ local barFunc = {
 		return col, prop, text, pos, size
 	end,
 	sea = function ()
-		local col = {0, 1, 1, 1}
 		local prop = GetNumber("sea")
+		local barProp = GetBarProp(prop)
+		local col = {1, 0.8*barProp*prop, 0, 1}
 		local text = Round(GetNumber("sea")*100) .. "%"
 		local pos, size = {8, -125}, {40, 220}
 		return col, prop, text, pos, size
 	end,
 	bank = function ()
-		local col = {0, 1, 1, 1}
 		local prop = GetNumber("bank")
+		local barProp = GetBarProp(prop)
+		local col = {1, 0.8*barProp*prop, 0, 1}
 		local text = Round(GetNumber("bank")*100) .. "%"
 		local pos, size = {8, -125}, {40, 220}
 		return col, prop, text, pos, size
@@ -160,7 +175,7 @@ local background = {
 	demand = "interface",
 	admin = "interface",
 	research = "interface_flip_big",
-	score = "interface",
+	score = "interface_flip",
 	sea = "interface_rot",
 	bank = "interface_rot",
 }
@@ -170,7 +185,7 @@ local icon = {
 	demand = "demand_icon",
 	admin = "admin_icon",
 	research = "science_icon",
-	score = "science_icon",
+	score = false,
 	sea = "sea_icon",
 	bank = "bank_icon",
 }
@@ -186,7 +201,7 @@ local iconOffset = {
 }
 
 local getItemValue = {
-	energy = function () return math.floor(ComponentHandler.GetEnergy()*self.GetPostPowerMult()), ComponentHandler.GetEnergy() > 0 end,
+	energy = function () return Round(ComponentHandler.GetEnergy()*self.GetPostPowerMult()), ComponentHandler.GetEnergy() > 0 end,
 	demand = function () return self.energyDemand, self.energyDemand > 0 end,
 	admin = function ()
 		return "+" .. Round(100*(self.GetPostPowerMult() - 1)) .. "%", self.GetPostPowerMult() > 1
@@ -194,7 +209,9 @@ local getItemValue = {
 	research = function ()
 		return "+" .. (self.researchRate * DeckHandler.GetResearchCost()), self.researchRate > 0
 	end,
-	score = function () return false, false end,
+	score = function ()
+		return ("Score: " .. Round(GetNumber("score"))), (self.turn > Global.SCORE_DISPLAY_TURN)
+	end,
 	sea = function ()
 		return "", self.seaDamage > 0
 	end,
@@ -240,9 +257,11 @@ local function DrawItem(itemName, windowY)
 	Font.SetSize(0)
 	love.graphics.printf(value, textPos[1], textPos[2], 300, "left")
 	
-	local iconPos = util.Add(iconOffset[itemName], pos)
-	Resources.DrawImage(icon[itemName], math.ceil(iconPos[1]), math.ceil(iconPos[2]))
-	
+	if icon[itemName] then
+		local iconPos = util.Add(iconOffset[itemName], pos)
+		Resources.DrawImage(icon[itemName], math.ceil(iconPos[1]), math.ceil(iconPos[2]))
+	end
+
 	if barFunc[itemName] then
 		local col, prop, text, barPos, barSize = barFunc[itemName]()
 		prop = math.max(0, math.min(1, prop))
@@ -273,8 +292,19 @@ end
 -- API
 --------------------------------------------------
 
-local function UpdateBankHealth()
-
+local function UpdateEnergyAndDemand()
+	local energy = Round(ComponentHandler.GetEnergy()*self.GetPostPowerMult())
+	self.score = self.score + energy
+	
+	if energy < self.energyDemand then
+		local mult = (self.bankDeath == 0 and 1.5) or 1
+		self.bankDeath = self.bankDeath + (0.1 + math.min(0.15, 0.1*self.energyDemand / energy))*mult
+	elseif self.bankDeath > 0 then
+		self.bankDeath = math.max(0, self.bankDeath - 0.25)
+	end
+	
+	SetNumber("bank", self.bankDeath)
+	SetNumber("score", self.score)
 end
 
 local function UpdateSeaHealth()
@@ -282,13 +312,14 @@ local function UpdateSeaHealth()
 end
 
 local function UpdateEnergyDemand()
-	if self.turn < 10 then
+	if self.turn < 15 then
 		return
 	end
 	if self.energyDemand == 0 then
 		self.energyDemand = 300
+	elseif self.turn%5 == 0 then
+		self.energyDemand = self.energyDemand + 100 + math.floor(self.turn/15)*50
 	end
-	self.energyDemand = self.energyDemand + 30 + math.floor(self.turn/10)*10
 end
 
 --------------------------------------------------
@@ -319,7 +350,7 @@ function self.DoTurn()
 	end
 	SetNumber("research", self.researchProgress)
 
-	UpdateBankHealth()
+	UpdateEnergyAndDemand()
 	UpdateSeaHealth()
 	UpdateEnergyDemand()
 end
@@ -360,6 +391,7 @@ function self.Update(dt)
 	for i = 1, #smoothNumberList do
 		UpdateSmoothNumber(dt, smoothNumberList[i].name)
 	end
+	self.barDt = self.barDt + dt
 end
 
 function self.DrawInterface()
@@ -383,6 +415,8 @@ function self.Initialize(parentWorld)
 	self.adminSupplied = 0
 	self.energyDemand = 0
 	self.bankDeath = 0
+	self.score = 0
+	self.barDt = 0
 	
 	self.itemShown = {
 		energy = 0,

@@ -17,14 +17,14 @@ local powerupDefs = {
 	rope = {
 		shopImage = "rope_powerup",
 		gameImage = "rope_strand",
-		strength = 0.9,
+		strength = 1.02,
 		restore = 0.05,
 		maxStretch = 2,
 	},
 	chain = {
 		shopImage = "chain_powerup",
 		gameImage = "chain_strand",
-		strength = 1.3,
+		strength = 2.04,
 		restore = 0.1,
 		maxStretch = 1.5,
 	},

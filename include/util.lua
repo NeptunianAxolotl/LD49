@@ -471,6 +471,11 @@ function util.SmoothStep(startRange, endRange, value, factor)
 	return util.SmoothZeroToOne(value, factor)
 end
 
+function util.Round(x, near)
+	near = near or 1
+	return math.floor((x + near*0.5)/near)*near
+end
+
 --------------------------------------------------
 --------------------------------------------------
 -- Time

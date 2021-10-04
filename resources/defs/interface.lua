@@ -9,13 +9,13 @@ return {
 		yOffset = 327/400,
 	},
 	{
-		name = "interface_large",
-		file = "resources/images/interface/interface_slant.png",
+		name = "interface_flip",
+		file = "resources/images/interface/interface_flip.png",
 		form = "image",
 		xScale = 0.21,
 		yScale = 0.21,
-		xOffset = 800/3200,
-		yOffset = 327/400,
+		xOffset = 1400/3200,
+		yOffset = 74/400,
 	},
 	{
 		name = "interface_flip_big",

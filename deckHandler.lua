@@ -15,13 +15,13 @@ local initialDeck = {
 	"nuclear_generator",
 	"fuelcell",
 	"wind",
+	"rope",
+	"wind",
+	"research",
 	"research",
 }
 
 local function GetDrawSize()
-	if GameHandler.GetTurn() <= 5 then
-		return 1
-	end
 	return self.drawSize
 end
 
@@ -88,6 +88,10 @@ function self.GetNextDraw()
 	return toDraw
 end
 
+function self.GetTechLevel()
+	return self.currentTech
+end
+
 --------------------------------------------------
 -- Updating
 --------------------------------------------------
@@ -96,7 +100,7 @@ function self.Initialize(parentWorld)
 	world = parentWorld
 	self.deck = util.CopyTable(initialDeck)
 	self.drawIndex = 1
-	self.drawSize = 2
+	self.drawSize = 1
 	self.currentTech = 1
 	self.nextTechCost = techProgression.GetTech(self.currentTech).cost
 end
