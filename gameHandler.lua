@@ -26,6 +26,7 @@ end
 function self.DoTurn()
 	ComponentHandler.RecalcEffects()
 	self.turn = self.turn + 1
+	ChatHandler.ChatTurn(self.turn)
 	self.researchProgress = self.researchProgress + ComponentHandler.GetResearchRate()/DeckHandler.GetResearchCost()
 	if self.researchProgress >= 1 then
 		self.researchProgress = 0
@@ -109,7 +110,8 @@ function self.Initialize(parentWorld)
 	self.researchCost = 1
 	self.adminRequired = 0
 	self.adminSupplied = 0
-	self.turn = 0
+	self.turn = 1
+	ChatHandler.ChatTurn(self.turn)
 end
 
 return self

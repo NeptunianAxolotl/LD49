@@ -5,9 +5,11 @@ local ModuleTest = require("moduleTest")
 EffectsHandler = require("effectsHandler")
 
 Camera = require("utilities/cameraUtilities")
+Delay = require("utilities/delay")
 
 local PhysicsHandler = require("physicsHandler")
 local PowerupHandler = require("powerupHandler")
+ChatHandler = require("chatHandler")
 DeckHandler = require("deckHandler")
 ComponentHandler = require("componentHandler")
 ShopHandler = require("shopHandler")
@@ -65,12 +67,15 @@ function self.GetPhysicsWorld()
 end
 
 function self.Update(dt)
+	Delay.Update(dt)
+	
 	PhysicsHandler.Update(math.min(0.04, dt))
 	ComponentHandler.Update(dt)
 	ShopHandler.Update(dt)
 	PowerupHandler.Update(dt)
 	--ModuleTest.Update(dt)
 
+	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
 	MusicHandler.Update(dt)
 	SoundHandler.Update(dt)
@@ -109,6 +114,7 @@ function self.Draw()
 	EffectsHandler.DrawInterface()
 	GameHandler.DrawInterface()
 	PowerupHandler.DrawInterface()
+	ChatHandler.DrawInterface()
 	
 	love.graphics.replaceTransform(self.emptyTransform)
 end
@@ -121,6 +127,7 @@ function self.Initialize()
 	EffectsHandler.Initialize()
 	MusicHandler.Initialize()
 	SoundHandler.Initialize()
+	ChatHandler.Initialize(self)
 	PhysicsHandler.Initialize(self)
 	DeckHandler.Initialize(self)
 	ComponentHandler.Initialize(self)

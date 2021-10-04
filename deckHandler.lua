@@ -13,7 +13,6 @@ local world
 local initialDeck = {
 	"nuclear_generator",
 	"fuelcell",
-	"rope",
 	"research",
 	"wind",
 }

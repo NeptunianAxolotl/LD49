@@ -6,6 +6,8 @@ local globals = {
 	CONTACT_FORCE = 0,
 	FORCE_STORE = 1,
 	
+	CONSOLE_BOTTOM = 700,
+	
 	DENSITY_MULT = 0.75,
 	SPEED_LIMIT = 850,
 	YEET = false,
