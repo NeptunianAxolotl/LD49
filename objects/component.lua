@@ -186,15 +186,20 @@ local function MoveToMouse(self)
 	if not self.mouseJoint then
 		local mousePos = self.world.GetMousePosition()
 		self.mouseJoint = love.physics.newMouseJoint(self.body, mousePos[1], mousePos[2])
-		self.body:setAngularDamping(0)
+		self.body:setAngularDamping(6)
 	end
 	local mousePos = self.world.GetMousePosition()
 	self.mouseJoint:setTarget(mousePos[1], mousePos[2])
 
-	if love.keyboard.isDown("space") then
+	if love.keyboard.isDown("space") or love.keyboard.isDown("d") or love.keyboard.isDown("x") or love.keyboard.isDown("right") then
 		self.body:setAngularVelocity(4)
-	else
+		self.hadSetVelocity = true
+	elseif love.keyboard.isDown("a") or love.keyboard.isDown("z") or love.keyboard.isDown("left") then
+		self.body:setAngularVelocity(-4)
+		self.hadSetVelocity = true
+	elseif self.hadSetVelocity then
 		self.body:setAngularVelocity(0)
+		self.hadSetVelocity = false
 	end
 end
 
