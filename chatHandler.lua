@@ -23,19 +23,13 @@ function self.AddMessage(text, timer, turns, color)
 		turns = false
 	end
 
-	if color == nil then
-		color = {}
-		color.r = 1
-		color.g = 1
-		color.b = 1
-	end
 	local line = {
 		consoleText = text,
 		consoleTimer = timer,
 		consoleTurnTimer = turns,
-		consoleColorR = color.r,
-		consoleColorG = color.g,
-		consoleColorB = color.b,
+		consoleColorR = (color and color[1]) or 1,
+		consoleColorG = (color and color[2]) or 1,
+		consoleColorB = (color and color[3]) or 1,
 	}
 	table.insert(self.lines, line)
 end
@@ -71,9 +65,9 @@ function self.DrawConsole()
 		)
 		
 		Font.SetSize(0)
-		love.graphics.print(line.consoleText, 80, botPad - (i * Global.LINE_SPACING))
-		love.graphics.setColor(1,1,1)
+		love.graphics.print(line.consoleText, 88, botPad - (i * Global.LINE_SPACING))
 	end
+	love.graphics.setColor(1, 1, 1)
 end
 
 function self.RemoveMessage(index)

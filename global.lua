@@ -26,7 +26,6 @@ local globals = {
 	YEET = false,
 	
 	DEFAULT_SOUND_DURATION = 38.87,
-	CROSS_FADE = 20,
 	
 	LINK_DRAW_ORDER = 10,
 	PIECE_DRAW_ORDER = 4,

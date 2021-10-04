@@ -1,4 +1,5 @@
 function love.conf(t)
+	t.identity = "Atomic Atoll"
 	t.window.title = "LD49"
 	t.window.width = 1120
 	t.window.height = 832

@@ -366,7 +366,7 @@ local function DrawMenu(windowX, windowY)
 		Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
 		Font.SetSize(0)
 		
-		local menuItems = {"Return", "Sound " .. (world.MusicEnabled() and "(On)" or "(Off)"), "Restart", "Screenshot", "Quit"}
+		local menuItems = {"Return", "Music " .. (world.MusicEnabled() and "(On)" or "(Off)"), "Restart", "", "Quit"}
 		
 		local onItem = OnMenuItem(drawPos, mousePos)
 		for i = 1, #menuItems do
