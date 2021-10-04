@@ -11,7 +11,7 @@ return {
 	LD49_02_rhythm = {id = 'LD49_02_rhythm', sound = 'LD49_02_rhythm', duration = 38.4, canLoop = true},
 	LD49_02_solo7 = {id = 'LD49_02_solo7', sound = 'LD49_02_solo_7', duration = 38.4, canLoop = true},
 	LD49_02_solo8 = {id = 'LD49_02_solo8', sound = 'LD49_02_solo_8', duration = 38.4, canLoop = true},
-	LD49_03_transition = {id = 'LD49_03_transition', sound = 'LD49_03_transition', duration = 38.4, canLoop = true},
+	LD49_03_transition = {id = 'LD49_03_transition', sound = 'LD49_03_transition', duration = 19.2, canLoop = true},
 	LD49_03_drums_rhythm = {id = 'LD49_03_drums_rhythm', sound = 'LD49_03_drums_rhythm', duration = 38.4, canLoop = true},
 	LD49_03_solo9 = {id = 'LD49_03_solo9', sound = 'LD49_03_solo_9', duration = 38.4, canLoop = true},
 	LD49_03_solo10 = {id = 'LD49_03_solo10', sound = 'LD49_03_solo_10', duration = 38.4, canLoop = true},
