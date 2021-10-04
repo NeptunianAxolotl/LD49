@@ -188,6 +188,10 @@ local techProgression = {
 			"fuelcell2",
 			"nano",
 			"nano",
+			"nano",
+		},
+		removeCards = {
+			"chain",
 		},
 		message = "unlock_more_nano",
 	},

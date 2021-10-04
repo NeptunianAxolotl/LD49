@@ -6,17 +6,17 @@ local chatProgression = {
 			delay = 0,
 		},
 		[3] = {
-			text = {" - Put the fuel cell near the", "   reactor to give it energy.", ""},
+			text = {" - Place the fuel cell near the", "   reactor to generate tonnes of power.", ""},
             sound = "chat_good",
 			delay = 1.5,
 		},
 		[5] = {
-			text = {" - Add a research lab to unlock", "   more and better tech. Don't put", "   those scientists too close to", "   the fuel cell!", ""},
+			text = {" - Add a research lab to unlock", "   better tech. Don't put those ", "   scientists too close to the", "   fuel cell!", ""},
             sound = "chat_good",
 			delay = 1.5,
 		},
         [Global.SCORE_DISPLAY_TURN + 1] = {
-            text = {"Ah - by the way, here is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
+            text = {"Ah - by the way, above is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
             sound = "chat_good",
             delay = 1.5,
         },
@@ -122,7 +122,7 @@ local chatProgression = {
         sound = "chat_good",
 	},
 	unlock_solar = {
-		text = {"The scientists have invented solar", "panels! They’re not very efficient,", "but it’s not like that sunlight was", "doing anything else anyway.", ""},
+		text = {"The scientists have invented solar", "panels! Time for the sun to earn,", "its keep.", ""},
         sound = "chat_good",
 	},
     unlock_wsad = {
@@ -130,23 +130,23 @@ local chatProgression = {
         sound = "chat_good",
     },
     unlock_office = {
-		text = {"The scientists have invented", "offices, saddling other people", "with the responsibility for making", "energy production more efficient.", ""},
+		text = {"The scientists have invented", "offices, saddling other people", "with responsibility for", "optimising energy production.", ""},
         sound = "chat_good",
 	},
     unlock_slot_3 = {
-		text = {"The scientists have applied recent", "advances in quantum gravity research", "to grant you 50% more free will.", ""},
+		text = {"The scientists have applied recent", "advances in quantum gravity", "to grant you 50% more free will.", ""},
         sound = "chat_good",
 	},
     unlock_marine = {
-        text = {"The scientists have invented marine", "conservation. The process consists", "of putting fish in a box that does", "not contain nuclear reactors.", "", "Might net you some brownie points.", ""},
+        text = {"The scientists have invented marine", "conservation. The process consists", "of putting fish in a box that does", "not contain nuclear reactors.", "", "Just in case you drop anything.", ""},
         sound = "chat_good",
     },
     unlock_chain = {
-        text = {"The scientists have invented chain!", "Chain will stretch less under tension", "than rope does. It can also be", "repurposed into ad-hoc medieval", "armor, in case the locals attack.", "", "If the locals attack, please inform", "management immediately.", ""},
+        text = {"The scientists have invented chain!", "At least twice as strong as rope!", "It can also fasioned into ad-hoc", "armor, in case the locals attack.", "", "If the locals attack, please inform", "management immediately.", ""},
         sound = "chat_good",
         },
     unlock_research2 = {
-        text = {"The scientists have invented 75-hour", "work weeks, which should result", "in a 150% improvement in research", "output. Management has mandated", "the immediate implementation of this", "new technology.", ""},
+        text = {"The scientists have invented the", "sleep-in lab - expected to boost", "reasearch by 150%. Management has",  "mandated their use.", ""},
         sound = "chat_good",
     },
     unlock_light = {
@@ -166,19 +166,19 @@ local chatProgression = {
         sound = "chat_good",
         },
     unlock_fan = {
-        text = {"Wind turbine efficiency can now", "be improved by positioning fans", "next to the turbines. The scientists", "suggest that efficiency might be", "improved even further by placing", "turbines in the open air, instead of", "under twelve reactors.", ""},
+        text = {"Special energy-efficient fans can", "now be placed to improve turbine", "outputs. The scientists also", "suggest that efficiency might be", "improved even further by placing", "turbines in the open air, instead of", "under twelve reactors.", ""},
         sound = "chat_good",
     },
     unlock_nano = {
-        text = {"The scientists have improved our", "chains by putting more carbon in", "them, calling the new product ‘carbon", "nanotubes’. Dissenters calling the", "new product ‘but it’s just steel’", "have been fired.", ""},
+        text = {"The scientists have improved our", "chains by putting more carbon in", "them, calling the new product ‘carbon", "nanotubes’. Dissenters citing", "cries of ‘but it’s just steel’", "have been fired.", ""},
         sound = "chat_good",
     },
     unlock_office2 = {
-        text = {"Our social scientists have improved", "the productivity of our offices by", "using a new cubicle structure,", "boosting output 300%. Each cubicle", "contains heat packs for muscle", "pains caused by maintaining", "uncomfortable positions for long", "periods.", ""},
+        text = {"The scientists have improved the", "productivity of offices by cutting", "out wasted space, such as hallways," "and break rooms. New offices boost", "production by 10%.", ""},
         sound = "chat_good",
     },
     unlock_more_nano = { --one additional nano
-        text = {"The scientists have optimised", "nanotube production. There are", "now more nanotubes available.", ""},
+        text = {"The scientists have brought carbon", "nanotube to market. Significantly", "boosting their abudance.", ""},
         sound = "chat_good",
     },
     unlock_grant = {
