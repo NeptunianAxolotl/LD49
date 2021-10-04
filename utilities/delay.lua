@@ -24,4 +24,8 @@ function self.Update(dt)
 	end
 end
 
+function self.Initialise()
+	self = {}
+end
+
 return self

@@ -25,7 +25,6 @@ function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
 	fadeOut = fadeOut or 10
 	local soundData = IterableMap.Get(sounds, id)
 	if not soundData then
-		print("name", name)
 		local def = soundFiles[name]
 		soundData = {
 			name = name,

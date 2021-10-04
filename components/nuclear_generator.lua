@@ -28,8 +28,14 @@ local function GenerateEnergy(self, world, AggFunc)
 		end
 	end
 	
-	local vel = util.Add({0, -1}, util.RandomPointInCircle(1))
-	EffectsHandler.SpawnEffect("reactor_smoke", {bx, by - 32}, {scale = 1 + 1.5*math.random(), velocity = vel})
+	if power > 0 and ComponentHandler.WantEffectsGraphics() then
+		for i = 1, math.ceil(math.sqrt(power)*0.1) do
+			local vel = util.Add({0, -0.4}, util.RandomPointInCircle(0.22))
+			EffectsHandler.SpawnEffect("reactor_smoke", {bx - 0.22*self.imageRadius, by - 0.32*self.imageRadius}, {scale = 0.02*(1 + 0.6*math.random())*self.imageRadius, velocity = vel})
+			vel = util.Add({0, -0.4}, util.RandomPointInCircle(0.24))
+			EffectsHandler.SpawnEffect("reactor_smoke", {bx + 0.24*self.imageRadius, by - 0.44*self.imageRadius}, {scale = 0.02*(1 + 0.6*math.random())*self.imageRadius, velocity = vel})
+		end
+	end
 	
 	AggFunc("nuclear", power)
 end

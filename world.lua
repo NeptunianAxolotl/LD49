@@ -211,6 +211,7 @@ function api.Initialize()
 	PowerupHandler.Initialize(api)
 	ShopHandler.Initialize(api)
 	GameHandler.Initialize(api)
+	Delay.Initialise()
 	island.Initialize(api)
 	
 	-- Note that the camera pins only function for these particular second entries.

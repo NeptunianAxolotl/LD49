@@ -80,7 +80,10 @@ function api.Update(dt)
 				end
 			end
 			currentTrack = GetTracks()
-			currentTrackRemaining = soundFiles[currentTrack[1].sound].duration or 38.4
+			currentTrackRemaining = 0
+			for i = 1, 3 do
+				currentTrackRemaining = math.max(currentTrackRemaining, soundFiles[currentTrack[1].sound].duration or 38.4)
+			end
 			util.PrintTable(currentTrack)
 			for i = 1, #currentTrack do
 				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, 0)
