@@ -12,7 +12,13 @@ local dTotal = 0
 local iQR = 3
 
 local function GetSeaColor(prop)
-	return self.baseSeaColor
+	baseSeaRed = self.baseSeaColor[1] * 255;
+	baseSeaGreenBlueDiff = math.abs(self.baseSeaColor[2] - self.baseSeaColor[3]) * 255
+	
+	baseSeaGreen = ((self.baseSeaColor[2] * 255) + math.min(baseSeaGreenBlueDiff, baseSeaGreenBlueDiff * 2.5 * prop));
+	baseSeaBlue = (self.baseSeaColor[3] * 255) - math.max(0, (baseSeaGreenBlueDiff * 1.6 * prop) - (baseSeaGreenBlueDiff * 0.6));
+
+	return {baseSeaRed/255, baseSeaGreen/255, baseSeaBlue/255}
 end
 
 function api.Update(dt)
