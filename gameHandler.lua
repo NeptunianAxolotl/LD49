@@ -344,7 +344,6 @@ function api.MousePressed(x, y)
 		end
 	elseif gameOver then
 		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
-	
 	end
 end
 
