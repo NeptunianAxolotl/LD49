@@ -62,11 +62,11 @@ local chatProgression = {
             sound = "chat_bad",
             },
         [40] = {
-            text = {""},
+            text = {"There's an inspection scheduled", "for next Monday.  Make sure to", "toss the nuclear fuel rods into", "the sea before anyone sees them."},
             sound = "chat_bad",
             },
         [50] = {
-            text = {""},
+            text = {"Perhaps you could improve your", "output by attaching balloons to", "your wind turbines. What - what", "do you mean, we didn't budget for", "balloons?  What we didn't budget", "for is your incompetence!"},
             sound = "chat_bad",
             },
         [60] = {
