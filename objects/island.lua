@@ -44,7 +44,8 @@ function api.Draw(drawQueue)
 		love.graphics.pop()
 	end})
 	
-	local sideScaleMult = math.max(1, Camera.GetCameraScale() / 3000)
+	local windowX, windowY = love.window.getMode()
+	local sideScaleMult = math.max(1, (windowX / windowY) * (Camera.GetCameraScale() / 3000))
 	for i = 1, #self.randomDepth do
 		drawQueue:push({y=self.randomDepth[i]; f=function()
 			love.graphics.push()

@@ -21,11 +21,61 @@ local PriorityQueue = require("include/PriorityQueue")
 
 local self = {}
 
+function self.GetPaused()
+	return self.paused
+end
+
+function self.MusicEnabled()
+	return self.musicEnabled
+end
+
+function self.GetGameOver()
+	return self.gameWon or self.gameLost, self.gameWon, self.gameLost, self.overType
+end
+
+function self.SetGameOver(hasWon, overType)
+	if self.gameWon or self.gameLost then
+		return
+	end
+	if hasWon then
+		self.gameWon = true
+	else
+		self.gameLost = true
+		self.overType = overType
+	end
+end
+
+function self.KeyPressed(key, scancode, isRepeat)
+	if key == "escape" then
+		self.paused = not self.paused
+		--SoundHandler.PlaySound("pause")
+	end
+	if key == "r" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+		self.Initialize()
+	end
+	if self.GetPaused() then
+		if key == "return" or key == "kpenter" then
+			self.paused = false
+			--SoundHandler.PlaySound("pause")
+		end
+		return
+	end
+end
+
 function self.MousePressed(x, y)
+	if self.GetPaused() or self.GetGameOver() then
+		return
+	end
 	x, y = self.cameraTransform:inverse():transformPoint(x, y)
 	PowerupHandler.MouseReleased(x, y)
 	ShopHandler.MousePressed(x, y)
 	ComponentHandler.MousePressed(x, y)
+end
+
+function self.MouseReleased(x, y)
+	x, y = self.cameraTransform:inverse():transformPoint(x, y)
+	PowerupHandler.MouseReleased(x, y)
+	ComponentHandler.MouseReleased(x, y)
 end
 
 function self.WorldToScreen(pos)
@@ -53,20 +103,16 @@ function self.GetMousePosition()
 	return self.ScreenToWorld({x, y})
 end
 
-function self.MouseReleased(x, y)
-	x, y = self.cameraTransform:inverse():transformPoint(x, y)
-	PowerupHandler.MouseReleased(x, y)
-	ComponentHandler.MouseReleased(x, y)
-end
-
-function self.KeyPressed(key, scancode, isRepeat)
-end
 
 function self.GetPhysicsWorld()
 	return PhysicsHandler.GetPhysicsWorld()
 end
 
 function self.Update(dt)
+	if self.GetPaused() then
+		return
+	end
+	
 	Delay.Update(dt)
 	
 	PhysicsHandler.Update(math.min(0.04, dt))
@@ -128,6 +174,7 @@ function self.Initialize()
 	self.cameraTransform = love.math.newTransform()
 	self.interfaceTransform = love.math.newTransform()
 	self.emptyTransform = love.math.newTransform()
+	self.paused = false
 	
 	EffectsHandler.Initialize()
 	MusicHandler.Initialize()

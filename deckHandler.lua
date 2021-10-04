@@ -15,10 +15,8 @@ local initialDeck = {
 	"nuclear_generator",
 	"fuelcell",
 	"wind",
-	"rope",
+	"research",
 	"wind",
-	"research",
-	"research",
 }
 
 local function GetDrawSize()

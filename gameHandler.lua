@@ -120,8 +120,8 @@ local posStart = {
 	admin = {2*elWidth - botOffset, 100},
 	research = {0, -100},
 	score = {0, -100},
-	sea = {-100, 0},
-	bank = {-100, 0},
+	sea = {-70, 0},
+	bank = {-70, 0},
 }
 
 local posEnd = {
@@ -292,6 +292,18 @@ end
 -- API
 --------------------------------------------------
 
+local function DrawMenu(windowX, windowY)
+	local drawPos = world.ScreenToInterface({windowX, 0})
+	Resources.DrawImage("interface_right", drawPos[1], math.ceil(drawPos[2]))
+	Font.SetSize(0)
+	love.graphics.setColor(1, 1, 1, 1)
+	love.graphics.printf("Menu", drawPos[1] - 170, drawPos[2] + 11, 200, "center")
+end
+
+--------------------------------------------------
+-- API
+--------------------------------------------------
+
 local function UpdateEnergyAndDemand()
 	local energy = Round(ComponentHandler.GetEnergy()*self.GetPostPowerMult())
 	self.score = self.score + energy
@@ -305,6 +317,10 @@ local function UpdateEnergyAndDemand()
 	
 	SetNumber("bank", self.bankDeath)
 	SetNumber("score", self.score)
+	
+	if self.bankDeath >= 1 then
+		wordld.SetGameOver(false, "bank_death")
+	end
 end
 
 local function UpdateSeaHealth()
@@ -318,7 +334,7 @@ local function UpdateEnergyDemand()
 	if self.energyDemand == 0 then
 		self.energyDemand = 300
 	elseif self.turn%5 == 0 then
-		self.energyDemand = self.energyDemand + 100 + math.floor(self.turn/15)*50
+		self.energyDemand = self.energyDemand + 100 + math.floor(self.turn/10)*50
 	end
 end
 
@@ -329,6 +345,10 @@ end
 function self.AddSeaDamage(damage)
 	self.seaDamage = self.seaDamage + damage
 	SetNumber("sea", self.seaDamage)
+	
+	if self.seaDamage >= 1 then
+		wordld.SetGameOver(false, "sea_death")
+	end
 end
 
 function self.UpdateRates(research, popCost, popRoom)
@@ -400,9 +420,7 @@ function self.DrawInterface()
 	for i = 1, #itemList do
 		DrawItem(itemList[i], windowY)
 	end
-	
-	--drawPos = world.ScreenToInterface({windowX, 0})
-	--Resources.DrawImage("menu_button", drawPos[1], math.ceil(drawPos[2]))
+	DrawMenu(windowX, windowY)
 end
 
 function self.Initialize(parentWorld)
