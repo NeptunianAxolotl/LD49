@@ -59,7 +59,7 @@ local chatProgression = {
             sound = "chat_bad",
         },
         [90] = {
-            text = {"u"},
+            text = {"A bird fell out of the sky the", "other day. The ocean is steaming.", "You wonder if the fumes reach as", "high as your tower of reactors", "does."},
             sound = "chat_bad",
         },
         [100] = {
