@@ -220,9 +220,9 @@ function api.Initialize()
 	GameHandler.Initialize(api)
 	island.Initialize(api)
 
-	MusicHandler[1].SwitchTrack("LD49_01_rhythm")
-	MusicHandler[2].SwitchTrack("LD49_01_drums")
-	MusicHandler[3].SwitchTrack("LD49_01_solo1")
+	MusicHandler[1].SwitchTrack("ld_01_rhythm")
+	MusicHandler[2].SwitchTrack("ld_01_drums")
+	MusicHandler[3].SwitchTrack("ld_01_solo_1")
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({
