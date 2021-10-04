@@ -3,5 +3,5 @@ return {
 	volMult = 0,
     minHealth = 0.86,
     maxHealth = 1,
-	handler = 3,
+    duration = 0,
 }

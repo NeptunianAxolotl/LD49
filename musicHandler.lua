@@ -34,8 +34,8 @@ local trackList = {
 }
 
 local fallbackTrack = {
-	'01_rhythm',
-	'01_drums',
+	'01_rhythm_fake',
+	'01_drums_fake',
 	'01_solo_fake',
 }
 
