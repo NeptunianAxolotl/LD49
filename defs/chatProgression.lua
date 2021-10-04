@@ -26,16 +26,40 @@ local chatProgression = {
             text = {"You dropped pollutants in the", "ocean! ...nobody seems to have", "noticed.", ""},
             sound = "chat_bad",
         },
+        [10] = {
+            text = {"The sand at one end of the beach", "is starting to bake together into", "glass in the heat of discarded", "reactor fuel."},
+            sound = "chat_bad",
+            },
+        [20] = {
+            text = {"The water off the east bank has", "a strange sheen to it. You tell", "the eco lawyers to pass it off", "as an 'oil spill'."},
+            sound = "chat_bad",
+            },
         [30] = {
             text = {"Your coffee tastes funny. It was", "made using purified and boiled", "seawater sourced locally from an", "ecological paradise.", "", "Weird.", ""},
             sound = "chat_bad",
         },
+        [40] = {
+            text = {""},
+            sound = "chat_bad",
+            },
         [50] = {
             text = {"Local fishermen are having", "unprecedented success. 'The job", "is easy these days,' they say,", "'like skimming dead fish off the", "surface of the sea.'", ""},
             sound = "chat_bad",
         },
+        [60] = {
+            text = {""},
+            sound = "chat_bad",
+        },
+        [70] = {
+            text = {""},
+            sound = "chat_bad",
+        },
         [80] = {
             text = {"The sea looks greener than you", "remember.", ""},
+            sound = "chat_bad",
+        },
+        [90] = {
+            text = {""},
             sound = "chat_bad",
         },
         [100] = {
