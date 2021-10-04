@@ -1,6 +1,6 @@
 
 local SoundHandler = require("soundHandler")
-local MusicHandler = require("musicHandler")
+MusicHandler = {require("musicHandler"), require("musicHandler2")}
 local ModuleTest = require("moduleTest")
 EffectsHandler = require("effectsHandler")
 
@@ -123,7 +123,8 @@ function self.Update(dt)
 
 	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
-	MusicHandler.Update(dt)
+	MusicHandler[1].Update(dt)
+	MusicHandler[2].Update(dt)
 	SoundHandler.Update(dt)
 	island.Update(dt)
 	GameHandler.Update(dt)
@@ -177,7 +178,8 @@ function self.Initialize()
 	self.paused = false
 	
 	EffectsHandler.Initialize()
-	MusicHandler.Initialize()
+	MusicHandler[1].Initialize()
+	MusicHandler[2].Initialize()
 	SoundHandler.Initialize()
 	ChatHandler.Initialize(self)
 	PhysicsHandler.Initialize(self)
@@ -188,7 +190,7 @@ function self.Initialize()
 	GameHandler.Initialize(self)
 	island.Initialize(self)
 
-	MusicHandler.SwitchTrack("background_music")
+	MusicHandler[1].SwitchTrack("background_music")
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({
