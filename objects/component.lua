@@ -187,6 +187,7 @@ local function MoveToMouse(self)
 		local mousePos = self.world.GetMousePosition()
 		self.mouseJoint = love.physics.newMouseJoint(self.body, mousePos[1], mousePos[2])
 		self.body:setAngularDamping(6)
+		SoundHandler.PlaySound("grab")
 	end
 	local mousePos = self.world.GetMousePosition()
 	self.mouseJoint:setTarget(mousePos[1], mousePos[2])
@@ -204,6 +205,7 @@ local function ReleaseMouse(self)
 	if self.mouseJoint then
 		self.mouseJoint:destroy()
 		self.mouseJoint = nil
+		SoundHandler.PlaySound("release")
 	end
 	self.body:setAngularDamping(0.02)
 	self.body:setGravityScale(1)

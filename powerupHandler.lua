@@ -21,6 +21,8 @@ local powerupDefs = {
 		strength = 1.5,
 		restore = 0.02,
 		maxStretch = 2,
+		sounndFirst = "rope_1",
+		sounndSecond = "rope_2",
 	},
 	chain = {
 		shopImage = "chain_powerup",
@@ -28,6 +30,8 @@ local powerupDefs = {
 		strength = 2.8,
 		restore = 0.04,
 		maxStretch = 1.5,
+		sounndFirst = "chain_1",
+		sounndSecond = "chain_2",
 	},
 	nano = {
 		shopImage = "nano_powerup",
@@ -36,6 +40,8 @@ local powerupDefs = {
 		restore = 0.04,
 		maxStretch = 0.8,
 		setDistance = true,
+		sounndFirst = "nano_1",
+		sounndSecond = "nano_2",
 	},
 }
 
@@ -51,19 +57,21 @@ local function DoPowerupMouseAction(x, y)
 	if not component then
 		return
 	end
+	local powerupData = powerupDefs[self.currentPowerup]
 	if self.firstClicked and self.firstClicked.dead then
 		firstClicked = false
 	end
 	if not self.firstClicked then
 		self.firstClicked = component
 		self.firstClickedPos = component.WorldToLocal({x, y})
+		SoundHandler.PlaySound(powerupData.sounndFirst)
 		return
 	end
 	if self.firstClicked.index == component.index then
 		return
 	end
+	SoundHandler.PlaySound(powerupData.soundSecond)
 	
-	local powerupData = powerupDefs[self.currentPowerup]
 	local firstPos = self.firstClicked.LocalToWorld(self.firstClickedPos)
 	local ropeLength = util.Dist(firstPos, {x, y})
 	local joint = love.physics.newRopeJoint(self.firstClicked.body, component.body, firstPos[1], firstPos[2], x, y, ropeLength, true)

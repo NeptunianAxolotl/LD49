@@ -15,12 +15,16 @@ local world
 -- API
 --------------------------------------------------
 
-function self.AddMessage(text, timer, turns, color)
+function self.AddMessage(text, timer, turns, color, sound)
 	if timer == nil then
 		timer = 5
 	end
 	if turns == nil then
 		turns = false
+	end
+
+	if sound then
+		SoundHandler.PlaySound(sound)
 	end
 
 	local line = {
@@ -37,7 +41,7 @@ end
 function self.AddTurnMessageRaw(message)
 	local function AddFunc()
 		for i = #message.text, 1, -1 do
-			self.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color)
+			self.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
 		end
 	end
 	Delay.Add(message.delay or 0.7, AddFunc)

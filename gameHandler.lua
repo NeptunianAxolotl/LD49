@@ -325,6 +325,7 @@ function api.MousePressed(x, y)
 	local mouseHover = util.PosInRectangle(mousePos, drawPos[1] - 170, drawPos[2], 170, 50)
 	if mouseHover then
 		api.ToggleMenu()
+		SoundHandler.PlaySound("menu_select")
 	end
 	
 	if self.menuOpen then
@@ -333,10 +334,13 @@ function api.MousePressed(x, y)
 		if onItem == 1 then
 			self.menuOpen = false
 			world.SetMenuState(self.menuOpen)
+			SoundHandler.PlaySound("menu_select")
 		elseif onItem == 2 then
 			world.ToggleMusic()
+			SoundHandler.PlaySound("menu_select")
 		elseif onItem == 3 then
 			world.Restart()
+			SoundHandler.PlaySound("menu_select")
 		elseif onItem == 4 then
 			world.TakeScreenshot()
 		elseif onItem == 5 then
