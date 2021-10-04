@@ -342,8 +342,6 @@ function api.MousePressed(x, y)
 		elseif onItem == 5 then
 			love.event.quit() 
 		end
-	elseif gameOver then
-		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
 	end
 end
 
@@ -380,11 +378,11 @@ local function DrawMenu(windowX, windowY)
 			love.graphics.printf(menuItems[i], drawPos[1] - 150, drawPos[2] - 196 + 60*i, 300, "center")
 		end
 	elseif gameOver then
-		drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
-		Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
-		Font.SetSize(0)
-		love.graphics.setColor(1, 1, 1, 1)
-		love.graphics.printf("Game Over " .. reason .. "<A restart button>", drawPos[1] - 100, drawPos[2], 300, "center")
+		--drawPos = world.ScreenToInterface({windowX*0.5, windowY*0.5})
+		--Resources.DrawImage("popup", math.ceil(drawPos[1]), math.ceil(drawPos[2]))
+		--Font.SetSize(0)
+		--love.graphics.setColor(1, 1, 1, 1)
+		--love.graphics.printf("Game Over " .. reason .. "<A restart button>", drawPos[1] - 100, drawPos[2], 300, "center")
 	end
 end
 

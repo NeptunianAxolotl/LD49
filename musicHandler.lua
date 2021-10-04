@@ -115,7 +115,10 @@ end
 function api.Initialize(newWorld)
 	world = newWorld
 	api.StopCurrentTrack()
-	initialDelay = 2
+	initialDelay = 3
+	--for i = 1, #trackList do
+	--	SoundHandler.PlaySound(trackList[i], false, -i, false, false, 1, true)
+	--end
 end
 
 return api
