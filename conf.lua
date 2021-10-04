@@ -1,6 +1,6 @@
 function love.conf(t)
-	t.identity = "Atomic Atoll"
-	t.window.title = "LD49"
+	t.identity = "Three Miles High"
+	t.window.title = "Three Miles High"
 	t.window.width = 1120
 	t.window.height = 832
 	--t.window.fullscreen = true -- Do not fullscreen since we lack an exit button.
