@@ -10,6 +10,6 @@ return {
 	borderImage = "wind",
 	borderThickness = 40,
 	animSpeed = 10,
-	windBoost = 2.8,
+	windBoost = 2.9,
 	seaDamage = 0.1 * Global.SEA_DAMAGE_MULT,
 }

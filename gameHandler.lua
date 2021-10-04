@@ -54,6 +54,10 @@ local function SetNumber(name, value)
 	end
 	number.want = value
 	number.diff = math.abs(number.want - number.has)
+	if value > number.recordHigh then
+		ChatHandler.ReportOnRecord(name, value, number.recordHigh)
+		number.recordHigh = value
+	end
 end
 
 local function GetNumber(name)
@@ -68,7 +72,6 @@ local function IsNumberBehindWrap(name)
 	local number = self.smoothNumbers[name]
 	return math.floor(number.has) ~= math.floor(number.want)
 end
-
 
 local function GetBarProp(prop)
 	local period = math.max(0.25, 1 - 0.8*prop)
@@ -549,6 +552,7 @@ function api.Initialize(parentWorld)
 		self.smoothNumbers[smoothNumberList[i].name] = {
 			has = 0,
 			want = 0,
+			recordHigh = 0,
 			diff = false,
 			wrap = smoothNumberList[i].wrap,
 		}

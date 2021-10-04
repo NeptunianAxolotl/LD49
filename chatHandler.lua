@@ -9,13 +9,14 @@ local Resources = require("resourceHandler")
 local chatProgression = require("defs/chatProgression")
 
 local self = {}
+local api = {}
 local world
 
 --------------------------------------------------
 -- API
 --------------------------------------------------
 
-function self.AddMessage(text, timer, turns, color, sound)
+function api.AddMessage(text, timer, turns, color, sound)
 	if timer == nil then
 		timer = 5
 	end
@@ -38,23 +39,39 @@ function self.AddMessage(text, timer, turns, color, sound)
 	table.insert(self.lines, line)
 end
 
-function self.AddTurnMessageRaw(message)
+function api.AddTurnMessageRaw(message)
 	local function AddFunc()
 		for i = #message.text, 1, -1 do
-			self.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
+			api.AddMessage(message.text[i], message.timer or 1.4, message.turns or 1, message.color, message.sound)
 		end
 	end
 	Delay.Add(message.delay or 0.7, AddFunc)
 end
 
-function self.AddTurnMessage(messageName)
+function api.AddTurnMessage(messageName)
 	local message = chatProgression[messageName]
 	if message then
-		self.AddTurnMessageRaw(message)
+		api.AddTurnMessageRaw(message)
 	end
 end
 
-function self.DrawConsole()
+function api.ReportOnRecord(name, value, oldValue)
+	name = name .. "Damage"
+	if not chatProgression[name] then
+		return
+	end
+	local chatData = chatProgression[name]
+	local upperBound = util.Round(value*100)
+	local lowerBound = util.Round(oldValue*100) + 1
+	for i = upperBound, lowerBound, -1 do
+		if chatData[i] then
+			api.AddTurnMessageRaw(chatData[i])
+			return
+		end
+	end
+end
+
+function api.DrawConsole()
 	local windowX, windowY = love.window.getMode()
 	local drawPos = world.ScreenToInterface({0, windowY*0.25})
 	local botPad = drawPos[2] + #self.lines*Global.LINE_SPACING
@@ -74,11 +91,11 @@ function self.DrawConsole()
 	love.graphics.setColor(1, 1, 1)
 end
 
-function self.RemoveMessage(index)
+function api.RemoveMessage(index)
 	table.remove(self.lines, index)
 end
 
-function self.ChatTurn(turn)
+function api.ChatTurn(turn)
 	for i = #self.lines, 1, -1 do
 		local line = self.lines[i]
 		if line.consoleTurnTimer then
@@ -91,7 +108,7 @@ function self.ChatTurn(turn)
 	
 	if chatProgression.onTurn[turn] then
 		local message = chatProgression.onTurn[turn]
-		self.AddTurnMessageRaw(message)
+		api.AddTurnMessageRaw(message)
 	end
 end
 
@@ -99,27 +116,28 @@ end
 -- Updating
 --------------------------------------------------
 
-function self.Update(dt)
+function api.Update(dt)
 	if self.lines then
 		for i = #self.lines, 1, -1 do
 			local line = self.lines[i]
 			if line.consoleTimer and not line.consoleTurnTimer then
 				line.consoleTimer = line.consoleTimer - dt
 				if line.consoleTimer < 0 then
-					self.RemoveMessage(i)
+					api.RemoveMessage(i)
 				end
 			end
 		end
 	end
 end
 
-function self.DrawInterface()
-	self.DrawConsole()
+function api.DrawInterface()
+	api.DrawConsole()
 end
 
-function self.Initialize(parentWorld)
-	world = parentWorld
+function api.Initialize(parentWorld)
+	self = {}
 	self.lines = {}
+	world = parentWorld
 end
 
-return self
+return api
