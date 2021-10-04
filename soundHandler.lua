@@ -45,6 +45,7 @@ function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
 	soundData.want = 1
 	soundData.delay = delay
 	if not soundData.delay then
+		print("PLAY SOUND")
 		love.audio.play(soundData.source)
 		soundData.source:setVolume(soundData.want * soundData.volumeMult)
 	end

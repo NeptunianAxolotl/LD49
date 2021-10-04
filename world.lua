@@ -201,6 +201,7 @@ function api.Initialize()
 	self.paused = false
 	self.musicEnabled = true
 	
+	Delay.Initialise()
 	EffectsHandler.Initialize()
 	MusicHandler.Initialize(api)
 	SoundHandler.Initialize()
@@ -211,7 +212,6 @@ function api.Initialize()
 	PowerupHandler.Initialize(api)
 	ShopHandler.Initialize(api)
 	GameHandler.Initialize(api)
-	Delay.Initialise()
 	island.Initialize(api)
 	
 	-- Note that the camera pins only function for these particular second entries.
