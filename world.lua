@@ -1,7 +1,7 @@
 
 local SoundHandler = require("soundHandler")
-MusicHandler = {require("musicHandler"), require("musicHandler2"), require("musicHandler3")}
 local ModuleTest = require("moduleTest")
+MusicHandler = require("musicHandler")
 EffectsHandler = require("effectsHandler")
 
 Camera = require("utilities/cameraUtilities")
@@ -28,10 +28,7 @@ end
 
 function api.ToggleMusic()
 	self.musicEnabled = not self.musicEnabled
-	if self.musicEnabled then
-		MusicHandler.SwitchTrack("music")
-	else
-		MusicHandler.SwitchTrack("none")
+	if not self.musicEnabled then
 		MusicHandler.StopCurrentTrack()
 	end
 end
@@ -149,9 +146,7 @@ function api.Update(dt)
 
 	ChatHandler.Update(dt)
 	EffectsHandler.Update(dt)
-	MusicHandler[1].Update(dt)
-	MusicHandler[2].Update(dt)
-	MusicHandler[3].Update(dt)
+	MusicHandler.Update(dt)
 	SoundHandler.Update(dt)
 	island.Update(dt)
 	GameHandler.Update(dt)
@@ -207,9 +202,7 @@ function api.Initialize()
 	self.musicEnabled = true
 	
 	EffectsHandler.Initialize()
-	MusicHandler[1].Initialize()
-	MusicHandler[2].Initialize()
-	MusicHandler[3].Initialize()
+	MusicHandler.Initialize(api)
 	SoundHandler.Initialize()
 	ChatHandler.Initialize(api)
 	PhysicsHandler.Initialize(api)
@@ -219,10 +212,6 @@ function api.Initialize()
 	ShopHandler.Initialize(api)
 	GameHandler.Initialize(api)
 	island.Initialize(api)
-
-	MusicHandler[1].SwitchTrack("ld_03_drums_rhythm")
-	MusicHandler[2].SwitchTrack("ld_01_drums")
-	MusicHandler[3].SwitchTrack("ld_03_solo9")
 	
 	-- Note that the camera pins only function for these particular second entries.
 	Camera.Initialize({

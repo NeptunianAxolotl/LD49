@@ -1,30 +1,51 @@
+
 local IterableMap = require("include/IterableMap")
+local util = require("include/util")
 
 local SoundHandler = require("soundHandler")
+local soundFiles = util.LoadDefDirectory("sounds/defs")
 
 local api = {}
+local world
 
 local font = love.graphics.newFont(70)
 
--- local tracks
--- LD49_01_drums = {id = 'LD49_01_drums', sound = 'LD49_01_drums', duration = 38.4, canLoop = true},
--- LD49_01_rhythm = {id = 'LD49_01_rhythm', sound = 'LD49_01_rhythm', duration = 38.4, canLoop = true},
--- LD49_01_solo1 = {id = 'LD49_01_solo1', sound = 'LD49_01_solo_1', duration = 38.4, canLoop = true},
--- LD49_01_solo2 = {id = 'LD49_01_solo2', sound = 'LD49_01_solo_2', duration = 38.4, canLoop = true},
--- LD49_01_solo3 = {id = 'LD49_01_solo3', sound = 'LD49_01_solo_3', duration = 38.4, canLoop = true},
--- LD49_01_solo4 = {id = 'LD49_01_solo4', sound = 'LD49_01_solo_4', duration = 38.4, canLoop = true},
--- LD49_01_solo5 = {id = 'LD49_01_solo5', sound = 'LD49_01_solo_5', duration = 38.4, canLoop = true},
--- LD49_01_solo6 = {id = 'LD49_01_solo6', sound = 'LD49_01_solo_6', duration = 38.4, canLoop = true},
--- LD49_02_drums = {id = 'LD49_02_drums', sound = 'LD49_02_drums', duration = 38.4, canLoop = true},
--- LD49_02_rhythm = {id = 'LD49_02_rhythm', sound = 'LD49_02_rhythm', duration = 38.4, canLoop = true},
--- LD49_02_solo7 = {id = 'LD49_02_solo7', sound = 'LD49_02_solo_7', duration = 38.4, canLoop = true},
--- LD49_02_solo8 = {id = 'LD49_02_solo8', sound = 'LD49_02_solo_8', duration = 38.4, canLoop = true},
--- LD49_03_transition = {id = 'LD49_03_transition', sound = 'LD49_03_transition', duration = 38.4, canLoop = true},
--- LD49_03_drums_rhythm = {id = 'LD49_03_drums_rhythm', sound = 'LD49_03_drums_rhythm', duration = 38.4, canLoop = true},
--- LD49_03_solo9 = {id = 'LD49_03_solo9', sound = 'LD49_03_solo_9', duration = 38.4, canLoop = true},
--- LD49_03_solo10 = {id = 'LD49_03_solo10', sound = 'LD49_03_solo_10', duration = 38.4, canLoop = true},
+-- First eligible tracks are used as start music
+local trackList = {
+	'LD49_01_drums',
+	'LD49_01_rhythm',
+	'LD49_01_solo_1',
+	'LD49_01_solo_2',
+	'LD49_01_solo_3',
+	'LD49_01_solo_4',
+	'LD49_01_solo_5',
+	'LD49_01_solo_6',
+	'LD49_02_drums',
+	'LD49_02_rhythm',
+	'LD49_02_solo_7',
+	'LD49_02_solo_8',
+	'LD49_03_transition',
+	'LD49_03_drums_rhythm',
+	'LD49_03_solo_9',
+	'LD49_03_solo_10',
+}
 
-local tracks = require("resources/defs/track_list")
+local fallbackTrack = {
+	'LD49_01_solo_1',
+	'LD49_02_drums',
+	'LD49_03_solo_9',
+}
+
+local fadeRate = 1
+
+local currentTrack = {}
+local queuedTracks = {}
+local currentTrackRemaining = 0
+local trackRunning = false
+
+function api.StopCurrentTrack()
+	currentTrackRemaining = 0
+end
 
 local fadeRate = 1
 
@@ -32,82 +53,55 @@ local currentTrack = nil
 local queuedTracks = {}
 local currentTrackRemaining = 0
 
-function api.SwitchTrack(id)
-	if id == 'none' then 
-		queuedTracks = {false}
-		return true
+local function GetTracks()
+	local foundTrack = {}
+	local seaDamage = math.max(0, math.min(1, GameHandler.GetSeaDamage()))
+	
+	for i = 1, #trackList do
+		local track = soundFiles[trackList[i]]
+		if track.handler and not foundTrack[track.handler] then
+			if seaDamage > track.minHealth and seaDamage <= track.maxHealth then
+				foundTrack[track.handler] = {sound = trackList[i]}
+			end
+		end
 	end
-	if not tracks[id] then
-		return false
+	
+	for i = 1, 3 do
+		if not foundTrack[i] then
+			foundTrack[i] = {sound = fallbackTrack[i]}
+		end
+		foundTrack[i].id = 100 + i
 	end
-	queuedTracks = {tracks[id]}
-	return true
-end
-
-function api.QueueTrack(id)
-	if id == 'none' then 
-		queuedTracks[#queuedTracks+1] = {false}
-		return true
-	end
-	if not tracks[id] then
-		return false
-	end
-	queuedTracks[#queuedTracks+1] = tracks[id]
-	return true
-end
-
-function api.StopCurrentTrack()
-	currentTrackRemaining = 0
+	
+	return foundTrack
 end
 
 function api.Update(dt)
-	if currentTrack then
-		currentTrackRemaining = currentTrackRemaining - dt
-		if currentTrackRemaining < 0 then
-			if #queuedTracks > 0 then
-				SoundHandler.StopSound(currentTrack.sound .. '_track' .. currentTrack.id, false)
-				currentTrack = queuedTracks[1]
-				for i = 1, #queuedTracks-1 do
-					queuedTracks[i] = queuedTracks[i+1]
-				end
-				queuedTracks[#queuedTracks] = nil
-				if currentTrack then 
-					SoundHandler.PlaySound(currentTrack.sound, currentTrack.canLoop, '_track' .. currentTrack.id, fadeRate, fadeRate, 0)
-				end
-			else
-				if not currentTrack.canLoop then
-					SoundHandler.StopSound(currentTrack.sound .. '_track' .. currentTrack.id, false)
-					currentTrack = false
+	currentTrackRemaining = (currentTrackRemaining or 0) - dt
+	if currentTrackRemaining < 0 then
+		if world.MusicEnabled()  then
+			if trackRunning then
+				for i = 1, #currentTrack do
+					SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false)
 				end
 			end
-			currentTrackRemaining = currentTrack and currentTrack.duration or 0
-		end
-	else
-		if #queuedTracks > 0 then
-			currentTrack = queuedTracks[1]
-			for i = 1, #queuedTracks-1 do
-				queuedTracks[i] = queuedTracks[i+1]
+			currentTrack = GetTracks()
+			currentTrackRemaining = soundFiles[currentTrack[1].sound].duration or 38.4
+			print(duration)
+			for i = 1, #currentTrack do
+				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, fadeRate, fadeRate, 0)
 			end
-			queuedTracks[#queuedTracks] = nil
-			if currentTrack then
-				SoundHandler.PlaySound(currentTrack.sound, currentTrack.canLoop, '_track' .. currentTrack.id, 100, fadeRate, 0)
+		elseif trackRunning then
+			for i = 1, #currentTrack do
+				SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false)
 			end
-			currentTrackRemaining = currentTrack and currentTrack.duration or 0
-		else
-			currentTrackRemaining = 0
+			trackRunning = false
 		end
 	end
 end
 
-function api.Draw(x,y)
-	love.graphics.setColor(1, 0, 0, 1)
-	love.graphics.setFont(font)
-	love.graphics.print(currentTrack and currentTrack.id or (currentTrack == false and '0' or '-'),x,y, 0, 1, 1)
-	love.graphics.print(#queuedTracks > 0 and (queuedTracks[1] == false and '0' or queuedTracks[1].id) or '-',x,y + 100, 0, 1, 1)
-end
-
-function api.Initialize()
-	api.SwitchTrack('none')
+function api.Initialize(newWorld)
+	world = newWorld
 	api.StopCurrentTrack()
 end
 
