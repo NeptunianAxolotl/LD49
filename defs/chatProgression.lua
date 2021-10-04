@@ -46,7 +46,7 @@ local chatProgression = {
         
     bankDamage = {
         [1] = {
-            text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", ""},
+            text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", "", "It's printed right there, in the", "bottom left corner!", ""},
             sound = "chat_bad",
             },
         [11] = {
