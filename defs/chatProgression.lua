@@ -15,6 +15,11 @@ local chatProgression = {
             sound = "chat_good",
 			delay = 1.5,
 		},
+        [Global.DEMAND_ADD_TURN + 1] = {
+            text = {"Remember, we sent you here", "with the expectation of seeing", "a profit. Make sure your energy", "output meets your set quota!", "", "It's printed right there, next to",  "production, in the bottom left", "corner!", ""},
+            sound = "chat_bad",
+            delay = 1.5,
+        },
         [Global.SCORE_DISPLAY_TURN + 1] = {
             text = {"Ah - by the way, above is a readout", "of the power you are generating.",  "Have to keep track of performance,", "after all!", ""}, --score
             sound = "chat_good",
@@ -71,22 +76,18 @@ local chatProgression = {
 	},
     bank = {
         [1] = {
-            text = {"We have paid for your trip here", "with the expectation of making", "a profit. Make sure your energy", "output meets your set quota!", "", "It's printed right there, in the", "bottom left corner!", ""},
+            text = {"Make sure your funds are going", "where they're needed. This is", "a power project.", "", "Produce more power.", ""},
             sound = "chat_bad",
             },
-        [11] = {
-            text = {"Make sure your funds are going", "where they're needed. You millenials", "spend too much on coffee.", ""},
-            sound = "chat_bad",
-            },
-        [22] = {
+        [15] = {
             text = {"I recall we selected you specifically", "because you don't have a house", "left to mortgage. If we have to", "mortgage this island, I will be", "very upset.", ""},
             sound = "chat_bad",
             },
-        [33] = {
+        [30] = {
             text = {"Your utility bill is how much?", "Maybe you can save on heating", "by putting the science labs next", "to the reactors.", ""},
             sound = "chat_bad",
             },
-        [44] = {
+        [42] = {
             text = {"There's an inspection scheduled", "for next Monday.  Make sure to", "toss the nuclear fuel rods into", "the sea before anyone sees them.", ""},
             sound = "chat_bad",
             },

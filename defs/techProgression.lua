@@ -198,7 +198,7 @@ local techProgression = {
 	{
 		cost = 10000,
 		drawSize = 5,
-		message = "unlock_perpetual",
+		message = "unlock_grant",
 	},
 }
 
