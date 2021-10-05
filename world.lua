@@ -74,8 +74,8 @@ function api.KeyPressed(key, scancode, isRepeat)
 		api.Restart()
 	end
 	if key == "s" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-		love.filesystem.setIdentity("screenshots")
-		love.graphics.captureScreenshot("screenshot_" .. (os.time() or math.floor(math.random()*100000)) .. "_.png")
+		love.filesystem.setIdentity("TheMilesHigh/screenshots")
+		love.graphics.captureScreenshot("screenshot_" .. math.floor(math.random()*100000) .. "_.png")
 	end
 end
 
