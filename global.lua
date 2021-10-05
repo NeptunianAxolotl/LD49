@@ -15,7 +15,7 @@ local globals = {
 	LINE_SPACING = 36,
 	INC_OFFSET = -15,
 	
-	TECH_MULT = 1000,
+	TECH_MULT = 1,
 	BANK_DAMAGE_MULT = 0.6,
 	
 	DEMAND_ADD_TURN = 15,
