@@ -160,7 +160,7 @@ local chatProgression = {
         text = {"Management has noticed chain exists,", "and have decreed that all remaining", "rope be disposed of immediately.", ""},
         sound = "chat_good",
         },
-    unlock_slot4 = {
+    unlock_slot_4 = {
         text = {"Previous quantum gravity research", "has granted scientists the free", "will required to continue research", "on quantum gravity. Your free", "will has been increased another", "33% by association.", ""},
         sound = "chat_good",
         },
