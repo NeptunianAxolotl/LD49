@@ -59,7 +59,7 @@ local function DoPowerupMouseAction(x, y)
 	end
 	local powerupData = powerupDefs[self.currentPowerup]
 	if self.firstClicked and self.firstClicked.dead then
-		firstClicked = false
+		self.firstClicked = false
 	end
 	if not self.firstClicked then
 		self.firstClicked = component
