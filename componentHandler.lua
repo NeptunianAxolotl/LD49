@@ -51,6 +51,10 @@ function api.GetEnergy(eType)
 	return api.GetEnergy("solar") + api.GetEnergy("wind") + api.GetEnergy("nuclear") + api.GetEnergy("officeEnergy")
 end
 
+function api.GetEnergyNoOffice(eType)
+	return api.GetEnergy("solar") + api.GetEnergy("wind") + api.GetEnergy("nuclear")
+end
+
 function api.GetResearchRate()
 	return api.GetEnergy("research")
 end

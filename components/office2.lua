@@ -13,7 +13,7 @@ local function GenerateEnergy_Post(self, world, AggFunc)
 		return
 	end
 	
-	local generated = util.RoundDown(ComponentHandler.GetEnergy()*self.def.marketingValue, 2)
+	local generated = util.RoundDown(ComponentHandler.GetEnergyNoOffice()*self.def.marketingValue, 2)
 	if ComponentHandler.WantEffectsGraphics() then
 		EffectsHandler.SpawnEffect("mult_popup", util.Add({0, Global.INC_OFFSET}, {bx, by}), {velocity = {0, (-0.55 - math.random()*0.2) * (0.4 + 0.6)}, text = generated})
 	end
