@@ -8,8 +8,6 @@ local soundFiles = util.LoadDefDirectory("sounds/defs")
 local api = {}
 local world
 
-local DELAY_TIME = 0.2 -- Skip the first bar for the delay hax.
-
 local font = love.graphics.newFont(70)
 
 -- First eligible tracks are used as start music
@@ -44,15 +42,9 @@ local fallbackTrack = {
 local currentTrack = {}
 local trackRunning = false
 local initialDelay = true
-local idCycle = 1
 local currentTrackRemaining = 0
 
-function api.StopCurrentTrack()
-	currentTrackRemaining = 0
-end
-
 local function GetTracks()
-	idCycle = 3 - idCycle
 	local foundTrack = {}
 	local seaDamage = math.max(0, math.min(1, GameHandler.GetSeaDamage()))
 	
@@ -75,6 +67,18 @@ local function GetTracks()
 	return foundTrack
 end
 
+function api.StopCurrentTrack(delay)
+	currentTrackRemaining = delay or 0
+end
+
+function api.SetCurrentTrackFadeTime(fadeTime)
+	if trackRunning then
+		for i = 1, #currentTrack do
+			SoundHandler.SetSoundFade(currentTrack[i].sound, false, 1/fadeTime)
+		end
+	end
+end
+
 function api.Update(dt)
 	if initialDelay then
 		initialDelay = initialDelay - dt
@@ -88,7 +92,7 @@ function api.Update(dt)
 		if world.MusicEnabled() then
 			if trackRunning then
 				for i = 1, #currentTrack do
-					SoundHandler.StopSound(currentTrack[i].sound, false, DELAY_TIME)
+					SoundHandler.StopSound(currentTrack[i].sound)
 				end
 			end
 			currentTrack = GetTracks()
@@ -96,14 +100,13 @@ function api.Update(dt)
 			for i = 1, 3 do
 				currentTrackRemaining = math.max(currentTrackRemaining, soundFiles[currentTrack[i].sound].duration or Global.DEFAULT_SOUND_DURATION)
 			end
-			currentTrackRemaining = currentTrackRemaining - DELAY_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				SoundHandler.PlaySound(currentTrack[i].sound, false, false, false, false, DELAY_TIME)
+				SoundHandler.PlaySound(currentTrack[i].sound)
 			end
 		elseif trackRunning then
 			for i = 1, #currentTrack do
-				SoundHandler.StopSound(currentTrack[i].sound, false)
+				SoundHandler.StopSound(currentTrack[i].sound)
 			end
 			trackRunning = false
 		end

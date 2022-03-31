@@ -30,7 +30,7 @@ function api.LoadSound(name, id)
 		local def = soundFiles[name]
 		soundData = {
 			name = name,
-			want = 1,
+			want = 0,
 			have = 0,
 			volumeMult = def.volMult * GLOBAL_VOL_MULT,
 			source = AddSource(name)
@@ -51,12 +51,18 @@ function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
 	soundData.delay = delay
 	
 	if not soundData.delay then
+		soundData.source:stop()
 		love.audio.play(soundData.source)
 		soundData.source:setVolume(soundData.want * soundData.volumeMult)
 	end
 end
 
-function api.StopSound(id, instant, delay)
+function api.StopSound(name, id, instant, delay)
+	if id then
+		id = name .. (id or 1)
+	else
+		id = name
+	end
 	local soundData = IterableMap.Get(sounds, id)
 	if not soundData then
 		return
@@ -68,13 +74,20 @@ function api.StopSound(id, instant, delay)
 	end
 end
 
+function api.SetSoundFade(name, id, fadeOuRate)
+	local soundData = api.LoadSound(name, id)
+	soundData.want = 0
+	soundData.fadeOut = fadeOuRate
+end
+
 function api.Update(dt)
-	for _, soundData in IterableMap.Iterator(sounds) do
+	for id, soundData in IterableMap.Iterator(sounds) do
 		if soundData.delay then
 			soundData.delay = soundData.delay - dt
 			if soundData.delay < 0 then
 				soundData.delay = false
 				if soundData.want > 0 then
+					soundData.source:stop()
 					love.audio.play(soundData.source)
 					soundData.source:setVolume(soundData.want * soundData.volumeMult)
 				end
@@ -97,6 +110,9 @@ function api.Update(dt)
 					soundData.have = soundData.want
 				end
 				soundData.source:setVolume(soundData.have * soundData.volumeMult)
+				if soundData.have <= 0 then
+					soundData.source:stop()
+				end
 			end
 		end
 	end
@@ -107,10 +123,6 @@ function api.Initialize()
 		soundData.source:stop()
 	end
 	sounds = IterableMap.New()
-	
-	--for name, data in pairs(soundFiles) do
-	--	AddSource(name, -1)
-	--end
 end
 
 return api

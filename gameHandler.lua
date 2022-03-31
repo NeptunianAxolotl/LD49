@@ -5,6 +5,7 @@ local Font = require("include/font")
 local EffectsHandler = require("effectsHandler")
 local ComponentHandler = require("componentHandler")
 local Resources = require("resourceHandler")
+MusicHandler = require("musicHandler")
 
 local self = {}
 local api = {}
@@ -414,6 +415,8 @@ local function UpdateEnergyAndDemand()
 	if Round(self.bankDeath*100) >= 100 then
 		world.SetGameOver(false, "bank")
 		ChatHandler.AddGameOverMessage("bank")
+		MusicHandler.StopCurrentTrack(3)
+		MusicHandler.SetCurrentTrackFadeTime(3)
 	end
 end
 
@@ -459,6 +462,8 @@ function api.AddSeaDamage(damage)
 	if Round(self.seaDamage*100) >= 100 then
 		world.SetGameOver(false, "sea")
 		ChatHandler.AddGameOverMessage("sea")
+		MusicHandler.StopCurrentTrack(3)
+		MusicHandler.SetCurrentTrackFadeTime(3)
 	end
 end
 

@@ -1,3 +1,5 @@
+
+local util = require("include/util")
 local IterableMap = {}
 
 function IterableMap.New()
@@ -201,6 +203,10 @@ function IterableMap.GetDataByIndex(self, index)
 		return self.dataByKey[self.keyByIndex[index]]
 	end
 	return false
+end
+
+function IterableMap.Print(self)
+	util.PrintTable(self.dataByKey)
 end
 
 return IterableMap
