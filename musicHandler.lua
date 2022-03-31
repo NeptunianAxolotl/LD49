@@ -69,7 +69,6 @@ local function GetTracks()
 		if not foundTrack[i] then
 			foundTrack[i] = {sound = fallbackTrack[i]}
 		end
-		foundTrack[i].id = 10*i + idCycle
 	end
 	util.Permute(trackList)
 	
@@ -89,7 +88,7 @@ function api.Update(dt)
 		if world.MusicEnabled() then
 			if trackRunning then
 				for i = 1, #currentTrack do
-					SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false, DELAY_TIME)
+					SoundHandler.StopSound(currentTrack[i].sound, false, DELAY_TIME)
 				end
 			end
 			currentTrack = GetTracks()
@@ -100,11 +99,11 @@ function api.Update(dt)
 			currentTrackRemaining = currentTrackRemaining - DELAY_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				SoundHandler.PlaySound(currentTrack[i].sound, false, '_track' .. currentTrack[i].id, false, false, DELAY_TIME)
+				SoundHandler.PlaySound(currentTrack[i].sound, false, false, false, false, DELAY_TIME)
 			end
 		elseif trackRunning then
 			for i = 1, #currentTrack do
-				SoundHandler.StopSound(currentTrack[i].sound .. '_track' .. currentTrack[i].id, false)
+				SoundHandler.StopSound(currentTrack[i].sound, false)
 			end
 			trackRunning = false
 		end
@@ -115,9 +114,9 @@ function api.Initialize(newWorld)
 	world = newWorld
 	api.StopCurrentTrack()
 	initialDelay = 3
-	--for i = 1, #trackList do
-	--	SoundHandler.PlaySound(trackList[i], false, -i, false, false, 1, true)
-	--end
+	for i = 1, #trackList do
+		SoundHandler.LoadSound(trackList[i])
+	end
 end
 
 return api
