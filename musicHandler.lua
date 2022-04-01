@@ -43,6 +43,7 @@ local currentTrack = {}
 local trackRunning = false
 local initialDelay = true
 local currentTrackRemaining = 0
+local trackParity = 1
 
 local function GetTracks()
 	local foundTrack = {}
@@ -92,21 +93,24 @@ function api.Update(dt)
 		if world.MusicEnabled() then
 			if trackRunning then
 				for i = 1, #currentTrack do
-					SoundHandler.StopSound(currentTrack[i].sound)
+					SoundHandler.StopSound(currentTrack[i].sound, trackParity)
 				end
 			end
+			trackParity = 3 - trackParity
 			currentTrack = GetTracks()
 			currentTrackRemaining = 0
 			for i = 1, 3 do
-				currentTrackRemaining = math.max(currentTrackRemaining, soundFiles[currentTrack[i].sound].duration or Global.DEFAULT_SOUND_DURATION)
+				currentTrackRemaining = math.max(currentTrackRemaining, soundFiles[currentTrack[i].sound].duration or Global.DEFAULT_MUSIC_DURATION)
 			end
+			currentTrackRemaining = currentTrackRemaining - Global.CROSSFADE_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				SoundHandler.PlaySound(currentTrack[i].sound)
+				print("PlaySound", currentTrack[i].sound, trackParity)
+				SoundHandler.PlaySound(currentTrack[i].sound, trackParity, false, 1 / Global.CROSSFADE_TIME)
 			end
 		elseif trackRunning then
 			for i = 1, #currentTrack do
-				SoundHandler.StopSound(currentTrack[i].sound)
+				SoundHandler.StopSound(currentTrack[i].sound, trackParity)
 			end
 			trackRunning = false
 		end
@@ -118,7 +122,8 @@ function api.Initialize(newWorld)
 	api.StopCurrentTrack()
 	initialDelay = 3
 	for i = 1, #trackList do
-		SoundHandler.LoadSound(trackList[i])
+		SoundHandler.LoadSound(trackList[i], 1)
+		SoundHandler.LoadSound(trackList[i], 2)
 	end
 end
 

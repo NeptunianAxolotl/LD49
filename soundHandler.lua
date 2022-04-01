@@ -41,7 +41,7 @@ function api.LoadSound(name, id)
 	return soundData
 end
 
-function api.PlaySound(name, loop, id, fadeIn, fadeOut, delay)
+function api.PlaySound(name, id, fadeIn, fadeOut, delay, loop)
 	local soundData = api.LoadSound(name, id)
 	soundData.source:setLooping(loop and true or false)
 	

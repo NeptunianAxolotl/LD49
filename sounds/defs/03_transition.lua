@@ -3,6 +3,6 @@ return {
 	volMult = 1.2 * Global.MUSIC_VOLUME,
     minHealth = 0.81,
     maxHealth = 0.85,
-    duration = Global.DEFAULT_SOUND_DURATION/2,
+    duration = Global.DEFAULT_MUSIC_DURATION/2,
     handler = 1,
 }
