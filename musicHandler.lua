@@ -105,7 +105,6 @@ function api.Update(dt)
 			currentTrackRemaining = currentTrackRemaining - Global.CROSSFADE_TIME
 			trackRunning = true
 			for i = 1, #currentTrack do
-				print("PlaySound", currentTrack[i].sound, trackParity)
 				SoundHandler.PlaySound(currentTrack[i].sound, trackParity, false, 1 / Global.CROSSFADE_TIME)
 			end
 		elseif trackRunning then
